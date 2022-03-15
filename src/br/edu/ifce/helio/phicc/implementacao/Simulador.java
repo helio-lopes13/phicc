@@ -5,12 +5,12 @@ public class Simulador {
 		String palavra = "1101110110011010";
 		System.out.println("Palavra inicial: " + palavra);
 		
-		String[][] palavraCodificada = PHICC.codificaPHICC32(palavra);
+		String[][] palavraCodificada = PHICC.codificaPHICC36(palavra);
 		System.out.println("Matriz codificada: ");
 		printMatriz(palavraCodificada);
 		
-		palavra = PHICC.decodificaPHICC32(palavraCodificada);
-		System.out.println("Palavra decodificada: " + palavra);
+//		palavra = PHICC.decodificaPHICC36(palavraCodificada);
+//		System.out.println("Palavra decodificada: " + palavra);
 	}
 	
 	private static void printMatriz(String[][] matriz) {

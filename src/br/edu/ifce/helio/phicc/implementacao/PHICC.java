@@ -225,7 +225,55 @@ public class PHICC {
 	}
 
 	public static String[][] codificaPHICC36(String dados) {
-		return null;
+		int i, tamanhoMatrizDados = 4;
+
+		String dadosCodificados[][] = new String[tamanhoMatrizDados][9];
+		String[] palavra = dados.split("");
+
+		for (i = 0; i < tamanhoMatrizDados; i++) {
+			dadosCodificados[i][6] = String
+					.valueOf(Integer.parseInt(palavra[i * 4]) ^ Integer.parseInt(palavra[i * 4 + 1]));
+			dadosCodificados[i][7] = String
+					.valueOf(Integer.parseInt(palavra[i * 4]) ^ Integer.parseInt(palavra[i * 4 + 2]));
+		}
+
+		dadosCodificados[0][0] = palavra[0];
+		dadosCodificados[0][1] = palavra[12];
+		dadosCodificados[0][2] = palavra[2];
+		dadosCodificados[0][3] = palavra[14];
+
+		dadosCodificados[1][0] = palavra[8];
+		dadosCodificados[1][1] = palavra[4];
+		dadosCodificados[1][2] = palavra[10];
+		dadosCodificados[1][3] = palavra[6];
+
+		dadosCodificados[2][0] = palavra[1];
+		dadosCodificados[2][1] = palavra[13];
+		dadosCodificados[2][2] = palavra[3];
+		dadosCodificados[2][3] = palavra[15];
+
+		dadosCodificados[3][0] = palavra[9];
+		dadosCodificados[3][1] = palavra[5];
+		dadosCodificados[3][2] = palavra[11];
+		dadosCodificados[3][3] = palavra[7];
+
+		for (i = 0; i < tamanhoMatrizDados; i++) {
+			// Paridade de linha dos dados com interleaving
+			dadosCodificados[i][4] = String
+					.valueOf(Integer.parseInt(dadosCodificados[i][0]) ^ Integer.parseInt(dadosCodificados[i][1])
+							^ Integer.parseInt(dadosCodificados[i][2]) ^ Integer.parseInt(dadosCodificados[i][3]));
+			// Paridade de coluna dos dados com interleaving
+			dadosCodificados[i][5] = String
+					.valueOf(Integer.parseInt(dadosCodificados[0][i]) ^ Integer.parseInt(dadosCodificados[1][i])
+							^ Integer.parseInt(dadosCodificados[2][i]) ^ Integer.parseInt(dadosCodificados[3][i]));
+			// Paridade dos dados de entrada
+			dadosCodificados[i][8] = String.valueOf(Integer.parseInt(palavra[i * tamanhoMatrizDados])
+					^ Integer.parseInt(palavra[i * tamanhoMatrizDados + 1])
+					^ Integer.parseInt(palavra[i * tamanhoMatrizDados + 2])
+					^ Integer.parseInt(palavra[i * tamanhoMatrizDados + 3]));
+		}
+
+		return dadosCodificados;
 	}
 
 	public static String decodificaPHICC40(String[][] dados) {
@@ -818,7 +866,64 @@ public class PHICC {
 	}
 
 	public static String decodificaPHICC36(String[][] dados) {
-		return null;
+		int i, j, tamanhoMatrizDados = 4, somaSindromeParidades = 0;
+
+		String[] palavraDecodificada = new String[16], sindromeParidadeLinha = new String[tamanhoMatrizDados],
+				sindromeParidadeColuna = new String[tamanhoMatrizDados],
+				sindromeParidadeDados = new String[tamanhoMatrizDados];
+
+		for (i = 0; i < tamanhoMatrizDados; i++) {
+			sindromeParidadeLinha[i] = String.valueOf(Integer.parseInt(dados[i][4]) ^ Integer.parseInt(dados[i][0])
+					^ Integer.parseInt(dados[i][1]) ^ Integer.parseInt(dados[i][2]) ^ Integer.parseInt(dados[i][3]));
+			sindromeParidadeColuna[i] = String.valueOf(Integer.parseInt(dados[i][5]) ^ Integer.parseInt(dados[0][i])
+					^ Integer.parseInt(dados[1][i]) ^ Integer.parseInt(dados[2][i]) ^ Integer.parseInt(dados[3][i]));
+
+			somaSindromeParidades += Integer.parseInt(sindromeParidadeLinha[i]);
+			somaSindromeParidades += Integer.parseInt(sindromeParidadeColuna[i]);
+		}
+
+		for (i = 0; i < tamanhoMatrizDados; i++) {
+			if (sindromeParidadeLinha[i].equals("1")) {
+				for (j = 0; j < tamanhoMatrizDados; j++) {
+					if (sindromeParidadeColuna[i].equals("0")) {
+						dados[i][j] = String.valueOf(Integer.parseInt(dados[i][j]) ^ 1);
+					}
+				}
+			}
+		}
+
+		palavraDecodificada[0] = dados[0][0];
+		palavraDecodificada[1] = dados[2][0];
+		palavraDecodificada[2] = dados[0][2];
+		palavraDecodificada[3] = dados[2][2];
+
+		palavraDecodificada[4] = dados[1][1];
+		palavraDecodificada[5] = dados[3][1];
+		palavraDecodificada[6] = dados[1][3];
+		palavraDecodificada[7] = dados[3][3];
+
+		palavraDecodificada[8] = dados[1][0];
+		palavraDecodificada[9] = dados[3][0];
+		palavraDecodificada[10] = dados[1][2];
+		palavraDecodificada[11] = dados[3][2];
+
+		palavraDecodificada[12] = dados[0][1];
+		palavraDecodificada[13] = dados[2][1];
+		palavraDecodificada[14] = dados[0][3];
+		palavraDecodificada[15] = dados[2][3];
+
+		for (i = 0; i < tamanhoMatrizDados; i++) {
+			sindromeParidadeDados[i] = String.valueOf(Integer.parseInt(dados[i][8])
+					^ Integer.parseInt(palavraDecodificada[i * 4]) ^ Integer.parseInt(palavraDecodificada[i * 4 + 1])
+					^ Integer.parseInt(palavraDecodificada[i * 4 + 2])
+					^ Integer.parseInt(palavraDecodificada[i * 4 + 3]));
+			
+			if (sindromeParidadeDados[i].equals("1") && somaSindromeParidades != 0) {
+				
+			}
+		}
+
+		return String.join("", palavraDecodificada);
 	}
 
 	public static void printMatriz(String[][] matriz) {
