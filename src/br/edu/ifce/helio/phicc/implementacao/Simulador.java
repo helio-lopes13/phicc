@@ -9,8 +9,8 @@ public class Simulador {
 		System.out.println("Matriz codificada: ");
 		printMatriz(palavraCodificada);
 		
-//		palavra = PHICC.decodificaPHICC36(palavraCodificada);
-//		System.out.println("Palavra decodificada: " + palavra);
+		palavra = PHICC.decodificaPHICC36(palavraCodificada);
+		System.out.println("Palavra decodificada: " + palavra);
 	}
 	
 	private static void printMatriz(String[][] matriz) {

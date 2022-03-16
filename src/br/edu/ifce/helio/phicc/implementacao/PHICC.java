@@ -871,6 +871,11 @@ public class PHICC {
 		String[] palavraDecodificada = new String[16], sindromeParidadeLinha = new String[tamanhoMatrizDados],
 				sindromeParidadeColuna = new String[tamanhoMatrizDados],
 				sindromeParidadeDados = new String[tamanhoMatrizDados];
+		String[][] sindromeCheckbits = new String[tamanhoMatrizDados][2];
+		
+		dados[0][1] = "0";
+		dados[0][2] = "1";
+		dados[1][1] = "0";
 
 		for (i = 0; i < tamanhoMatrizDados; i++) {
 			sindromeParidadeLinha[i] = String.valueOf(Integer.parseInt(dados[i][4]) ^ Integer.parseInt(dados[i][0])
@@ -885,7 +890,7 @@ public class PHICC {
 		for (i = 0; i < tamanhoMatrizDados; i++) {
 			if (sindromeParidadeLinha[i].equals("1")) {
 				for (j = 0; j < tamanhoMatrizDados; j++) {
-					if (sindromeParidadeColuna[i].equals("0")) {
+					if (sindromeParidadeColuna[i].equals("1")) {
 						dados[i][j] = String.valueOf(Integer.parseInt(dados[i][j]) ^ 1);
 					}
 				}
@@ -918,11 +923,33 @@ public class PHICC {
 					^ Integer.parseInt(palavraDecodificada[i * 4 + 2])
 					^ Integer.parseInt(palavraDecodificada[i * 4 + 3]));
 			
-			if (sindromeParidadeDados[i].equals("1") && somaSindromeParidades != 0) {
-				
-			}
+			sindromeCheckbits[i][0] = String.valueOf(Integer.parseInt(palavraDecodificada[i * 4]) ^ Integer.parseInt(palavraDecodificada[i * 4 + 1]) ^ Integer.parseInt(dados[i][6]));
+			sindromeCheckbits[i][1] = String.valueOf(Integer.parseInt(palavraDecodificada[i * 4]) ^ Integer.parseInt(palavraDecodificada[i * 4 + 2]) ^ Integer.parseInt(dados[i][7]));
 		}
 
+		if (somaSindromeParidades != 0) {
+			for (i = 0; i < tamanhoMatrizDados; i++) {
+				if (sindromeParidadeDados[i].equals("1")) {
+					String linhaSindromeCheckbits = String.join("", sindromeCheckbits[i]);
+					
+					switch (linhaSindromeCheckbits) {
+					case "11":
+						palavraDecodificada[i * 4] = String.valueOf(Integer.parseInt(palavraDecodificada[i * 4]) ^ 1);
+						break;
+					case "10":
+						palavraDecodificada[i * 4 + 1] = String.valueOf(Integer.parseInt(palavraDecodificada[i * 4 + 1]) ^ 1);
+						break;
+					case "01":
+						palavraDecodificada[i * 4 + 2] = String.valueOf(Integer.parseInt(palavraDecodificada[i * 4 + 2]) ^ 1);
+						break;
+					case "00":
+						palavraDecodificada[i * 4 + 3] = String.valueOf(Integer.parseInt(palavraDecodificada[i * 4 + 3]) ^ 1);
+						break;
+					}
+				}
+			}
+		}
+		
 		return String.join("", palavraDecodificada);
 	}
 
@@ -933,5 +960,12 @@ public class PHICC {
 			}
 			System.out.println();
 		}
+	}
+	
+	public static void printVetor(String[] vetor) {
+		for (int i = 0; i < vetor.length; i++) {
+			System.out.print(vetor[i] + "\t");
+		}
+		System.out.println();
 	}
 }
