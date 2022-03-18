@@ -407,42 +407,42 @@ public class PHICC {
 
 		if (somaSindromeParidadeDados != 0) {
 			for (int i = 0; i < tamanhoMatrizDados; i++) {
+				String linhaSindromeCheckbits = String.join("", sindromeCheckbits[i]);
+
+				switch (linhaSindromeCheckbits) {
 //				if scb(i+1,1)==0 && scb(i+1,2)==1 && scb(i+1,3)==1
-				if (sindromeCheckbits[i][0].equals("0") && sindromeCheckbits[i][1].equals("1")
-						&& sindromeCheckbits[i][2].equals("1")) {
+				case "011":
 //					data(i+1,1)=~data(i+1,1);
 					palavraDecodificada[i * tamanhoMatrizDados] = String
 							.valueOf(Integer.parseInt(palavraDecodificada[i * tamanhoMatrizDados]) ^ 1);
 //					soma_scb=soma_scb+1;
 					somaSindromeCheckbits++;
-
-//	            elseif scb(i+1,1)==1 && scb(i+1,2)==0 && scb(i+1,3)==1 
-				} else if (sindromeCheckbits[i][0].equals("1") && sindromeCheckbits[i][1].equals("0")
-						&& sindromeCheckbits[i][2].equals("1")) {
+					break;
+//				elseif scb(i+1,1)==1 && scb(i+1,2)==0 && scb(i+1,3)==1 
+				case "101":
 //		        	data(i+1,2)=~data(i+1,2);
 					palavraDecodificada[(i * tamanhoMatrizDados) + 1] = String
 							.valueOf(Integer.parseInt(palavraDecodificada[(i * tamanhoMatrizDados) + 1]) ^ 1);
 //		        	soma_scb=soma_scb+1;
 					somaSindromeCheckbits++;
-
-//	            elseif scb(i+1,1)==1 && scb(i+1,2)==1 && scb(i+1,3)==0
-				} else if (sindromeCheckbits[i][0].equals("1") && sindromeCheckbits[i][1].equals("1")
-						&& sindromeCheckbits[i][2].equals("0")) {
+					break;
+//				elseif scb(i+1,1)==1 && scb(i+1,2)==1 && scb(i+1,3)==0
+				case "110":
 //		        	data(i+1,3)=~data(i+1,3);
 					palavraDecodificada[(i * tamanhoMatrizDados) + 2] = String
 							.valueOf(Integer.parseInt(palavraDecodificada[(i * tamanhoMatrizDados) + 2]) ^ 1);
 //		       		soma_scb=soma_scb+1;
 					somaSindromeCheckbits++;
-//	            elseif scb(i+1,1)==1 && scb(i+1,2)==1 && scb(i+1,3)==1
-				} else if (sindromeCheckbits[i][0].equals("1") && sindromeCheckbits[i][1].equals("1")
-						&& sindromeCheckbits[i][2].equals("1")) {
+					break;
+//				elseif scb(i+1,1)==1 && scb(i+1,2)==1 && scb(i+1,3)==1
+				case "111":
 //		        	data(i+1,4)=~data(i+1,4);
 					palavraDecodificada[(i * tamanhoMatrizDados) + 3] = String
 							.valueOf(Integer.parseInt(palavraDecodificada[(i * tamanhoMatrizDados) + 3]) ^ 1);
 //		        	soma_scb=soma_scb+1;           
 					somaSindromeCheckbits++;
+					break;
 				}
-//	            end
 			}
 		}
 
@@ -584,78 +584,82 @@ public class PHICC {
 
 		if (somaSindromeParidadeCheckbits == 0) {
 			for (i = 0; i < tamanhoMatrizDados; i++) {
-				if (sindromeCheckbits[i][0].equals("1") && sindromeCheckbits[i][1].equals("1")
-						&& sindromeCheckbits[i][2].equals("1") && sindromeCheckbits[i][3].equals("0")) {
+				String linhaSindromeCheckbits = String.join("", sindromeCheckbits[i]);
+
+				switch (linhaSindromeCheckbits) {
+				case "1110":
 					palavraDecodificada[i * tamanhoMatrizDados] = String
 							.valueOf(Integer.parseInt(palavraDecodificada[i * tamanhoMatrizDados]) ^ 1);
 
 					somaSindromeCheckbits++;
-				} else if (sindromeCheckbits[i][0].equals("1") && sindromeCheckbits[i][1].equals("1")
-						&& sindromeCheckbits[i][2].equals("0") && sindromeCheckbits[i][3].equals("1")) {
+					break;
+				case "1101":
 					palavraDecodificada[i * tamanhoMatrizDados + 1] = String
 							.valueOf(Integer.parseInt(palavraDecodificada[i * tamanhoMatrizDados + 1]) ^ 1);
 
 					somaSindromeCheckbits++;
-				} else if (sindromeCheckbits[i][0].equals("1") && sindromeCheckbits[i][1].equals("0")
-						&& sindromeCheckbits[i][2].equals("1") && sindromeCheckbits[i][3].equals("1")) {
+					break;
+				case "1011":
 					palavraDecodificada[i * tamanhoMatrizDados + 2] = String
 							.valueOf(Integer.parseInt(palavraDecodificada[i * tamanhoMatrizDados + 2]) ^ 1);
 
 					somaSindromeCheckbits++;
-				} else if (sindromeCheckbits[i][0].equals("0") && sindromeCheckbits[i][1].equals("1")
-						&& sindromeCheckbits[i][2].equals("1") && sindromeCheckbits[i][3].equals("1")) {
+					break;
+				case "0111":
 					palavraDecodificada[i * tamanhoMatrizDados + 3] = String
 							.valueOf(Integer.parseInt(palavraDecodificada[i * tamanhoMatrizDados + 3]) ^ 1);
 
 					somaSindromeCheckbits++;
-				} else if (sindromeCheckbits[i][0].equals("0") && sindromeCheckbits[i][1].equals("0")
-						&& sindromeCheckbits[i][2].equals("1") && sindromeCheckbits[i][3].equals("1")) {
+					break;
+				case "0011":
 					palavraDecodificada[i * tamanhoMatrizDados] = String
 							.valueOf(Integer.parseInt(palavraDecodificada[i * tamanhoMatrizDados]) ^ 1);
 					palavraDecodificada[i * tamanhoMatrizDados + 1] = String
 							.valueOf(Integer.parseInt(palavraDecodificada[i * tamanhoMatrizDados + 1]) ^ 1);
 
 					somaSindromeCheckbits++;
-				} else if (sindromeCheckbits[i][0].equals("0") && sindromeCheckbits[i][1].equals("1")
-						&& sindromeCheckbits[i][2].equals("0") && sindromeCheckbits[i][3].equals("1")) {
+					break;
+				case "0101":
 					palavraDecodificada[i * tamanhoMatrizDados] = String
 							.valueOf(Integer.parseInt(palavraDecodificada[i * tamanhoMatrizDados]) ^ 1);
 					palavraDecodificada[i * tamanhoMatrizDados + 2] = String
 							.valueOf(Integer.parseInt(palavraDecodificada[i * tamanhoMatrizDados + 2]) ^ 1);
 
 					somaSindromeCheckbits++;
-				} else if (sindromeCheckbits[i][0].equals("1") && sindromeCheckbits[i][1].equals("0")
-						&& sindromeCheckbits[i][2].equals("0") && sindromeCheckbits[i][3].equals("1")) {
+					break;
+				case "1001":
 					palavraDecodificada[i * tamanhoMatrizDados] = String
 							.valueOf(Integer.parseInt(palavraDecodificada[i * tamanhoMatrizDados]) ^ 1);
+
 					palavraDecodificada[i * tamanhoMatrizDados + 3] = String
 							.valueOf(Integer.parseInt(palavraDecodificada[i * tamanhoMatrizDados + 3]) ^ 1);
 
 					somaSindromeCheckbits++;
-				} else if (sindromeCheckbits[i][0].equals("0") && sindromeCheckbits[i][1].equals("1")
-						&& sindromeCheckbits[i][2].equals("1") && sindromeCheckbits[i][3].equals("0")) {
+					break;
+				case "0110":
 					palavraDecodificada[i * tamanhoMatrizDados + 1] = String
 							.valueOf(Integer.parseInt(palavraDecodificada[i * tamanhoMatrizDados + 1]) ^ 1);
 					palavraDecodificada[i * tamanhoMatrizDados + 2] = String
 							.valueOf(Integer.parseInt(palavraDecodificada[i * tamanhoMatrizDados + 2]) ^ 1);
 
 					somaSindromeCheckbits++;
-				} else if (sindromeCheckbits[i][0].equals("1") && sindromeCheckbits[i][1].equals("0")
-						&& sindromeCheckbits[i][2].equals("1") && sindromeCheckbits[i][3].equals("0")) {
+					break;
+				case "1010":
 					palavraDecodificada[i * tamanhoMatrizDados + 1] = String
 							.valueOf(Integer.parseInt(palavraDecodificada[i * tamanhoMatrizDados + 1]) ^ 1);
 					palavraDecodificada[i * tamanhoMatrizDados + 3] = String
 							.valueOf(Integer.parseInt(palavraDecodificada[i * tamanhoMatrizDados + 3]) ^ 1);
 
 					somaSindromeCheckbits++;
-				} else if (sindromeCheckbits[i][0].equals("1") && sindromeCheckbits[i][1].equals("1")
-						&& sindromeCheckbits[i][2].equals("0") && sindromeCheckbits[i][3].equals("0")) {
+					break;
+				case "1100":
 					palavraDecodificada[i * tamanhoMatrizDados + 2] = String
 							.valueOf(Integer.parseInt(palavraDecodificada[i * tamanhoMatrizDados + 2]) ^ 1);
 					palavraDecodificada[i * tamanhoMatrizDados + 3] = String
 							.valueOf(Integer.parseInt(palavraDecodificada[i * tamanhoMatrizDados + 3]) ^ 1);
 
 					somaSindromeCheckbits++;
+					break;
 				}
 			}
 		}
@@ -872,7 +876,7 @@ public class PHICC {
 				sindromeParidadeColuna = new String[tamanhoMatrizDados],
 				sindromeParidadeDados = new String[tamanhoMatrizDados];
 		String[][] sindromeCheckbits = new String[tamanhoMatrizDados][2];
-		
+
 		dados[0][1] = "0";
 		dados[0][2] = "1";
 		dados[1][1] = "0";
@@ -922,34 +926,39 @@ public class PHICC {
 					^ Integer.parseInt(palavraDecodificada[i * 4]) ^ Integer.parseInt(palavraDecodificada[i * 4 + 1])
 					^ Integer.parseInt(palavraDecodificada[i * 4 + 2])
 					^ Integer.parseInt(palavraDecodificada[i * 4 + 3]));
-			
-			sindromeCheckbits[i][0] = String.valueOf(Integer.parseInt(palavraDecodificada[i * 4]) ^ Integer.parseInt(palavraDecodificada[i * 4 + 1]) ^ Integer.parseInt(dados[i][6]));
-			sindromeCheckbits[i][1] = String.valueOf(Integer.parseInt(palavraDecodificada[i * 4]) ^ Integer.parseInt(palavraDecodificada[i * 4 + 2]) ^ Integer.parseInt(dados[i][7]));
+
+			sindromeCheckbits[i][0] = String.valueOf(Integer.parseInt(palavraDecodificada[i * 4])
+					^ Integer.parseInt(palavraDecodificada[i * 4 + 1]) ^ Integer.parseInt(dados[i][6]));
+			sindromeCheckbits[i][1] = String.valueOf(Integer.parseInt(palavraDecodificada[i * 4])
+					^ Integer.parseInt(palavraDecodificada[i * 4 + 2]) ^ Integer.parseInt(dados[i][7]));
 		}
 
 		if (somaSindromeParidades != 0) {
 			for (i = 0; i < tamanhoMatrizDados; i++) {
 				if (sindromeParidadeDados[i].equals("1")) {
 					String linhaSindromeCheckbits = String.join("", sindromeCheckbits[i]);
-					
+
 					switch (linhaSindromeCheckbits) {
 					case "11":
 						palavraDecodificada[i * 4] = String.valueOf(Integer.parseInt(palavraDecodificada[i * 4]) ^ 1);
 						break;
 					case "10":
-						palavraDecodificada[i * 4 + 1] = String.valueOf(Integer.parseInt(palavraDecodificada[i * 4 + 1]) ^ 1);
+						palavraDecodificada[i * 4 + 1] = String
+								.valueOf(Integer.parseInt(palavraDecodificada[i * 4 + 1]) ^ 1);
 						break;
 					case "01":
-						palavraDecodificada[i * 4 + 2] = String.valueOf(Integer.parseInt(palavraDecodificada[i * 4 + 2]) ^ 1);
+						palavraDecodificada[i * 4 + 2] = String
+								.valueOf(Integer.parseInt(palavraDecodificada[i * 4 + 2]) ^ 1);
 						break;
 					case "00":
-						palavraDecodificada[i * 4 + 3] = String.valueOf(Integer.parseInt(palavraDecodificada[i * 4 + 3]) ^ 1);
+						palavraDecodificada[i * 4 + 3] = String
+								.valueOf(Integer.parseInt(palavraDecodificada[i * 4 + 3]) ^ 1);
 						break;
 					}
 				}
 			}
 		}
-		
+
 		return String.join("", palavraDecodificada);
 	}
 
@@ -961,7 +970,7 @@ public class PHICC {
 			System.out.println();
 		}
 	}
-	
+
 	public static void printVetor(String[] vetor) {
 		for (int i = 0; i < vetor.length; i++) {
 			System.out.print(vetor[i] + "\t");
