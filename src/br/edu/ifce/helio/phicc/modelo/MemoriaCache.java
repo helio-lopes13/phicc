@@ -25,6 +25,15 @@ public class MemoriaCache {
 	}
 	
 	public void lerCache(String tag) {
-		
+		if (memoriaCache.containsKey(tag)) {
+			System.out.println("Cache hit");
+		} else {
+			System.out.println("Cache miss");
+			if (memoriaCache.size() <= 8) {
+				
+			} else {
+				
+			}
+		}
 	}
 }
