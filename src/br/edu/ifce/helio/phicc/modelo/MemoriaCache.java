@@ -2,11 +2,15 @@ package br.edu.ifce.helio.phicc.modelo;
 
 import java.util.Map;
 
+import br.edu.ifce.helio.phicc.implementacao.PHICC;
+
 public class MemoriaCache {
 	
 	private Map<String, EntradaMemoriaCache> memoriaCache;
 	
-	private Integer tamanho;
+	private TamanhoPHICC tamanho;
+	
+	private PHICC phicc = new PHICC();
 
 	public Map<String, EntradaMemoriaCache> getMemoriaCache() {
 		return memoriaCache;
@@ -16,11 +20,11 @@ public class MemoriaCache {
 		this.memoriaCache = memoriaCache;
 	}
 
-	public Integer getTamanho() {
+	public TamanhoPHICC getTamanho() {
 		return tamanho;
 	}
 
-	public void setTamanho(Integer tamanho) {
+	public void setTamanho(TamanhoPHICC tamanho) {
 		this.tamanho = tamanho;
 	}
 	
@@ -30,7 +34,11 @@ public class MemoriaCache {
 		} else {
 			System.out.println("Cache miss");
 			if (memoriaCache.size() <= 8) {
+				EntradaMemoriaCache novaEntrada = new EntradaMemoriaCache();
+				String[][] conteudo = phicc.codificaPHICC(tag, tamanho);
+				novaEntrada.setConteudo(conteudo);
 				
+				memoriaCache.put(tag, novaEntrada);
 			} else {
 				
 			}

@@ -1,7 +1,39 @@
 package br.edu.ifce.helio.phicc.implementacao;
 
+import br.edu.ifce.helio.phicc.modelo.TamanhoPHICC;
+
 public class PHICC {
 
+	public String[][] codificaPHICC(String dados, TamanhoPHICC tamanho) {
+		switch (tamanho) {
+		case T40:
+			return codificaPHICC40(dados);
+		case T44:
+			return codificaPHICC44(dados);
+		case T36:
+			return codificaPHICC36(dados);
+		case T32:
+			return codificaPHICC32(dados);
+		default:
+			return null;
+		}
+	}
+	
+	public String decodificaPHICC(String[][] dados, TamanhoPHICC tamanho) {
+		switch (tamanho) {
+		case T40:
+			return decodificaPHICC40(dados);
+		case T44:
+			return decodificaPHICC44(dados);
+		case T36:
+			return decodificaPHICC36(dados);
+		case T32:
+			return decodificaPHICC32(dados);
+		default:
+			return null;
+		}
+	}
+	
 	public static String[][] codificaPHICC40(String dados) {
 		String[][] dadosCodificados = new String[5][8];
 		int tamanhoMatrizDados = 4, i;
@@ -725,11 +757,7 @@ public class PHICC {
 		for (i = 0; i < tamanhoMatrizDados / 2; i++) {
 			dados[i][0] = dadosTemp[i][1];
 			dados[i][1] = dadosTemp[i][0];
-			System.out.println("dados[" + i + "][2]: " + dados[i][2]);
-			System.out.println("dadosTemp[" + i + "][2]: " + dadosTemp[i][2]);
 			dados[i][2] = dadosTemp[i][3];
-			System.out.println("dados[" + i + "][2]: " + dados[i][2]);
-			System.out.println("dadosTemp[" + i + "][2]: " + dadosTemp[i][2]);
 			dados[i][3] = dadosTemp[i][2];
 		}
 
