@@ -1,5 +1,10 @@
 package br.edu.ifce.helio.phicc.implementacao;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+
+import br.edu.ifce.helio.phicc.modelo.MemoriaCache;
 import br.edu.ifce.helio.phicc.modelo.TamanhoPHICC;
 
 public class Simulador {
@@ -8,12 +13,32 @@ public class Simulador {
 		System.out.println("Palavra inicial: " + palavra);
 
 		PHICC phicc = new PHICC();
-		String[][] palavraCodificada = phicc.codificaPHICC(palavra, TamanhoPHICC.T40);
+		TamanhoPHICC tamanho = TamanhoPHICC.T44;
+		String[][] palavraCodificada = phicc.codificaPHICC(palavra, tamanho);
 		System.out.println("Matriz codificada: ");
 		printMatriz(palavraCodificada);
 
-		palavra = phicc.decodificaPHICC(palavraCodificada, TamanhoPHICC.T40);
+		palavra = phicc.decodificaPHICC(palavraCodificada, tamanho);
 		System.out.println("Palavra decodificada: " + palavra);
+		
+		Integer entrada = 131325;
+		entrada &= 0x0000FFFF;
+		
+		System.out.println(String.format("%16s", Integer.toBinaryString(entrada)).replace(" ", "0"));
+	}
+	
+	private static void testeMemoriaCache() {
+		MemoriaCache cache = new MemoriaCache(new HashMap<>(), TamanhoPHICC.T40, 4);
+		
+		List<String> palavras = Arrays.asList("1101110110011010", "1001010110111000", "0000000011111101", "0010100010111100");
+		
+		for (String palavra : palavras) {
+			cache.lerCache(palavra);
+			
+			if (palavras.indexOf(palavra) % 2 == 1) {
+				
+			}
+		}
 	}
 
 	private static void printMatriz(String[][] matriz) {

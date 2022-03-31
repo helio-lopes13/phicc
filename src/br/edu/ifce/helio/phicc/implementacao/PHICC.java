@@ -5,14 +5,14 @@ import br.edu.ifce.helio.phicc.modelo.TamanhoPHICC;
 public class PHICC {
 
 	public String[][] codificaPHICC(String dados, TamanhoPHICC tamanho) {
-		switch (tamanho) {
-		case T40:
+		switch (tamanho.getTamanho()) {
+		case 40:
 			return codificaPHICC40(dados);
-		case T44:
+		case 44:
 			return codificaPHICC44(dados);
-		case T36:
+		case 36:
 			return codificaPHICC36(dados);
-		case T32:
+		case 32:
 			return codificaPHICC32(dados);
 		default:
 			return null;
@@ -20,14 +20,14 @@ public class PHICC {
 	}
 	
 	public String decodificaPHICC(String[][] dados, TamanhoPHICC tamanho) {
-		switch (tamanho) {
-		case T40:
+		switch (tamanho.getTamanho()) {
+		case 40:
 			return decodificaPHICC40(dados);
-		case T44:
+		case 44:
 			return decodificaPHICC44(dados);
-		case T36:
+		case 36:
 			return decodificaPHICC36(dados);
-		case T32:
+		case 32:
 			return decodificaPHICC32(dados);
 		default:
 			return null;
@@ -317,17 +317,6 @@ public class PHICC {
 				sindromeParidadeDados = new String[tamanhoMatrizDados];
 		String[][] sindromeCheckbits = new String[tamanhoMatrizDados][3];
 
-		dados[0][1] = "0";
-		dados[0][2] = "1";
-
-		System.out.println("Dados modificados");
-		for (int i = 0; i < dados.length; i++) {
-			for (int j = 0; j < dados[i].length; j++) {
-				System.out.print(dados[i][j] + "\t");
-			}
-			System.out.println();
-		}
-
 //		SPa == sindromeParidadeLinha
 //		SP == sindromeParidadeColuna
 
@@ -525,10 +514,6 @@ public class PHICC {
 		String[][] sindromeCheckbits = new String[tamanhoMatrizDados][tamanhoMatrizDados],
 				checkbits = new String[tamanhoMatrizDados][tamanhoMatrizDados];
 
-		dados[0][1] = "0";
-		dados[0][2] = "1";
-		dados[1][2] = "1";
-
 		for (i = 0; i < tamanhoMatrizDados; i++) {
 			sindromeParidadeLinha[i] = String.valueOf(Integer.parseInt(dados[i][0]) ^ Integer.parseInt(dados[i][1])
 					^ Integer.parseInt(dados[i][2]) ^ Integer.parseInt(dados[i][3]) ^ Integer.parseInt(dados[i][4]));
@@ -701,10 +686,6 @@ public class PHICC {
 		// soma_spd == sindromeParidadeCheckbits
 		// soma_scb == sindromeCheckbits
 
-		String erros = "Soma das paridades de linha: %d\nSoma das paridades de coluna: %d\nSoma das paridades de checkbits: %d\nSoma dos checkbits: %d";
-		System.out.println(String.format(erros, somaSindromeParidadeLinha, somaSindromeParidadeColuna,
-				somaSindromeParidadeCheckbits, somaSindromeCheckbits));
-
 		if (somaSindromeParidadeLinha == 1 && somaSindromeParidadeColuna == 1 && somaSindromeParidadeCheckbits == 0
 				&& somaSindromeCheckbits == 0) {
 			errosTotais = 1;
@@ -749,20 +730,12 @@ public class PHICC {
 			}
 		}
 
-		dados[0][1] = "0";
-		dados[0][2] = "1";
-		dados[1][1] = "0";
-		dados[0][2] = "0";
-
 		for (i = 0; i < tamanhoMatrizDados / 2; i++) {
 			dados[i][0] = dadosTemp[i][1];
 			dados[i][1] = dadosTemp[i][0];
 			dados[i][2] = dadosTemp[i][3];
 			dados[i][3] = dadosTemp[i][2];
 		}
-
-		System.out.println("Dados após o pré interleaving: ");
-		printMatriz(dados);
 
 		sindromeVerificacao[0] = String.valueOf(Integer.parseInt(dados[0][7]) ^ Integer.parseInt(dados[2][4])
 				^ Integer.parseInt(dados[0][5]) ^ Integer.parseInt(dados[2][6]));
