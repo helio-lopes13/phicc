@@ -1,7 +1,7 @@
 package br.edu.ifce.helio.phicc.implementacao;
 
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import br.edu.ifce.helio.phicc.modelo.MemoriaCache;
@@ -20,25 +20,41 @@ public class Simulador {
 
 		palavra = phicc.decodificaPHICC(palavraCodificada, tamanho);
 		System.out.println("Palavra decodificada: " + palavra);
-		
+
 		Integer entrada = 131325;
 		entrada &= 0x0000FFFF;
-		
+
 		System.out.println(String.format("%16s", Integer.toBinaryString(entrada)).replace(" ", "0"));
+
+		testeMemoriaCache();
 	}
-	
+
 	private static void testeMemoriaCache() {
-		MemoriaCache cache = new MemoriaCache(new HashMap<>(), TamanhoPHICC.T40, 4);
-		
-		List<String> palavras = Arrays.asList("1101110110011010", "1001010110111000", "0000000011111101", "0010100010111100");
-		
+		MemoriaCache cache = new MemoriaCache(new LinkedHashMap<>(), TamanhoPHICC.T40, 4);
+
+		List<String> palavras = Arrays.asList("1101110110011010", "1001010110111000", "1001010110111000",
+				"0000000011111101", "0000000011111101", "0010100010111100", "0010100010111100", "0000000011111101");
+		int i = 0;
 		for (String palavra : palavras) {
 			cache.lerCache(palavra);
-			
-			if (palavras.indexOf(palavra) % 2 == 1) {
-				
-			}
+
+			System.out.println("Iteração " + i);
+			cache.printCache();
+			i++;
 		}
+		
+//		MemoriaCache cache = new MemoriaCache(new LinkedHashMap<>(), TamanhoPHICC.T40, 3);
+//
+//		List<String> palavras = Arrays.asList("1101110110011010", "1001010110111000", "0000000011111101", "1101110110011010", "0010100010111100");
+//		int i = 0;
+//		for (String palavra : palavras) {
+//			cache.lerCache(palavra);
+//
+//			System.out.println("Iteração " + i);
+//			cache.printCache();
+//
+//			i++;
+//		}
 	}
 
 	private static void printMatriz(String[][] matriz) {
