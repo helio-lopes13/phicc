@@ -15,9 +15,9 @@ public class MemoriaCache {
 
 	private PHICC phicc = new PHICC();
 
-	public MemoriaCache(Map<String, EntradaMemoriaCache> memoriaCache, TamanhoPHICC tamanhoPHICC,
+	public MemoriaCache(TamanhoPHICC tamanhoPHICC,
 			Integer tamanhoCache) {
-		this.memoriaCache = memoriaCache;
+		this.memoriaCache = new LinkedHashMap<>();
 		this.tamanhoPHICC = tamanhoPHICC;
 		this.tamanhoCache = tamanhoCache;
 	}

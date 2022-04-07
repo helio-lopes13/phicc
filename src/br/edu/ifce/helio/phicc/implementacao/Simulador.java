@@ -1,7 +1,6 @@
 package br.edu.ifce.helio.phicc.implementacao;
 
 import java.util.Arrays;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import br.edu.ifce.helio.phicc.modelo.MemoriaCache;
@@ -30,7 +29,7 @@ public class Simulador {
 	}
 
 	private static void testeMemoriaCache() {
-		MemoriaCache cache = new MemoriaCache(new LinkedHashMap<>(), TamanhoPHICC.T40, 4);
+		MemoriaCache cache = new MemoriaCache(TamanhoPHICC.T40, 4);
 
 		List<String> palavras = Arrays.asList("1101110110011010", "1001010110111000", "1001010110111000",
 				"0000000011111101", "0000000011111101", "0010100010111100", "0010100010111100", "0000000011111101");
