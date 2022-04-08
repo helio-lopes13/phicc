@@ -1,8 +1,5 @@
 package br.edu.ifce.helio.phicc.implementacao;
 
-import java.util.Arrays;
-import java.util.List;
-
 import br.edu.ifce.helio.phicc.modelo.MemoriaCache;
 import br.edu.ifce.helio.phicc.modelo.TamanhoPHICC;
 
@@ -31,8 +28,8 @@ public class Simulador {
 	private static void testeMemoriaCache() {
 		MemoriaCache cache = new MemoriaCache(TamanhoPHICC.T40, 4);
 
-		List<String> palavras = Arrays.asList("1101110110011010", "1001010110111000", "1001010110111000",
-				"0000000011111101", "0000000011111101", "0010100010111100", "0010100010111100", "0000000011111101");
+		String[] palavras = { "1101110110011010", "1001010110111000", "1001010110111000",
+				"0000000011111101", "0000000011111101", "0010100010111100", "0010100010111100", "0000000011111101" };
 		int i = 0;
 		for (String palavra : palavras) {
 			cache.lerCache(palavra);
