@@ -36,6 +36,9 @@ public class Simulador {
 
 			System.out.println("Iteração " + i);
 			cache.printCache();
+			cache.getMemoriaCache().values().forEach(entrada -> {
+				entrada.inserirErro();
+			});
 			i++;
 		}
 		

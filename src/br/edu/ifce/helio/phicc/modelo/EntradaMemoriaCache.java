@@ -1,6 +1,7 @@
 package br.edu.ifce.helio.phicc.modelo;
 
 import java.util.Arrays;
+import java.util.Random;
 
 public class EntradaMemoriaCache {
 
@@ -50,6 +51,17 @@ public class EntradaMemoriaCache {
 
 	public void incrementarContadorCache() {
 		contadorCache++;
+	}
+	
+	public void inserirErro() {
+		Random random = new Random();
+		Integer linha = random.nextInt(conteudo.length);
+		Integer coluna = random.nextInt(conteudo[0].length);
+		
+		System.out.println("Bit de erro: [" + linha + "][" + coluna + "]");
+		if (linha != 0 || linha != conteudo.length - 1 || coluna != 0 || coluna != conteudo[0].length - 1) {
+			
+		}
 	}
 
 	@Override
