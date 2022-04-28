@@ -60,17 +60,26 @@ public class EntradaMemoriaCache {
 
 		System.out.println("Bit de erro: [" + linha + "][" + coluna + "]");
 		if (linha == 0 || linha == conteudo.length - 1 || coluna == 0 || coluna == conteudo[0].length - 1) {
-			System.out.println("Bit na borda");
 			if (linha == 0) {
+				if (coluna == 0) {
+					System.out.println("Bit no canto esquerdo superior");
+				} else if (coluna == conteudo[0].length - 1) {
+					System.out.println("Bit no canto direito superior");
+				} else {
+					System.out.println("Bit na borda superior");
+				}
+			} else if (linha == conteudo.length - 1) {
+				if (coluna == 0) {
+					System.out.println("Bit no canto esquerdo inferior");
+				} else if (coluna == conteudo[0].length - 1) {
+					System.out.println("Bit no canto direito inferior");
+				} else {
+					System.out.println("Bit na borda inferior");
+				}
+			} else if (coluna == 0) {
 				System.out.println("Bit na borda lateral esquerda");
-			} else {
+			} else if (coluna == conteudo[0].length - 1) {
 				System.out.println("Bit na borda lateral direita");
-			}
-			
-			if (coluna == 0) {
-				System.out.println("Bit na borda superior");
-			} else {
-				System.out.println("Bit na borda inferior");
 			}
 		} else {
 			System.out.println("Bit dentro da borda");
