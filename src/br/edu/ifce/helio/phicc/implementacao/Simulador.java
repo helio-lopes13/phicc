@@ -21,12 +21,22 @@ public class Simulador {
 		entrada &= 0x0000FFFF;
 
 		System.out.println(String.format("%16s", Integer.toBinaryString(entrada)).replace(" ", "0"));
+		
+		for (int i = 0; i <= 5; i++) {
+			for (int j = 0; j <= 4; j++) {
+				if (j == 3) {
+					break;
+				}
+				
+				System.out.println("i: " + i + "\nj: " + j);
+			}
+		}
 
 		testeMemoriaCache();
 	}
 
 	private static void testeMemoriaCache() {
-		MemoriaCache cache = new MemoriaCache(TamanhoPHICC.T40, 4);
+		MemoriaCache cache = new MemoriaCache(TamanhoPHICC.T40, 4, 1);
 
 		String[] palavras = { "1101110110011010", "1001010110111000", "1001010110111000",
 				"0000000011111101", "0000000011111101", "0010100010111100", "0010100010111100", "0000000011111101" };

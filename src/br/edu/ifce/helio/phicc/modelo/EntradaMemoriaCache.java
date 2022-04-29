@@ -1,9 +1,13 @@
 package br.edu.ifce.helio.phicc.modelo;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 public class EntradaMemoriaCache {
+
+	private static Integer quantidadeErros;
 
 	private String[][] conteudo;
 
@@ -12,6 +16,14 @@ public class EntradaMemoriaCache {
 	private Integer contadorAcessos = 1;
 
 	private Integer contadorCache = 1;
+
+	public static Integer getQuantidadeErros() {
+		return quantidadeErros;
+	}
+
+	public static void setQuantidadeErros(Integer quantidadeErros) {
+		EntradaMemoriaCache.quantidadeErros = quantidadeErros;
+	}
 
 	public String[][] getConteudo() {
 		return conteudo;
@@ -55,10 +67,18 @@ public class EntradaMemoriaCache {
 
 	public void inserirErro() {
 		Random random = new Random();
-		Integer linha = random.nextInt(conteudo.length);
-		Integer coluna = random.nextInt(conteudo[0].length);
+		int linha = 0, coluna = 0, i;
+
+		List<int[]> posicoes = null;
+
+		do {
+			linha = random.nextInt(conteudo.length);
+			coluna = random.nextInt(conteudo[0].length);
+			posicoes = extrairVizinhos(linha, coluna);
+		} while (quantidadeErros > posicoes.size() + 1);
 
 		System.out.println("Bit de erro: [" + linha + "][" + coluna + "]");
+		System.out.println("Número de erros: " + quantidadeErros);
 		if (linha == 0 || linha == conteudo.length - 1 || coluna == 0 || coluna == conteudo[0].length - 1) {
 			if (linha == 0) {
 				if (coluna == 0) {
@@ -84,6 +104,39 @@ public class EntradaMemoriaCache {
 		} else {
 			System.out.println("Bit dentro da borda");
 		}
+
+		inverteBit(linha, coluna);
+		for (i = 1; i <= quantidadeErros - 1; i++) {
+			int[] posicao = posicoes.remove(random.nextInt(posicoes.size()));
+			inverteBit(posicao);
+
+			System.out.println("Removida posição [" + posicao[0] + "][" + posicao[1] + "]");
+			posicoes.forEach((int[] novaPosicao) -> {
+				System.out.println("Vizinho [" + novaPosicao[0] + "][" + novaPosicao[1] + "]");
+			});
+		}
+	}
+
+	private List<int[]> extrairVizinhos(int linha, int coluna) {
+		List<int[]> posicoes = new ArrayList<>();
+
+		for (int i = -1; i <= 1; i++) {
+			for (int j = -1; j <= 1; j++) {
+				if (i != 0 || j != i) {
+					if (linha + i >= 0 && linha + i < conteudo.length && coluna + j >= 0
+							&& coluna + j < conteudo[0].length) {
+						int[] posicao = { linha + i, coluna + j };
+						posicoes.add(posicao);
+					}
+				}
+			}
+		}
+
+		return posicoes;
+	}
+
+	private void inverteBit(int... posicao) {
+		conteudo[posicao[0]][posicao[1]] = String.valueOf(Integer.parseInt(conteudo[posicao[0]][posicao[1]]) ^ 1);
 	}
 
 	@Override

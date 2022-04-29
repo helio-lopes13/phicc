@@ -16,10 +16,11 @@ public class MemoriaCache {
 	private PHICC phicc = new PHICC();
 
 	public MemoriaCache(TamanhoPHICC tamanhoPHICC,
-			Integer tamanhoCache) {
+			Integer tamanhoCache, Integer quantidadeErros) {
 		this.memoriaCache = new LinkedHashMap<>();
 		this.tamanhoPHICC = tamanhoPHICC;
 		this.tamanhoCache = tamanhoCache;
+		EntradaMemoriaCache.setQuantidadeErros(quantidadeErros);
 	}
 
 	public Map<String, EntradaMemoriaCache> getMemoriaCache() {
@@ -44,8 +45,8 @@ public class MemoriaCache {
 			EntradaMemoriaCache entrada = entry.getValue();
 
 			System.out.println("Chave da entrada: " + chave);
-			System.out.println("No. de acessos na cache: " + entrada.getContadorCache());
-			System.out.println("No. de acessos da entrada: " + entrada.getContadorAcessos());
+//			System.out.println("No. de acessos na cache: " + entrada.getContadorCache());
+//			System.out.println("No. de acessos da entrada: " + entrada.getContadorAcessos());
 			System.out.println("Conteúdo: ");
 			PHICC.printMatriz(entrada.getConteudo());
 		}
