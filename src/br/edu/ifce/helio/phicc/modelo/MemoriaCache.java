@@ -20,7 +20,11 @@ public class MemoriaCache {
 		this.memoriaCache = new LinkedHashMap<>();
 		this.tamanhoPHICC = tamanhoPHICC;
 		this.tamanhoCache = tamanhoCache;
-		EntradaMemoriaCache.setQuantidadeErros(quantidadeErros);
+		if (quantidadeErros < 1 || quantidadeErros > 8) {
+			throw new RuntimeException("Quantidade de erros deve ser entre 1 e 8");
+		} else {
+			EntradaMemoriaCache.setQuantidadeErros(quantidadeErros);
+		}
 	}
 
 	public Map<String, EntradaMemoriaCache> getMemoriaCache() {

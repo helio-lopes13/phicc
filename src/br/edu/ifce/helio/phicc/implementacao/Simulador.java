@@ -21,14 +21,14 @@ public class Simulador {
 		entrada &= 0x0000FFFF;
 
 		System.out.println(String.format("%16s", Integer.toBinaryString(entrada)).replace(" ", "0"));
-		
+
 		for (int i = 0; i <= 5; i++) {
 			for (int j = 0; j <= 4; j++) {
 				if (j == 3) {
-					break;
+					continue;
 				}
-				
-				System.out.println("i: " + i + "\nj: " + j);
+
+				System.out.println("i: " + i + "\tj: " + j);
 			}
 		}
 
@@ -36,22 +36,26 @@ public class Simulador {
 	}
 
 	private static void testeMemoriaCache() {
-		MemoriaCache cache = new MemoriaCache(TamanhoPHICC.T40, 4, 1);
+		MemoriaCache cache = new MemoriaCache(TamanhoPHICC.T40, 4, 8);
 
-		String[] palavras = { "1101110110011010", "1001010110111000", "1001010110111000",
-				"0000000011111101", "0000000011111101", "0010100010111100", "0010100010111100", "0000000011111101" };
+//		Random random = new Random();
+
+		String[] palavras = { "1101110110011010", "1001010110111000", "1001010110111000", "0000000011111101",
+				"0000000011111101", "0010100010111100", "0010100010111100", "0000000011111101" };
 		int i = 0;
 		for (String palavra : palavras) {
 			cache.lerCache(palavra);
 
 			System.out.println("Iteração " + i);
+			// boolean insereErro = random.nextBoolean();
+
 			cache.printCache();
 			cache.getMemoriaCache().values().forEach(entrada -> {
 				entrada.inserirErro();
 			});
 			i++;
 		}
-		
+
 //		MemoriaCache cache = new MemoriaCache(new LinkedHashMap<>(), TamanhoPHICC.T40, 3);
 //
 //		List<String> palavras = Arrays.asList("1101110110011010", "1001010110111000", "0000000011111101", "1101110110011010", "0010100010111100");
@@ -59,7 +63,7 @@ public class Simulador {
 //		for (String palavra : palavras) {
 //			cache.lerCache(palavra);
 //
-//			System.out.println("Iteração " + i);
+//			System.out.println("IteraÃ§Ã£o " + i);
 //			cache.printCache();
 //
 //			i++;
