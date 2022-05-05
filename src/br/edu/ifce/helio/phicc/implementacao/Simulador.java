@@ -1,5 +1,12 @@
 package br.edu.ifce.helio.phicc.implementacao;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import br.edu.ifce.helio.phicc.modelo.MemoriaCache;
 import br.edu.ifce.helio.phicc.modelo.TamanhoPHICC;
 
@@ -22,21 +29,12 @@ public class Simulador {
 
 		System.out.println(String.format("%16s", Integer.toBinaryString(entrada)).replace(" ", "0"));
 
-		for (int i = 0; i <= 5; i++) {
-			for (int j = 0; j <= 4; j++) {
-				if (j == 3) {
-					continue;
-				}
-
-				System.out.println("i: " + i + "\tj: " + j);
-			}
-		}
-
+		testeArquivo();
 		testeMemoriaCache();
 	}
 
 	private static void testeMemoriaCache() {
-		MemoriaCache cache = new MemoriaCache(TamanhoPHICC.T40, 4, 8);
+		MemoriaCache cache = new MemoriaCache(TamanhoPHICC.T40, 4, 1);
 
 //		Random random = new Random();
 
@@ -68,6 +66,36 @@ public class Simulador {
 //
 //			i++;
 //		}
+	}
+
+	private static void simulacao(TamanhoPHICC tamanhoPHICC, int tamanhoCache, int errosAdjacentes) {
+
+	}
+
+	private static void testeArquivo() {
+		Path caminhoLocal = Paths.get("").toAbsolutePath();
+		File arquivoTraces = new File(caminhoLocal.toFile(), "enderecosInteiros.txt");
+		System.out.println(arquivoTraces.toString());
+
+		BufferedReader leitor;
+		try {
+			int i = 0;
+			leitor = new BufferedReader(new FileReader(arquivoTraces));
+			String linha = leitor.readLine();
+
+			while (linha != null && i < 30) {
+				String linhaBinaria;
+				System.out.println(linhaBinaria = String
+						.format("%16s", Integer.toBinaryString(Integer.parseInt(linha) & 0x0000FFFF))
+						.replace(" ", "0"));
+
+				linha = leitor.readLine();
+				i++;
+			}
+			leitor.close();
+		} catch (IOException exception) {
+			System.out.println("Erro detectado na leitura do arquivo");
+		}
 	}
 
 	private static void printMatriz(String[][] matriz) {
