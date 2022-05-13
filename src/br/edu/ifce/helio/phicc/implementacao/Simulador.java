@@ -7,11 +7,23 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
 
 import br.edu.ifce.helio.phicc.modelo.MemoriaCache;
 import br.edu.ifce.helio.phicc.modelo.TamanhoPHICC;
 
 public class Simulador {
+	private static Integer falsosPositivos = 0;
+
+	private static Integer falsosNegativos = 0;
+
+	private static Integer hits = 0;
+
+	private static Integer misses = 0;
+
 	public static void main(String[] args) {
 		String palavra = "1101110110011010";
 		System.out.println("Palavra inicial: " + palavra);
@@ -69,8 +81,40 @@ public class Simulador {
 //		}
 	}
 
-	private static void simulacao(TamanhoPHICC tamanhoPHICC, int tamanhoCache, int errosAdjacentes) {
+	private static void simulacao(TamanhoPHICC tamanhoPHICC, int tamanhoCache, int errosAdjacentes,
+			String nomeArquivo) {
+		List<String> linhasArquivo = new ArrayList<>();
+		Path caminhoLocal = Paths.get("").toAbsolutePath();
+		Random random = new Random();
 
+		try {
+			linhasArquivo = Files.readAllLines(new File(caminhoLocal.toFile(), "traces.txt").toPath());
+			linhasArquivo = linhasArquivo.stream().map(linha -> String
+					.format("%16s", Integer.toBinaryString(Integer.parseInt(linha) & 0x0000FFFF)).replace(" ", "0"))
+					.collect(Collectors.toList());
+		} catch (IOException exception) {
+			System.out.println("Erro lendo o arquivo de traces");
+			exception.printStackTrace();
+		}
+
+		int i = 0;
+		int numeroLinhas = linhasArquivo.size();
+
+		while (i < 1000) {
+			System.out.println("Iteração " + (i + 1));
+			int linhaCacheErro = random.nextInt(tamanhoCache);
+			int linhaArquivoErro = random.nextInt(numeroLinhas);
+			MemoriaCache cache = new MemoriaCache(tamanhoPHICC, tamanhoCache, errosAdjacentes);
+
+			if (cache.simulacao(linhasArquivo, linhaArquivoErro, linhaCacheErro)) {
+				falsosPositivos += cache.getFalsosPositivos();
+				falsosNegativos += cache.getFalsosNegativos();
+				hits += cache.getHits();
+				misses += cache.getMisses();
+			}
+			
+			i++;
+		}
 	}
 
 	private static void testeArquivo() {
@@ -85,10 +129,9 @@ public class Simulador {
 			String linha = leitor.readLine();
 
 			while (linha != null && i < 30) {
-				String linhaBinaria;
-				System.out.println(linhaBinaria = String
-						.format("%16s", Integer.toBinaryString(Integer.parseInt(linha) & 0x0000FFFF))
-						.replace(" ", "0"));
+				String linhaBinaria = String
+						.format("%16s", Integer.toBinaryString(Integer.parseInt(linha) & 0x0000FFFF)).replace(" ", "0");
+				System.out.println(linhaBinaria);
 
 				linha = leitor.readLine();
 				i++;

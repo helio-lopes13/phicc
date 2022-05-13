@@ -1,7 +1,9 @@
 package br.edu.ifce.helio.phicc.modelo;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import br.edu.ifce.helio.phicc.implementacao.PHICC;
 
@@ -12,6 +14,14 @@ public class MemoriaCache {
 	private TamanhoPHICC tamanhoPHICC;
 
 	private Integer tamanhoCache;
+
+	private Integer falsosPositivos = 0;
+
+	private Integer falsosNegativos = 0;
+
+	private Integer hits = 0;
+
+	private Integer misses = 0;
 
 	private PHICC phicc = new PHICC();
 
@@ -43,6 +53,22 @@ public class MemoriaCache {
 		this.tamanhoPHICC = tamanhoPHICC;
 	}
 
+	public Integer getFalsosPositivos() {
+		return falsosPositivos;
+	}
+
+	public Integer getFalsosNegativos() {
+		return falsosNegativos;
+	}
+
+	public Integer getHits() {
+		return hits;
+	}
+
+	public Integer getMisses() {
+		return misses;
+	}
+
 	public void printCache() {
 		for (Map.Entry<String, EntradaMemoriaCache> entry : memoriaCache.entrySet()) {
 			String chave = entry.getKey();
@@ -56,19 +82,56 @@ public class MemoriaCache {
 		}
 	}
 
-	public void lerCache(String tag) {
+	public boolean simulacao(List<String> linhas, int linhaArquivoErro, int linhaCacheErro) {
+		for (int i = 0; i < linhas.size(); i++) {
+			if (i == linhaArquivoErro) {
+				int j = 0;
+				EntradaMemoriaCache entrada = memoriaCache.values().iterator().next();
+				while (j < linhaCacheErro && memoriaCache.values().iterator().hasNext()) {
+					entrada = memoriaCache.values().iterator().next();
+					j++;
+				}
+				entrada.inserirErro();
+			}
+			String linha = linhas.get(i);
+			
+			if (lerCache(linha)) {
+				return true;
+			};
+		}
+		
+		return false;
+	}
+
+	public boolean lerCache(String tag) {
 		memoriaCache.values().stream().forEach(entrada -> entrada.incrementarContadorCache());
 
+		for (Entry<String, EntradaMemoriaCache> entrada : memoriaCache.entrySet()) {
+			String entradaDecodificada = phicc.decodificaPHICC(entrada.getValue().getConteudo(), tamanhoPHICC);
+			
+			if (tag.equals(entradaDecodificada) && entrada.getValue().isErro()) {
+				falsosPositivos++;
+				return true;
+			}
+		}
+
 		if (memoriaCache.containsKey(tag)) {
-			System.out.println("Cache hit");
+			hits++;
 			EntradaMemoriaCache entrada = memoriaCache.get(tag);
+
+			if (!phicc.decodificaPHICC(entrada.getConteudo(), tamanhoPHICC).equals(tag)) {
+				falsosNegativos++;
+				return true;
+			}
 			entrada.incrementarContadorAcesso();
 			memoriaCache.remove(tag);
 			memoriaCache.put(tag, entrada);
 		} else {
-			System.out.println("Cache miss");
+			misses++;
 			escreverCache(tag);
 		}
+		
+		return false;
 	}
 
 	private void escreverCache(String tag) {
@@ -83,8 +146,13 @@ public class MemoriaCache {
 		}
 	}
 
-	private void substituir(String tag, EntradaMemoriaCache novaEntrada) {
-		memoriaCache.remove(memoriaCache.entrySet().iterator().next().getKey());
+	private boolean substituir(String tag, EntradaMemoriaCache novaEntrada) {
+		EntradaMemoriaCache entradaRemovida = memoriaCache.remove(memoriaCache.entrySet().iterator().next().getKey());
 		memoriaCache.put(tag, novaEntrada);
+		
+		if (entradaRemovida.isErro()) {
+			return true;
+		}
+		return false;
 	}
 }
