@@ -8,6 +8,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -31,19 +34,21 @@ public class Simulador {
 		PHICC phicc = new PHICC();
 		TamanhoPHICC tamanho = TamanhoPHICC.T44;
 		String[][] palavraCodificada = phicc.codificaPHICC(palavra, tamanho);
-		System.out.println("Matriz codificada: ");
-		printMatriz(palavraCodificada);
+		// System.out.println("Matriz codificada: ");
+		// printMatriz(palavraCodificada);
 
 		palavra = phicc.decodificaPHICC(palavraCodificada, tamanho);
-		System.out.println("Palavra decodificada: " + palavra);
+		// System.out.println("Palavra decodificada: " + palavra);
 
 		Integer entrada = 131325;
 		entrada &= 0x0000FFFF;
 
-		System.out.println(String.format("%16s", Integer.toBinaryString(entrada)).replace(" ", "0"));
+		// System.out.println(String.format("%16s",
+		// Integer.toBinaryString(entrada)).replace(" ", "0"));
 
-		testeArquivo();
-		testeMemoriaCache();
+		// testeArquivo();
+		testeLinhaArquivo();
+		// testeMemoriaCache();
 	}
 
 	private static void testeMemoriaCache() {
@@ -89,14 +94,15 @@ public class Simulador {
 
 		try {
 			linhasArquivo = Files.readAllLines(new File(caminhoLocal.toFile(), "traces.txt").toPath());
-			linhasArquivo = linhasArquivo.stream().map(linha -> String
-					.format("%16s", Integer.toBinaryString(Integer.parseInt(linha) & 0x0000FFFF)).replace(" ", "0"))
-					.collect(Collectors.toList());
 		} catch (IOException exception) {
 			System.out.println("Erro lendo o arquivo de traces");
 			exception.printStackTrace();
 		}
 
+		linhasArquivo = linhasArquivo
+				.stream().map(linha -> String
+						.format("%16s", Integer.toBinaryString(Integer.parseInt(linha) & 0x0000FFFF)).replace(" ", "0"))
+				.collect(Collectors.toList());
 		int i = 0;
 		int numeroLinhas = linhasArquivo.size();
 
@@ -112,9 +118,14 @@ public class Simulador {
 				hits += cache.getHits();
 				misses += cache.getMisses();
 			}
-			
+			System.out.println("Hits: " + hits);
+			System.out.println("Misses: " + misses);
+			System.out.println("Falsos positivos: " + falsosPositivos);
+			System.out.println("Falsos negativos: " + falsosNegativos);
+
 			i++;
 		}
+
 	}
 
 	private static void testeArquivo() {
@@ -140,6 +151,27 @@ public class Simulador {
 			leitor.close();
 		} catch (IOException exception) {
 			System.out.println("Erro detectado na leitura do arquivo");
+		}
+	}
+
+	private static void testeLinhaArquivo() {
+		List<String> palavras = Arrays.asList("1101110110011010", "1001010110111000", "1001010110111000",
+				"0000000011111101", "0000000011111101", "0010100010111100");
+		// new ArrayList<>();
+		palavras = new LinkedList<>(palavras);
+		int linhaCacheErro = 6;
+		int j = 0;
+		Iterator<String> iterador = palavras.iterator();
+		String entrada = iterador.hasNext() ? iterador.next() : null;
+
+		while (iterador.hasNext() && j <= linhaCacheErro) {
+			entrada = iterador.next();
+			j++;
+		}
+		if (entrada != null && j != 8 && linhaCacheErro != 7) {
+			System.out.println("Deu igual, j é " + j);
+		} else {
+			System.out.println("Entrada é " + entrada + ", j é " + j);
 		}
 	}
 

@@ -1,5 +1,6 @@
 package br.edu.ifce.helio.phicc.modelo;
 
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,8 @@ public class MemoriaCache {
 	private Integer falsosPositivos = 0;
 
 	private Integer falsosNegativos = 0;
+
+	private Integer errosSubstituidos = 0;
 
 	private Integer hits = 0;
 
@@ -61,6 +64,10 @@ public class MemoriaCache {
 		return falsosNegativos;
 	}
 
+	public Integer getErrosSubstituidos() {
+		return errosSubstituidos;
+	}
+
 	public Integer getHits() {
 		return hits;
 	}
@@ -86,18 +93,22 @@ public class MemoriaCache {
 		for (int i = 0; i < linhas.size(); i++) {
 			if (i == linhaArquivoErro) {
 				int j = 0;
-				EntradaMemoriaCache entrada = memoriaCache.values().iterator().next();
-				while (j < linhaCacheErro && memoriaCache.values().iterator().hasNext()) {
-					entrada = memoriaCache.values().iterator().next();
+				Iterator<EntradaMemoriaCache> iteradorMemoria = memoriaCache.values().iterator();
+				EntradaMemoriaCache entrada = iteradorMemoria.next();
+				while (j < linhaCacheErro && iteradorMemoria.hasNext()) {
+					entrada = iteradorMemoria.next();
 					j++;
 				}
-				entrada.inserirErro();
+				
+				if (entrada != null && j != tamanhoCache && linhaCacheErro != tamanhoCache - 1) {
+					entrada.inserirErro();
+				}
 			}
 			String linha = linhas.get(i);
 			
 			if (lerCache(linha)) {
 				return true;
-			};
+			}
 		}
 		
 		return false;
@@ -110,6 +121,7 @@ public class MemoriaCache {
 			String entradaDecodificada = phicc.decodificaPHICC(entrada.getValue().getConteudo(), tamanhoPHICC);
 			
 			if (tag.equals(entradaDecodificada) && entrada.getValue().isErro()) {
+				hits++;
 				falsosPositivos++;
 				return true;
 			}
@@ -128,13 +140,15 @@ public class MemoriaCache {
 			memoriaCache.put(tag, entrada);
 		} else {
 			misses++;
-			escreverCache(tag);
+			if (escreverCache(tag)) {
+				return true;
+			}
 		}
 		
 		return false;
 	}
 
-	private void escreverCache(String tag) {
+	private boolean escreverCache(String tag) {
 		EntradaMemoriaCache novaEntrada = new EntradaMemoriaCache();
 		String[][] conteudo = phicc.codificaPHICC(tag, tamanhoPHICC);
 		novaEntrada.setConteudo(conteudo);
@@ -142,8 +156,12 @@ public class MemoriaCache {
 		if (memoriaCache.size() < tamanhoCache) {
 			memoriaCache.put(tag, novaEntrada);
 		} else {
-			substituir(tag, novaEntrada);
+			if (substituir(tag, novaEntrada)) {
+				return true;
+			}
 		}
+		
+		return false;
 	}
 
 	private boolean substituir(String tag, EntradaMemoriaCache novaEntrada) {
@@ -151,6 +169,7 @@ public class MemoriaCache {
 		memoriaCache.put(tag, novaEntrada);
 		
 		if (entradaRemovida.isErro()) {
+			errosSubstituidos++;
 			return true;
 		}
 		return false;
