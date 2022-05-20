@@ -308,6 +308,7 @@ public class PHICC {
 		return dadosCodificados;
 	}
 
+	@SuppressWarnings("unused")
 	public static String decodificaPHICC40(String[][] dados) {
 		String[] palavraDecodificada = new String[16];
 		int tamanhoMatrizDados = 4, somaSindromeParidadeLinha = 0, somaSindromeParidadeColuna = 0,
@@ -498,11 +499,12 @@ public class PHICC {
 //	    end
 		}
 
-		System.out.println("Quantidade total de erros: " + errosTotais);
+		// System.out.println("Quantidade total de erros: " + errosTotais);
 
 		return String.join("", palavraDecodificada);
 	}
 
+	@SuppressWarnings("unused")
 	public static String decodificaPHICC44(String[][] dados) {
 		String[] palavraDecodificada = new String[16];
 		int i, j, errosTotais = 0, tamanhoMatrizDados = 4, somaSindromeParidadeLinha = 0,
@@ -706,7 +708,7 @@ public class PHICC {
 			errosTotais = 6;
 		}
 
-		System.out.println("Quantidade total de erros: " + errosTotais);
+		//System.out.println("Quantidade total de erros: " + errosTotais);
 
 		return String.join("", palavraDecodificada);
 	}

@@ -77,8 +77,6 @@ public class EntradaMemoriaCache {
 			posicoes = extrairVizinhos(linha, coluna);
 		} while (quantidadeErros > posicoes.size() + 1);
 
-		System.out.println("Bit de erro: [" + linha + "][" + coluna + "]");
-		System.out.println("Número de erros: " + quantidadeErros);
 		if (linha == 0 || linha == conteudo.length - 1 || coluna == 0 || coluna == conteudo[0].length - 1) {
 			if (linha == 0) {
 				if (coluna == 0) {
@@ -104,16 +102,17 @@ public class EntradaMemoriaCache {
 		} else {
 			System.out.println("Bit dentro da borda");
 		}
+		
+		System.out.println("Número de erros: " + quantidadeErros);
+		System.out.println("Erro nas posições:");
+		System.out.println("[" + linha + "][" + coluna + "]");
 
 		inverteBit(linha, coluna);
 		for (i = 1; i <= quantidadeErros - 1; i++) {
 			int[] posicao = posicoes.remove(random.nextInt(posicoes.size()));
 			inverteBit(posicao);
 
-			System.out.println("Removida posição [" + posicao[0] + "][" + posicao[1] + "]");
-			posicoes.forEach((int[] novaPosicao) -> {
-				System.out.println("Vizinho [" + novaPosicao[0] + "][" + novaPosicao[1] + "]");
-			});
+			System.out.println("[" + posicao[0] + "][" + posicao[1] + "]");
 		}
 	}
 

@@ -18,18 +18,26 @@ import java.util.stream.Collectors;
 import br.edu.ifce.helio.phicc.modelo.MemoriaCache;
 import br.edu.ifce.helio.phicc.modelo.TamanhoPHICC;
 
+@SuppressWarnings("unused")
 public class Simulador {
 	private static Integer falsosPositivos = 0;
 
 	private static Integer falsosNegativos = 0;
+
+	private static Integer errosSubstituidos = 0;
 
 	private static Integer hits = 0;
 
 	private static Integer misses = 0;
 
 	public static void main(String[] args) {
+		/*
+		 * A parte a seguir foram testes anteriores à simulação para confirmar se o que
+		 * estava sendo feito funcionava
+		 */
+
 		String palavra = "1101110110011010";
-		System.out.println("Palavra inicial: " + palavra);
+		// System.out.println("Palavra inicial: " + palavra);
 
 		PHICC phicc = new PHICC();
 		TamanhoPHICC tamanho = TamanhoPHICC.T44;
@@ -47,8 +55,59 @@ public class Simulador {
 		// Integer.toBinaryString(entrada)).replace(" ", "0"));
 
 		// testeArquivo();
-		testeLinhaArquivo();
+		// testeLinhaArquivo();
 		// testeMemoriaCache();
+
+		/*
+		 * O método a seguir é o de simulação que roda várias vezes e obtém informações
+		 * sobre os erros
+		 */
+		simulacao(TamanhoPHICC.T44, 8, 4, "traces.txt");
+	}
+
+	private static void simulacao(TamanhoPHICC tamanhoPHICC, int tamanhoCache, int errosAdjacentes,
+			String nomeArquivo) {
+		List<String> linhasArquivo = new ArrayList<>();
+		Path caminhoLocal = Paths.get("").toAbsolutePath();
+		Random random = new Random();
+
+		try {
+			linhasArquivo = Files.readAllLines(new File(caminhoLocal.toFile(), nomeArquivo).toPath());
+		} catch (IOException exception) {
+			System.out.println("Erro lendo o arquivo de traces");
+			exception.printStackTrace();
+		}
+
+		linhasArquivo = linhasArquivo
+				.stream().map(linha -> String
+						.format("%16s", Integer.toBinaryString(Integer.parseInt(linha) & 0x0000FFFF)).replace(" ", "0"))
+				.collect(Collectors.toList());
+		int i = 0;
+		int numeroLinhas = linhasArquivo.size();
+
+		while (i < 100) {
+			System.out.println("Iteração " + (i + 1));
+			int linhaCacheErro = random.nextInt(tamanhoCache);
+			int linhaArquivoErro = random.nextInt(numeroLinhas);
+			System.out.println(String.format("Linha do arquivo com erro: %d\nLinha da cache a ter erro inserido: %d",
+					linhaArquivoErro, linhaCacheErro));
+			MemoriaCache cache = new MemoriaCache(tamanhoPHICC, tamanhoCache, errosAdjacentes);
+
+			if (cache.simulacao(linhasArquivo, linhaArquivoErro, linhaCacheErro)) {
+				falsosPositivos += cache.getFalsosPositivos();
+				falsosNegativos += cache.getFalsosNegativos();
+				errosSubstituidos += cache.getErrosSubstituidos();
+			}
+			hits += cache.getHits();
+			misses += cache.getMisses();
+			System.out.println("Hits: " + hits);
+			System.out.println("Misses: " + misses);
+			System.out.println("Falsos positivos: " + falsosPositivos);
+			System.out.println("Falsos negativos: " + falsosNegativos);
+			System.out.println("Erros substituídos: " + errosSubstituidos);
+
+			i++;
+		}
 	}
 
 	private static void testeMemoriaCache() {
@@ -71,61 +130,6 @@ public class Simulador {
 			});
 			i++;
 		}
-
-//		MemoriaCache cache = new MemoriaCache(new LinkedHashMap<>(), TamanhoPHICC.T40, 3);
-//
-//		List<String> palavras = Arrays.asList("1101110110011010", "1001010110111000", "0000000011111101", "1101110110011010", "0010100010111100");
-//		int i = 0;
-//		for (String palavra : palavras) {
-//			cache.lerCache(palavra);
-//
-//			System.out.println("IteraÃ§Ã£o " + i);
-//			cache.printCache();
-//
-//			i++;
-//		}
-	}
-
-	private static void simulacao(TamanhoPHICC tamanhoPHICC, int tamanhoCache, int errosAdjacentes,
-			String nomeArquivo) {
-		List<String> linhasArquivo = new ArrayList<>();
-		Path caminhoLocal = Paths.get("").toAbsolutePath();
-		Random random = new Random();
-
-		try {
-			linhasArquivo = Files.readAllLines(new File(caminhoLocal.toFile(), "traces.txt").toPath());
-		} catch (IOException exception) {
-			System.out.println("Erro lendo o arquivo de traces");
-			exception.printStackTrace();
-		}
-
-		linhasArquivo = linhasArquivo
-				.stream().map(linha -> String
-						.format("%16s", Integer.toBinaryString(Integer.parseInt(linha) & 0x0000FFFF)).replace(" ", "0"))
-				.collect(Collectors.toList());
-		int i = 0;
-		int numeroLinhas = linhasArquivo.size();
-
-		while (i < 1000) {
-			System.out.println("Iteração " + (i + 1));
-			int linhaCacheErro = random.nextInt(tamanhoCache);
-			int linhaArquivoErro = random.nextInt(numeroLinhas);
-			MemoriaCache cache = new MemoriaCache(tamanhoPHICC, tamanhoCache, errosAdjacentes);
-
-			if (cache.simulacao(linhasArquivo, linhaArquivoErro, linhaCacheErro)) {
-				falsosPositivos += cache.getFalsosPositivos();
-				falsosNegativos += cache.getFalsosNegativos();
-				hits += cache.getHits();
-				misses += cache.getMisses();
-			}
-			System.out.println("Hits: " + hits);
-			System.out.println("Misses: " + misses);
-			System.out.println("Falsos positivos: " + falsosPositivos);
-			System.out.println("Falsos negativos: " + falsosNegativos);
-
-			i++;
-		}
-
 	}
 
 	private static void testeArquivo() {
@@ -156,20 +160,23 @@ public class Simulador {
 
 	private static void testeLinhaArquivo() {
 		List<String> palavras = Arrays.asList("1101110110011010", "1001010110111000", "1001010110111000",
-				"0000000011111101", "0000000011111101", "0010100010111100");
+				"1001010110111000", "0000000011111101", "0000000011111101");// , "0010000011111101",
+																			// "0000110011111101");
 		// new ArrayList<>();
 		palavras = new LinkedList<>(palavras);
-		int linhaCacheErro = 6;
+		int linhaCacheErro = 0;
+		int tamanhoAtualCache = palavras.size();
 		int j = 0;
 		Iterator<String> iterador = palavras.iterator();
 		String entrada = iterador.hasNext() ? iterador.next() : null;
 
-		while (iterador.hasNext() && j <= linhaCacheErro) {
+		while (iterador.hasNext() && j < linhaCacheErro) {
 			entrada = iterador.next();
 			j++;
 		}
-		if (entrada != null && j != 8 && linhaCacheErro != 7) {
-			System.out.println("Deu igual, j é " + j);
+
+		if (entrada != null && linhaCacheErro < tamanhoAtualCache) {
+			System.out.println("Deu igual, entrada é " + entrada + ", j é " + j);
 		} else {
 			System.out.println("Entrada é " + entrada + ", j é " + j);
 		}

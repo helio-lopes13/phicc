@@ -100,17 +100,24 @@ public class MemoriaCache {
 					j++;
 				}
 				
-				if (entrada != null && j != tamanhoCache && linhaCacheErro != tamanhoCache - 1) {
+				int tamanhoAtualCache = memoriaCache.values().size();
+				if (entrada != null && linhaCacheErro < tamanhoAtualCache) {
 					entrada.inserirErro();
+				} else {
+					System.out.println("Erro substituído");
+					errosSubstituidos++;
+					return true;
 				}
 			}
 			String linha = linhas.get(i);
 			
 			if (lerCache(linha)) {
+				System.out.println("Entrou aqui no lerCache()");
 				return true;
 			}
 		}
 		
+		System.out.println("Nenhuma intercorrência");
 		return false;
 	}
 
@@ -121,6 +128,7 @@ public class MemoriaCache {
 			String entradaDecodificada = phicc.decodificaPHICC(entrada.getValue().getConteudo(), tamanhoPHICC);
 			
 			if (tag.equals(entradaDecodificada) && entrada.getValue().isErro()) {
+				System.out.println("Falso positivo");
 				hits++;
 				falsosPositivos++;
 				return true;
@@ -132,6 +140,7 @@ public class MemoriaCache {
 			EntradaMemoriaCache entrada = memoriaCache.get(tag);
 
 			if (!phicc.decodificaPHICC(entrada.getConteudo(), tamanhoPHICC).equals(tag)) {
+				System.out.println("Falso negativo");
 				falsosNegativos++;
 				return true;
 			}
@@ -169,6 +178,7 @@ public class MemoriaCache {
 		memoriaCache.put(tag, novaEntrada);
 		
 		if (entradaRemovida.isErro()) {
+			System.out.println("Erro substituído");
 			errosSubstituidos++;
 			return true;
 		}
