@@ -724,113 +724,119 @@ public class PHICC {
 		String[][] sindromeCheckbits = new String[tamanhoMatrizDados][tamanhoMatrizDados],
 				checkbits = new String[tamanhoMatrizDados][tamanhoMatrizDados];
 
-		String[][] dadosTemp = new String[dados.length][dados[0].length];
+		String[][] dadosManipulados = new String[dados.length][dados[0].length], dadosTemp = new String[dadosManipulados.length][dadosManipulados[0].length];
 
 		for (i = 0; i < dados.length; i++) {
 			for (j = 0; j < dados[i].length; j++) {
-				dadosTemp[i][j] = dados[i][j];
+				dadosManipulados[i][j] = dados[i][j];
+			}
+		}
+
+		for (i = 0; i < dadosManipulados.length; i++) {
+			for (j = 0; j < dadosManipulados[i].length; j++) {
+				dadosTemp[i][j] = dadosManipulados[i][j];
 			}
 		}
 
 		for (i = 0; i < tamanhoMatrizDados / 2; i++) {
-			dados[i][0] = dadosTemp[i][1];
-			dados[i][1] = dadosTemp[i][0];
-			dados[i][2] = dadosTemp[i][3];
-			dados[i][3] = dadosTemp[i][2];
+			dadosManipulados[i][0] = dadosTemp[i][1];
+			dadosManipulados[i][1] = dadosTemp[i][0];
+			dadosManipulados[i][2] = dadosTemp[i][3];
+			dadosManipulados[i][3] = dadosTemp[i][2];
 		}
 
-		sindromeVerificacao[0] = String.valueOf(Integer.parseInt(dados[0][7]) ^ Integer.parseInt(dados[2][4])
-				^ Integer.parseInt(dados[0][5]) ^ Integer.parseInt(dados[2][6]));
-		sindromeVerificacao[1] = String.valueOf(Integer.parseInt(dados[1][7]) ^ Integer.parseInt(dados[3][4])
-				^ Integer.parseInt(dados[1][5]) ^ Integer.parseInt(dados[3][6]));
-		sindromeVerificacao[2] = String.valueOf(Integer.parseInt(dados[2][7]) ^ Integer.parseInt(dados[0][4])
-				^ Integer.parseInt(dados[2][5]) ^ Integer.parseInt(dados[0][6]));
-		sindromeVerificacao[3] = String.valueOf(Integer.parseInt(dados[3][7]) ^ Integer.parseInt(dados[1][4])
-				^ Integer.parseInt(dados[3][5]) ^ Integer.parseInt(dados[1][6]));
+		sindromeVerificacao[0] = String.valueOf(Integer.parseInt(dadosManipulados[0][7]) ^ Integer.parseInt(dadosManipulados[2][4])
+				^ Integer.parseInt(dadosManipulados[0][5]) ^ Integer.parseInt(dadosManipulados[2][6]));
+		sindromeVerificacao[1] = String.valueOf(Integer.parseInt(dadosManipulados[1][7]) ^ Integer.parseInt(dadosManipulados[3][4])
+				^ Integer.parseInt(dadosManipulados[1][5]) ^ Integer.parseInt(dadosManipulados[3][6]));
+		sindromeVerificacao[2] = String.valueOf(Integer.parseInt(dadosManipulados[2][7]) ^ Integer.parseInt(dadosManipulados[0][4])
+				^ Integer.parseInt(dadosManipulados[2][5]) ^ Integer.parseInt(dadosManipulados[0][6]));
+		sindromeVerificacao[3] = String.valueOf(Integer.parseInt(dadosManipulados[3][7]) ^ Integer.parseInt(dadosManipulados[1][4])
+				^ Integer.parseInt(dadosManipulados[3][5]) ^ Integer.parseInt(dadosManipulados[1][6]));
 
 		sindromeVerificacaoFlag = Integer.parseInt(sindromeVerificacao[0]) | Integer.parseInt(sindromeVerificacao[1])
 				| Integer.parseInt(sindromeVerificacao[2]) | Integer.parseInt(sindromeVerificacao[3]);
 
-		sindromeParidadeLinha[0] = String.valueOf(Integer.parseInt(dados[2][6]) ^ Integer.parseInt(dados[0][6])
-				^ Integer.parseInt(dados[0][0]) ^ Integer.parseInt(dados[0][1]) ^ Integer.parseInt(dados[0][2])
-				^ Integer.parseInt(dados[0][3]));
+		sindromeParidadeLinha[0] = String.valueOf(Integer.parseInt(dadosManipulados[2][6]) ^ Integer.parseInt(dadosManipulados[0][6])
+				^ Integer.parseInt(dadosManipulados[0][0]) ^ Integer.parseInt(dadosManipulados[0][1]) ^ Integer.parseInt(dadosManipulados[0][2])
+				^ Integer.parseInt(dadosManipulados[0][3]));
 
-		sindromeParidadeLinha[1] = String.valueOf(Integer.parseInt(dados[1][6]) ^ Integer.parseInt(dados[3][6])
-				^ Integer.parseInt(dados[1][0]) ^ Integer.parseInt(dados[1][1]) ^ Integer.parseInt(dados[1][2])
-				^ Integer.parseInt(dados[1][3]));
+		sindromeParidadeLinha[1] = String.valueOf(Integer.parseInt(dadosManipulados[1][6]) ^ Integer.parseInt(dadosManipulados[3][6])
+				^ Integer.parseInt(dadosManipulados[1][0]) ^ Integer.parseInt(dadosManipulados[1][1]) ^ Integer.parseInt(dadosManipulados[1][2])
+				^ Integer.parseInt(dadosManipulados[1][3]));
 
-		sindromeParidadeLinha[2] = String.valueOf(Integer.parseInt(dados[2][4]) ^ Integer.parseInt(dados[0][4])
-				^ Integer.parseInt(dados[2][6]) ^ Integer.parseInt(dados[0][6]) ^ Integer.parseInt(dados[2][0])
-				^ Integer.parseInt(dados[2][1]) ^ Integer.parseInt(dados[2][2]) ^ Integer.parseInt(dados[2][3]));
+		sindromeParidadeLinha[2] = String.valueOf(Integer.parseInt(dadosManipulados[2][4]) ^ Integer.parseInt(dadosManipulados[0][4])
+				^ Integer.parseInt(dadosManipulados[2][6]) ^ Integer.parseInt(dadosManipulados[0][6]) ^ Integer.parseInt(dadosManipulados[2][0])
+				^ Integer.parseInt(dadosManipulados[2][1]) ^ Integer.parseInt(dadosManipulados[2][2]) ^ Integer.parseInt(dadosManipulados[2][3]));
 
-		sindromeParidadeLinha[3] = String.valueOf(Integer.parseInt(dados[1][4]) ^ Integer.parseInt(dados[3][4])
-				^ Integer.parseInt(dados[1][6]) ^ Integer.parseInt(dados[3][6]) ^ Integer.parseInt(dados[3][0])
-				^ Integer.parseInt(dados[3][1]) ^ Integer.parseInt(dados[3][2]) ^ Integer.parseInt(dados[3][3]));
+		sindromeParidadeLinha[3] = String.valueOf(Integer.parseInt(dadosManipulados[1][4]) ^ Integer.parseInt(dadosManipulados[3][4])
+				^ Integer.parseInt(dadosManipulados[1][6]) ^ Integer.parseInt(dadosManipulados[3][6]) ^ Integer.parseInt(dadosManipulados[3][0])
+				^ Integer.parseInt(dadosManipulados[3][1]) ^ Integer.parseInt(dadosManipulados[3][2]) ^ Integer.parseInt(dadosManipulados[3][3]));
 
-		sindromeParidadeColuna[0] = String.valueOf(Integer.parseInt(dados[1][5]) ^ Integer.parseInt(dados[0][5])
-				^ Integer.parseInt(dados[0][0]) ^ Integer.parseInt(dados[1][0]) ^ Integer.parseInt(dados[2][0])
-				^ Integer.parseInt(dados[3][0]));
+		sindromeParidadeColuna[0] = String.valueOf(Integer.parseInt(dadosManipulados[1][5]) ^ Integer.parseInt(dadosManipulados[0][5])
+				^ Integer.parseInt(dadosManipulados[0][0]) ^ Integer.parseInt(dadosManipulados[1][0]) ^ Integer.parseInt(dadosManipulados[2][0])
+				^ Integer.parseInt(dadosManipulados[3][0]));
 
-		sindromeParidadeColuna[1] = String.valueOf(Integer.parseInt(dados[3][5]) ^ Integer.parseInt(dados[2][5])
-				^ Integer.parseInt(dados[0][1]) ^ Integer.parseInt(dados[1][1]) ^ Integer.parseInt(dados[2][1])
-				^ Integer.parseInt(dados[3][1]));
+		sindromeParidadeColuna[1] = String.valueOf(Integer.parseInt(dadosManipulados[3][5]) ^ Integer.parseInt(dadosManipulados[2][5])
+				^ Integer.parseInt(dadosManipulados[0][1]) ^ Integer.parseInt(dadosManipulados[1][1]) ^ Integer.parseInt(dadosManipulados[2][1])
+				^ Integer.parseInt(dadosManipulados[3][1]));
 
-		sindromeParidadeColuna[2] = String.valueOf(Integer.parseInt(dados[3][4]) ^ Integer.parseInt(dados[2][4])
-				^ Integer.parseInt(dados[1][5]) ^ Integer.parseInt(dados[0][5]) ^ Integer.parseInt(dados[0][2])
-				^ Integer.parseInt(dados[1][2]) ^ Integer.parseInt(dados[2][2]) ^ Integer.parseInt(dados[3][2]));
+		sindromeParidadeColuna[2] = String.valueOf(Integer.parseInt(dadosManipulados[3][4]) ^ Integer.parseInt(dadosManipulados[2][4])
+				^ Integer.parseInt(dadosManipulados[1][5]) ^ Integer.parseInt(dadosManipulados[0][5]) ^ Integer.parseInt(dadosManipulados[0][2])
+				^ Integer.parseInt(dadosManipulados[1][2]) ^ Integer.parseInt(dadosManipulados[2][2]) ^ Integer.parseInt(dadosManipulados[3][2]));
 
-		sindromeParidadeColuna[3] = String.valueOf(Integer.parseInt(dados[1][4]) ^ Integer.parseInt(dados[0][4])
-				^ Integer.parseInt(dados[3][5]) ^ Integer.parseInt(dados[2][5]) ^ Integer.parseInt(dados[0][3])
-				^ Integer.parseInt(dados[1][3]) ^ Integer.parseInt(dados[2][3]) ^ Integer.parseInt(dados[3][3]));
+		sindromeParidadeColuna[3] = String.valueOf(Integer.parseInt(dadosManipulados[1][4]) ^ Integer.parseInt(dadosManipulados[0][4])
+				^ Integer.parseInt(dadosManipulados[3][5]) ^ Integer.parseInt(dadosManipulados[2][5]) ^ Integer.parseInt(dadosManipulados[0][3])
+				^ Integer.parseInt(dadosManipulados[1][3]) ^ Integer.parseInt(dadosManipulados[2][3]) ^ Integer.parseInt(dadosManipulados[3][3]));
 
 		if (sindromeVerificacaoFlag == 0) {
 			for (i = 0; i < tamanhoMatrizDados; i++) {
 				if (sindromeParidadeLinha[i].equals("1")) {
 					for (j = 0; j < tamanhoMatrizDados; j++) {
 						if (sindromeParidadeColuna[j].equals("1")) {
-							dados[i][j] = String.valueOf(Integer.parseInt(dados[i][j]) ^ 1);
+							dadosManipulados[i][j] = String.valueOf(Integer.parseInt(dadosManipulados[i][j]) ^ 1);
 						}
 					}
 				}
 			}
 		}
 
-		palavraDecodificada[0] = dados[0][0];
-		palavraDecodificada[1] = dados[2][0];
-		palavraDecodificada[2] = dados[0][2];
-		palavraDecodificada[3] = dados[2][2];
+		palavraDecodificada[0] = dadosManipulados[0][0];
+		palavraDecodificada[1] = dadosManipulados[2][0];
+		palavraDecodificada[2] = dadosManipulados[0][2];
+		palavraDecodificada[3] = dadosManipulados[2][2];
 
-		palavraDecodificada[4] = dados[1][0];
-		palavraDecodificada[5] = dados[3][0];
-		palavraDecodificada[6] = dados[1][2];
-		palavraDecodificada[7] = dados[3][2];
+		palavraDecodificada[4] = dadosManipulados[1][0];
+		palavraDecodificada[5] = dadosManipulados[3][0];
+		palavraDecodificada[6] = dadosManipulados[1][2];
+		palavraDecodificada[7] = dadosManipulados[3][2];
 
-		palavraDecodificada[8] = dados[0][1];
-		palavraDecodificada[9] = dados[2][1];
-		palavraDecodificada[10] = dados[0][3];
-		palavraDecodificada[11] = dados[2][3];
+		palavraDecodificada[8] = dadosManipulados[0][1];
+		palavraDecodificada[9] = dadosManipulados[2][1];
+		palavraDecodificada[10] = dadosManipulados[0][3];
+		palavraDecodificada[11] = dadosManipulados[2][3];
 
-		palavraDecodificada[12] = dados[1][1];
-		palavraDecodificada[13] = dados[3][1];
-		palavraDecodificada[14] = dados[1][3];
-		palavraDecodificada[15] = dados[3][3];
+		palavraDecodificada[12] = dadosManipulados[1][1];
+		palavraDecodificada[13] = dadosManipulados[3][1];
+		palavraDecodificada[14] = dadosManipulados[1][3];
+		palavraDecodificada[15] = dadosManipulados[3][3];
 
-		checkbits[0][0] = dados[0][5];
-		checkbits[0][1] = dados[2][6];
+		checkbits[0][0] = dadosManipulados[0][5];
+		checkbits[0][1] = dadosManipulados[2][6];
 
-		checkbits[1][0] = dados[1][5];
-		checkbits[1][1] = dados[3][6];
+		checkbits[1][0] = dadosManipulados[1][5];
+		checkbits[1][1] = dadosManipulados[3][6];
 
-		checkbits[2][0] = dados[2][5];
-		checkbits[2][1] = dados[0][6];
+		checkbits[2][0] = dadosManipulados[2][5];
+		checkbits[2][1] = dadosManipulados[0][6];
 
-		checkbits[3][0] = dados[3][5];
-		checkbits[3][1] = dados[1][6];
+		checkbits[3][0] = dadosManipulados[3][5];
+		checkbits[3][1] = dadosManipulados[1][6];
 
-		paridadeDados[0] = dados[2][4];
-		paridadeDados[1] = dados[3][4];
-		paridadeDados[2] = dados[0][4];
-		paridadeDados[3] = dados[1][4];
+		paridadeDados[0] = dadosManipulados[2][4];
+		paridadeDados[1] = dadosManipulados[3][4];
+		paridadeDados[2] = dadosManipulados[0][4];
+		paridadeDados[3] = dadosManipulados[1][4];
 
 		for (i = 0; i < tamanhoMatrizDados; i++) {
 			sindromeParidadeDados[i] = String.valueOf(
@@ -879,10 +885,6 @@ public class PHICC {
 				sindromeParidadeColuna = new String[tamanhoMatrizDados],
 				sindromeParidadeDados = new String[tamanhoMatrizDados];
 		String[][] sindromeCheckbits = new String[tamanhoMatrizDados][2];
-
-		dados[0][1] = "0";
-		dados[0][2] = "1";
-		dados[1][1] = "0";
 
 		for (i = 0; i < tamanhoMatrizDados; i++) {
 			sindromeParidadeLinha[i] = String.valueOf(Integer.parseInt(dados[i][4]) ^ Integer.parseInt(dados[i][0])

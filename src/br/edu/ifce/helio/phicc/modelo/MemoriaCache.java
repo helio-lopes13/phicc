@@ -28,8 +28,7 @@ public class MemoriaCache {
 
 	private PHICC phicc = new PHICC();
 
-	public MemoriaCache(TamanhoPHICC tamanhoPHICC,
-			Integer tamanhoCache, Integer quantidadeErros) {
+	public MemoriaCache(TamanhoPHICC tamanhoPHICC, Integer tamanhoCache, Integer quantidadeErros) {
 		this.memoriaCache = new LinkedHashMap<>();
 		this.tamanhoPHICC = tamanhoPHICC;
 		this.tamanhoCache = tamanhoCache;
@@ -99,24 +98,24 @@ public class MemoriaCache {
 					entrada = iteradorMemoria.next();
 					j++;
 				}
-				
+
 				int tamanhoAtualCache = memoriaCache.values().size();
 				if (entrada != null && linhaCacheErro < tamanhoAtualCache) {
+					entrada.setErro(true);
 					entrada.inserirErro();
 				} else {
-					System.out.println("Erro substituído");
+					System.out.println("Erro não pôde ser inserido");
 					errosSubstituidos++;
 					return true;
 				}
 			}
 			String linha = linhas.get(i);
-			
+
 			if (lerCache(linha)) {
-				System.out.println("Entrou aqui no lerCache()");
 				return true;
 			}
 		}
-		
+
 		System.out.println("Nenhuma intercorrência");
 		return false;
 	}
@@ -126,8 +125,8 @@ public class MemoriaCache {
 
 		for (Entry<String, EntradaMemoriaCache> entrada : memoriaCache.entrySet()) {
 			String entradaDecodificada = phicc.decodificaPHICC(entrada.getValue().getConteudo(), tamanhoPHICC);
-			
-			if (tag.equals(entradaDecodificada) && entrada.getValue().isErro()) {
+
+			if (tag.equals(entradaDecodificada) && !tag.equals(entrada.getKey()) && entrada.getValue().isErro()) {
 				System.out.println("Falso positivo");
 				hits++;
 				falsosPositivos++;
@@ -153,7 +152,7 @@ public class MemoriaCache {
 				return true;
 			}
 		}
-		
+
 		return false;
 	}
 
@@ -169,14 +168,14 @@ public class MemoriaCache {
 				return true;
 			}
 		}
-		
+
 		return false;
 	}
 
 	private boolean substituir(String tag, EntradaMemoriaCache novaEntrada) {
 		EntradaMemoriaCache entradaRemovida = memoriaCache.remove(memoriaCache.entrySet().iterator().next().getKey());
 		memoriaCache.put(tag, novaEntrada);
-		
+
 		if (entradaRemovida.isErro()) {
 			System.out.println("Erro substituído");
 			errosSubstituidos++;

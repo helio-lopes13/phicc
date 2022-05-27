@@ -39,17 +39,17 @@ public class Simulador {
 		String palavra = "1101110110011010";
 		// System.out.println("Palavra inicial: " + palavra);
 
-		PHICC phicc = new PHICC();
-		TamanhoPHICC tamanho = TamanhoPHICC.T44;
-		String[][] palavraCodificada = phicc.codificaPHICC(palavra, tamanho);
-		// System.out.println("Matriz codificada: ");
-		// printMatriz(palavraCodificada);
-
-		palavra = phicc.decodificaPHICC(palavraCodificada, tamanho);
-		// System.out.println("Palavra decodificada: " + palavra);
-
-		Integer entrada = 131325;
-		entrada &= 0x0000FFFF;
+//		PHICC phicc = new PHICC();
+//		TamanhoPHICC tamanho = TamanhoPHICC.T32;
+//		String[][] palavraCodificada = phicc.codificaPHICC(palavra, tamanho);
+//		System.out.println("Matriz codificada: ");
+//		printMatriz(palavraCodificada);
+//
+//		palavra = phicc.decodificaPHICC(palavraCodificada, tamanho);
+//		System.out.println("Palavra decodificada: " + palavra);
+//
+//		Integer entrada = 131325;
+//		entrada &= 0x0000FFFF;
 
 		// System.out.println(String.format("%16s",
 		// Integer.toBinaryString(entrada)).replace(" ", "0"));
@@ -57,12 +57,13 @@ public class Simulador {
 		// testeArquivo();
 		// testeLinhaArquivo();
 		// testeMemoriaCache();
+		// testePHICC32();
 
 		/*
 		 * O método a seguir é o de simulação que roda várias vezes e obtém informações
 		 * sobre os erros
 		 */
-		simulacao(TamanhoPHICC.T44, 8, 4, "traces.txt");
+		simulacao(TamanhoPHICC.T44, 8, 1, "traces.txt");
 	}
 
 	private static void simulacao(TamanhoPHICC tamanhoPHICC, int tamanhoCache, int errosAdjacentes,
@@ -85,12 +86,12 @@ public class Simulador {
 		int i = 0;
 		int numeroLinhas = linhasArquivo.size();
 
-		while (i < 100) {
+		while (i < 1000) {
 			System.out.println("Iteração " + (i + 1));
 			int linhaCacheErro = random.nextInt(tamanhoCache);
 			int linhaArquivoErro = random.nextInt(numeroLinhas);
-			System.out.println(String.format("Linha do arquivo com erro: %d\nLinha da cache a ter erro inserido: %d",
-					linhaArquivoErro, linhaCacheErro));
+//			System.out.println(String.format("Linha do arquivo com erro: %d\nLinha da cache a ter erro inserido: %d",
+//					linhaArquivoErro, linhaCacheErro));
 			MemoriaCache cache = new MemoriaCache(tamanhoPHICC, tamanhoCache, errosAdjacentes);
 
 			if (cache.simulacao(linhasArquivo, linhaArquivoErro, linhaCacheErro)) {
@@ -100,14 +101,15 @@ public class Simulador {
 			}
 			hits += cache.getHits();
 			misses += cache.getMisses();
-			System.out.println("Hits: " + hits);
-			System.out.println("Misses: " + misses);
-			System.out.println("Falsos positivos: " + falsosPositivos);
-			System.out.println("Falsos negativos: " + falsosNegativos);
-			System.out.println("Erros substituídos: " + errosSubstituidos);
+//			System.out.println("Hits: " + hits);
+//			System.out.println("Misses: " + misses);
 
 			i++;
 		}
+
+		System.out.println("Falsos positivos: " + falsosPositivos);
+		System.out.println("Falsos negativos: " + falsosNegativos);
+		System.out.println("Erros substituídos: " + errosSubstituidos);
 	}
 
 	private static void testeMemoriaCache() {
@@ -180,6 +182,49 @@ public class Simulador {
 		} else {
 			System.out.println("Entrada é " + entrada + ", j é " + j);
 		}
+	}
+
+	private static void testePHICC32() {
+		int i;
+		PHICC phicc = new PHICC();
+		TamanhoPHICC tamanho = TamanhoPHICC.T32;
+		List<String> palavrasErro = new ArrayList<>();
+
+		for (i = 0; i < 256 * 256; i++) {
+			String palavra = String.format("%16s", Integer.toBinaryString(i & 0x0000FFFF)).replace(" ", "0");
+			String[][] palavraCodificada = phicc.codificaPHICC(palavra, tamanho);
+			if (i == 57890) {
+				System.out.println("Matriz codificada: ");
+				printMatriz(palavraCodificada);
+			}
+
+			String palavraDecodificada = phicc.decodificaPHICC(palavraCodificada, tamanho);
+
+			if (i == 57890) {
+				System.out.println("Matriz após uma decodificação: ");
+				printMatriz(palavraCodificada);
+				System.out.println(String.format("Palavra vinda do método: %s\tPalavra: %s",
+						phicc.decodificaPHICC(palavraCodificada, tamanho), palavraDecodificada));
+			}
+
+			if (!phicc.decodificaPHICC(palavraCodificada, tamanho).equals(palavraDecodificada)) {
+				palavrasErro.add(palavra);
+			} else if (i == 57890) {
+				System.out.println("Matriz após três decodificações: ");
+				printMatriz(palavraCodificada);
+				System.out.println(String.format("Palavra vinda do método: %s\tPalavra: %s",
+						phicc.decodificaPHICC(palavraCodificada, tamanho), palavraDecodificada));
+				System.out.println("Matriz após quatro decodificações: ");
+				printMatriz(palavraCodificada);
+				System.out.println(String.format("Palavra vinda do método: %s\tPalavra: %s",
+						phicc.decodificaPHICC(palavraCodificada, tamanho), palavraDecodificada));
+			}
+		}
+
+		System.out.println("Palavras com erro: " + palavrasErro.size());
+//		for (String palavra : palavrasErro) {
+//			System.out.println(String.format("Palavra: %s", palavra));
+//		}
 	}
 
 	private static void printMatriz(String[][] matriz) {

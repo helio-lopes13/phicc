@@ -77,42 +77,42 @@ public class EntradaMemoriaCache {
 			posicoes = extrairVizinhos(linha, coluna);
 		} while (quantidadeErros > posicoes.size() + 1);
 
-		if (linha == 0 || linha == conteudo.length - 1 || coluna == 0 || coluna == conteudo[0].length - 1) {
-			if (linha == 0) {
-				if (coluna == 0) {
-					System.out.println("Bit no canto esquerdo superior");
-				} else if (coluna == conteudo[0].length - 1) {
-					System.out.println("Bit no canto direito superior");
-				} else {
-					System.out.println("Bit na borda superior");
-				}
-			} else if (linha == conteudo.length - 1) {
-				if (coluna == 0) {
-					System.out.println("Bit no canto esquerdo inferior");
-				} else if (coluna == conteudo[0].length - 1) {
-					System.out.println("Bit no canto direito inferior");
-				} else {
-					System.out.println("Bit na borda inferior");
-				}
-			} else if (coluna == 0) {
-				System.out.println("Bit na borda lateral esquerda");
-			} else if (coluna == conteudo[0].length - 1) {
-				System.out.println("Bit na borda lateral direita");
-			}
-		} else {
-			System.out.println("Bit dentro da borda");
-		}
+//		if (linha == 0 || linha == conteudo.length - 1 || coluna == 0 || coluna == conteudo[0].length - 1) {
+//			if (linha == 0) {
+//				if (coluna == 0) {
+//					System.out.println("Bit no canto esquerdo superior");
+//				} else if (coluna == conteudo[0].length - 1) {
+//					System.out.println("Bit no canto direito superior");
+//				} else {
+//					System.out.println("Bit na borda superior");
+//				}
+//			} else if (linha == conteudo.length - 1) {
+//				if (coluna == 0) {
+//					System.out.println("Bit no canto esquerdo inferior");
+//				} else if (coluna == conteudo[0].length - 1) {
+//					System.out.println("Bit no canto direito inferior");
+//				} else {
+//					System.out.println("Bit na borda inferior");
+//				}
+//			} else if (coluna == 0) {
+//				System.out.println("Bit na borda lateral esquerda");
+//			} else if (coluna == conteudo[0].length - 1) {
+//				System.out.println("Bit na borda lateral direita");
+//			}
+//		} else {
+//			System.out.println("Bit dentro da borda");
+//		}
 		
-		System.out.println("Número de erros: " + quantidadeErros);
-		System.out.println("Erro nas posições:");
-		System.out.println("[" + linha + "][" + coluna + "]");
+//		System.out.println("Número de erros: " + quantidadeErros);
+//		System.out.println("Erro nas posições:");
+//		System.out.println("[" + linha + "][" + coluna + "]");
 
 		inverteBit(linha, coluna);
 		for (i = 1; i <= quantidadeErros - 1; i++) {
 			int[] posicao = posicoes.remove(random.nextInt(posicoes.size()));
 			inverteBit(posicao);
 
-			System.out.println("[" + posicao[0] + "][" + posicao[1] + "]");
+//			System.out.println("[" + posicao[0] + "][" + posicao[1] + "]");
 		}
 	}
 
