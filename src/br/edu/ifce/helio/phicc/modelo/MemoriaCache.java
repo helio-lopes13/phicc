@@ -80,11 +80,13 @@ public class MemoriaCache {
 			String chave = entry.getKey();
 			EntradaMemoriaCache entrada = entry.getValue();
 
+			if (entrada.isErro()) System.out.println("Entrada com erro");
 			System.out.println("Chave da entrada: " + chave);
 //			System.out.println("No. de acessos na cache: " + entrada.getContadorCache());
 //			System.out.println("No. de acessos da entrada: " + entrada.getContadorAcessos());
 			System.out.println("Conteúdo: ");
 			PHICC.printMatriz(entrada.getConteudo());
+			System.out.println("Conteúdo decodificado: " + phicc.decodificaPHICC(entrada.getConteudo(), getTamanhoPHICC()));
 		}
 	}
 
@@ -93,7 +95,7 @@ public class MemoriaCache {
 			if (i == linhaArquivoErro) {
 				int j = 0;
 				Iterator<EntradaMemoriaCache> iteradorMemoria = memoriaCache.values().iterator();
-				EntradaMemoriaCache entrada = iteradorMemoria.next();
+				EntradaMemoriaCache entrada = iteradorMemoria.hasNext() ? iteradorMemoria.next() : null;
 				while (j < linhaCacheErro && iteradorMemoria.hasNext()) {
 					entrada = iteradorMemoria.next();
 					j++;
@@ -111,16 +113,18 @@ public class MemoriaCache {
 			}
 			String linha = linhas.get(i);
 
-			if (lerCache(linha)) {
+			if (lerCache(linha, linhaArquivoErro, linhaCacheErro)) {
 				return true;
 			}
 		}
 
 		System.out.println("Nenhuma intercorrência");
+		System.out.println(String.format("Linha do arquivo com erro: %d\nLinha da cache a ter erro inserido: %d",
+				linhaArquivoErro, linhaCacheErro));
 		return false;
 	}
 
-	public boolean lerCache(String tag) {
+	public boolean lerCache(String tag, int linhaArquivoErro, int linhaCacheErro) {
 		memoriaCache.values().stream().forEach(entrada -> entrada.incrementarContadorCache());
 
 		for (Entry<String, EntradaMemoriaCache> entrada : memoriaCache.entrySet()) {
@@ -128,8 +132,12 @@ public class MemoriaCache {
 
 			if (tag.equals(entradaDecodificada) && !tag.equals(entrada.getKey()) && entrada.getValue().isErro()) {
 				System.out.println("Falso positivo");
+				System.out.println("Tag: " + tag);
+				System.out.println(String.format("Linha do arquivo com erro: %d\nLinha da cache a ter erro inserido: %d",
+						linhaArquivoErro, linhaCacheErro));
 				hits++;
 				falsosPositivos++;
+				printCache();
 				return true;
 			}
 		}

@@ -65,11 +65,12 @@ public class EntradaMemoriaCache {
 		contadorCache++;
 	}
 
-	public void inserirErro() {
+	public List<int[]> inserirErro() {
 		Random random = new Random();
 		int linha = 0, coluna = 0, i;
 
 		List<int[]> posicoes = null;
+		List<int[]> todasPosicoes = new ArrayList<>();
 
 		do {
 			linha = random.nextInt(conteudo.length);
@@ -108,12 +109,18 @@ public class EntradaMemoriaCache {
 //		System.out.println("[" + linha + "][" + coluna + "]");
 
 		inverteBit(linha, coluna);
+		int[] posicaoPrincipal = { linha, coluna };
+		todasPosicoes.add(posicaoPrincipal);
+
 		for (i = 1; i <= quantidadeErros - 1; i++) {
 			int[] posicao = posicoes.remove(random.nextInt(posicoes.size()));
+			todasPosicoes.add(posicao);
 			inverteBit(posicao);
 
 //			System.out.println("[" + posicao[0] + "][" + posicao[1] + "]");
 		}
+		
+		return todasPosicoes;
 	}
 
 	private List<int[]> extrairVizinhos(int linha, int coluna) {
