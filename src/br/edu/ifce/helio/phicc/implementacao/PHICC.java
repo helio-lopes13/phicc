@@ -899,7 +899,7 @@ public class PHICC {
 		for (i = 0; i < tamanhoMatrizDados; i++) {
 			if (sindromeParidadeLinha[i].equals("1")) {
 				for (j = 0; j < tamanhoMatrizDados; j++) {
-					if (sindromeParidadeColuna[i].equals("1")) {
+					if (sindromeParidadeColuna[j].equals("1")) {
 						dados[i][j] = String.valueOf(Integer.parseInt(dados[i][j]) ^ 1);
 					}
 				}
