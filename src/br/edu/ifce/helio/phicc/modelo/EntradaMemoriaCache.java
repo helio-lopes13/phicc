@@ -17,6 +17,8 @@ public class EntradaMemoriaCache {
 
 	private Integer contadorCache = 1;
 
+	private List<int[]> listaPosicoes = new ArrayList<>();
+
 	public static Integer getQuantidadeErros() {
 		return quantidadeErros;
 	}
@@ -65,6 +67,13 @@ public class EntradaMemoriaCache {
 		contadorCache++;
 	}
 
+	public void printPosicoes() {
+		System.out.println("Erro nas posições:");
+		for (int[] posicao : listaPosicoes) {
+			System.out.println("[" + posicao[0] + "][" + posicao[1] + "]");
+		}
+	}
+
 	public List<int[]> inserirErro() {
 		Random random = new Random();
 		int linha = 0, coluna = 0, i;
@@ -103,7 +112,7 @@ public class EntradaMemoriaCache {
 //		} else {
 //			System.out.println("Bit dentro da borda");
 //		}
-		
+
 //		System.out.println("Número de erros: " + quantidadeErros);
 //		System.out.println("Erro nas posições:");
 //		System.out.println("[" + linha + "][" + coluna + "]");
@@ -119,7 +128,9 @@ public class EntradaMemoriaCache {
 
 //			System.out.println("[" + posicao[0] + "][" + posicao[1] + "]");
 		}
-		
+
+		listaPosicoes = todasPosicoes;
+
 		return todasPosicoes;
 	}
 

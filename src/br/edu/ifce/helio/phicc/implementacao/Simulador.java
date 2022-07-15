@@ -36,17 +36,24 @@ public class Simulador {
 		 * estava sendo feito funcionava
 		 */
 
-		String palavra = "1101110110011010";
-		// System.out.println("Palavra inicial: " + palavra);
-
+//		String palavra = "0000010100001001";
+//		System.out.println("Palavra inicial: " + palavra);
+//
 //		PHICC phicc = new PHICC();
-//		TamanhoPHICC tamanho = TamanhoPHICC.T32;
+//		TamanhoPHICC tamanho = TamanhoPHICC.T44;
 //		String[][] palavraCodificada = phicc.codificaPHICC(palavra, tamanho);
 //		System.out.println("Matriz codificada: ");
 //		printMatriz(palavraCodificada);
 //
-//		palavra = phicc.decodificaPHICC(palavraCodificada, tamanho);
-//		System.out.println("Palavra decodificada: " + palavra);
+//		palavraCodificada[3][4] = "1";
+//		palavraCodificada[3][5] = "1";
+//
+//		String palavraD = phicc.decodificaPHICC(palavraCodificada, tamanho);
+//		String palavraD2 = phicc.decodificaPHICC(palavraCodificada, tamanho);
+//		String palavraD3 = phicc.decodificaPHICC(palavraCodificada, tamanho);
+//		System.out.println("Palavra decodificada: " + palavraD);
+//		System.out.println("Palavra decodificada 2: " + palavraD2);
+//		System.out.println("Palavra decodificada 3: " + palavraD3);
 //
 //		Integer entrada = 131325;
 //		entrada &= 0x0000FFFF;
@@ -63,7 +70,7 @@ public class Simulador {
 		 * O método a seguir é o de simulação que roda várias vezes e obtém informações
 		 * sobre os erros
 		 */
-		simulacao(TamanhoPHICC.T44, 8, 1, "traces.txt");
+		simulacao(TamanhoPHICC.T40, 8, 3, "enderecosInteiros.txt");
 	}
 
 	private static void simulacao(TamanhoPHICC tamanhoPHICC, int tamanhoCache, int errosAdjacentes,
@@ -86,21 +93,21 @@ public class Simulador {
 		int i = 0;
 		int numeroLinhas = linhasArquivo.size();
 
-		while (i < 1000) {
+		while (i < 500000) {
 			System.out.println("Iteração " + (i + 1));
 			int linhaCacheErro = random.nextInt(tamanhoCache);
 			int linhaArquivoErro = random.nextInt(numeroLinhas);
 //			System.out.println(String.format("Linha do arquivo com erro: %d\nLinha da cache a ter erro inserido: %d",
 //					linhaArquivoErro, linhaCacheErro));
-			MemoriaCache cache = new MemoriaCache(tamanhoPHICC, tamanhoCache, errosAdjacentes);
+			MemoriaCache cache = new MemoriaCache(tamanhoPHICC, tamanhoCache, errosAdjacentes, 16);
 
 			if (cache.simulacao(linhasArquivo, linhaArquivoErro, linhaCacheErro)) {
 				falsosPositivos += cache.getFalsosPositivos();
 				falsosNegativos += cache.getFalsosNegativos();
 				errosSubstituidos += cache.getErrosSubstituidos();
 			}
-			hits += cache.getHits();
-			misses += cache.getMisses();
+//			hits += cache.getHits();
+//			misses += cache.getMisses();
 //			System.out.println("Hits: " + hits);
 //			System.out.println("Misses: " + misses);
 
@@ -113,7 +120,7 @@ public class Simulador {
 	}
 
 	private static void testeMemoriaCache() {
-		MemoriaCache cache = new MemoriaCache(TamanhoPHICC.T40, 4, 1);
+		MemoriaCache cache = new MemoriaCache(TamanhoPHICC.T40, 4, 1, 16);
 
 //		Random random = new Random();
 
@@ -121,7 +128,7 @@ public class Simulador {
 				"0000000011111101", "0010100010111100", "0010100010111100", "0000000011111101" };
 		int i = 0;
 		for (String palavra : palavras) {
-			cache.lerCache(palavra);
+			//cache.lerCache(palavra);
 
 			System.out.println("Iteração " + i);
 			// boolean insereErro = random.nextBoolean();
