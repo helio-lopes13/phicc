@@ -45,9 +45,11 @@ public class Simulador {
 //		System.out.println("Matriz codificada: ");
 //		printMatriz(palavraCodificada);
 //
-//		palavraCodificada[3][4] = "1";
-//		palavraCodificada[3][5] = "1";
-//
+//		palavraCodificada[2][3] = String.valueOf(Integer.parseInt(palavraCodificada[2][3]) ^ 1);
+//		palavraCodificada[1][4] = String.valueOf(Integer.parseInt(palavraCodificada[1][4]) ^ 1);
+//		palavraCodificada[2][2] = String.valueOf(Integer.parseInt(palavraCodificada[2][2]) ^ 1);
+//		palavraCodificada[3][3] = String.valueOf(Integer.parseInt(palavraCodificada[3][3]) ^ 1);
+//		
 //		String palavraD = phicc.decodificaPHICC(palavraCodificada, tamanho);
 //		String palavraD2 = phicc.decodificaPHICC(palavraCodificada, tamanho);
 //		String palavraD3 = phicc.decodificaPHICC(palavraCodificada, tamanho);
@@ -70,7 +72,7 @@ public class Simulador {
 		 * O método a seguir é o de simulação que roda várias vezes e obtém informações
 		 * sobre os erros
 		 */
-		simulacao(TamanhoPHICC.T40, 8, 3, "enderecosInteiros.txt");
+		simulacao(TamanhoPHICC.T32, 8, 8, "enderecosInteiros.txt");
 	}
 
 	private static void simulacao(TamanhoPHICC tamanhoPHICC, int tamanhoCache, int errosAdjacentes,
