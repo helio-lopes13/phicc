@@ -2,7 +2,7 @@ package br.edu.ifce.helio.phicc.implementacao;
 
 import br.edu.ifce.helio.phicc.modelo.TamanhoPHICC;
 
-public class PHICC {
+public class AntigoPHICC implements Codificador {
 
 	public String[][] codificaPHICC(String dados, TamanhoPHICC tamanho) {
 		switch (tamanho.getTamanho()) {
@@ -987,5 +987,17 @@ public class PHICC {
 			System.out.print(vetor[i] + "\t");
 		}
 		System.out.println();
+	}
+
+	@Override
+	public EntradaCodificada codificar(String palavra) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String decodificar(EntradaCodificada entrada) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

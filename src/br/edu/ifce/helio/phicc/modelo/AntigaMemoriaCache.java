@@ -6,12 +6,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import br.edu.ifce.helio.phicc.implementacao.PHICC;
+import br.edu.ifce.helio.phicc.implementacao.AntigoPHICC;
 import br.edu.ifce.helio.phicc.implementacao.Paridade;
 
-public class MemoriaCache {
+@SuppressWarnings("unused")
+public class AntigaMemoriaCache {
 
-	private Map<String, EntradaMemoriaCache> memoriaCache;
+	private Map<String, AntigaEntradaMemoriaCache> memoriaCache;
 
 	private TamanhoPHICC tamanhoPHICC;
 
@@ -23,22 +24,18 @@ public class MemoriaCache {
 
 	private Integer errosSubstituidos = 0;
 
-//	private Integer hits = 0;
-
-//	private Integer misses = 0;
-
-	private PHICC phicc;
+	private AntigoPHICC phicc;
 
 	private Paridade paridade;
 
-	public MemoriaCache(TamanhoPHICC tamanhoPHICC, Integer tamanhoCache, Integer quantidadeErros, Integer tamanhoPalavra) {
+	public AntigaMemoriaCache(TamanhoPHICC tamanhoPHICC, Integer tamanhoCache, Integer quantidadeErros, Integer tamanhoPalavra) {
 		this.memoriaCache = new LinkedHashMap<>();
 		this.tamanhoPHICC = tamanhoPHICC;
 		this.tamanhoCache = tamanhoCache;
 		if (quantidadeErros < 1 || quantidadeErros > 8) {
 			throw new RuntimeException("Quantidade de erros deve ser entre 1 e 8");
 		} else {
-			EntradaMemoriaCache.setQuantidadeErros(quantidadeErros);
+			AntigaEntradaMemoriaCache.setQuantidadeErros(quantidadeErros);
 		}
 		
 		if (tamanhoPalavra != 16 && tamanhoPalavra != 32) {
@@ -46,15 +43,15 @@ public class MemoriaCache {
 		} else if (tamanhoPalavra == 32) {
 			paridade = new Paridade();
 		} else {
-			phicc = new PHICC();
+			phicc = new AntigoPHICC();
 		}
 	}
 
-	public Map<String, EntradaMemoriaCache> getMemoriaCache() {
+	public Map<String, AntigaEntradaMemoriaCache> getMemoriaCache() {
 		return memoriaCache;
 	}
 
-	public void setMemoriaCache(LinkedHashMap<String, EntradaMemoriaCache> memoriaCache) {
+	public void setMemoriaCache(LinkedHashMap<String, AntigaEntradaMemoriaCache> memoriaCache) {
 		this.memoriaCache = memoriaCache;
 	}
 
@@ -78,18 +75,10 @@ public class MemoriaCache {
 		return errosSubstituidos;
 	}
 
-//	public Integer getHits() {
-//		return hits;
-//	}
-
-//	public Integer getMisses() {
-//		return misses;
-//	}
-
 	public void printCache() {
-		for (Map.Entry<String, EntradaMemoriaCache> entry : memoriaCache.entrySet()) {
+		for (Map.Entry<String, AntigaEntradaMemoriaCache> entry : memoriaCache.entrySet()) {
 			String chave = entry.getKey();
-			EntradaMemoriaCache entrada = entry.getValue();
+			AntigaEntradaMemoriaCache entrada = entry.getValue();
 
 			if (entrada.isErro()) {
 				System.out.println("Entrada com erro");
@@ -99,21 +88,19 @@ public class MemoriaCache {
 //			System.out.println("No. de acessos na cache: " + entrada.getContadorCache());
 //			System.out.println("No. de acessos da entrada: " + entrada.getContadorAcessos());
 			System.out.println("Conteúdo: ");
-			PHICC.printMatriz(entrada.getConteudo());
+			AntigoPHICC.printMatriz(entrada.getConteudo());
 			System.out.println("Conteúdo decodificado: " + phicc.decodificaPHICC(entrada.getConteudo(), getTamanhoPHICC()));
 		}
 	}
 	
-	public void printEntrada(String chave, EntradaMemoriaCache entrada) {
+	public void printEntrada(String chave, AntigaEntradaMemoriaCache entrada) {
 		if (entrada.isErro()) {
 			System.out.println("Entrada com erro");
 			entrada.printPosicoes();
 		}
 		System.out.println("Chave da entrada: " + chave);
-//		System.out.println("No. de acessos na cache: " + entrada.getContadorCache());
-//		System.out.println("No. de acessos da entrada: " + entrada.getContadorAcessos());
 		System.out.println("Conteúdo: ");
-		PHICC.printMatriz(entrada.getConteudo());
+		AntigoPHICC.printMatriz(entrada.getConteudo());
 		System.out.println("Conteúdo decodificado: " + phicc.decodificaPHICC(entrada.getConteudo(), getTamanhoPHICC()));
 	}
 
@@ -121,8 +108,8 @@ public class MemoriaCache {
 		for (int i = 0; i < linhas.size(); i++) {
 			if (i == linhaArquivoErro) {
 				int j = 0;
-				Iterator<EntradaMemoriaCache> iteradorMemoria = memoriaCache.values().iterator();
-				EntradaMemoriaCache entrada = iteradorMemoria.hasNext() ? iteradorMemoria.next() : null;
+				Iterator<AntigaEntradaMemoriaCache> iteradorMemoria = memoriaCache.values().iterator();
+				AntigaEntradaMemoriaCache entrada = iteradorMemoria.hasNext() ? iteradorMemoria.next() : null;
 				while (j < linhaCacheErro && iteradorMemoria.hasNext()) {
 					entrada = iteradorMemoria.next();
 					j++;
@@ -154,7 +141,7 @@ public class MemoriaCache {
 	public boolean lerCache(String tag, int linhaArquivoErro, int linhaCacheErro) {
 		memoriaCache.values().stream().forEach(entrada -> entrada.incrementarContadorCache());
 
-		for (Entry<String, EntradaMemoriaCache> entrada : memoriaCache.entrySet()) {
+		for (Entry<String, AntigaEntradaMemoriaCache> entrada : memoriaCache.entrySet()) {
 			String entradaDecodificada = phicc.decodificaPHICC(entrada.getValue().getConteudo(), tamanhoPHICC);
 
 			if (tag.equals(entradaDecodificada) && !tag.equals(entrada.getKey()) && entrada.getValue().isErro()) {
@@ -171,7 +158,7 @@ public class MemoriaCache {
 
 		if (memoriaCache.containsKey(tag)) {
 //			hits++;
-			EntradaMemoriaCache entrada = memoriaCache.get(tag);
+			AntigaEntradaMemoriaCache entrada = memoriaCache.get(tag);
 
 			if (!phicc.decodificaPHICC(entrada.getConteudo(), tamanhoPHICC).equals(tag)) {
 				System.out.println("Falso negativo");
@@ -196,7 +183,7 @@ public class MemoriaCache {
 	}
 
 	private boolean escreverCache(String tag) {
-		EntradaMemoriaCache novaEntrada = new EntradaMemoriaCache();
+		AntigaEntradaMemoriaCache novaEntrada = new AntigaEntradaMemoriaCache();
 		String[][] conteudo = phicc.codificaPHICC(tag, tamanhoPHICC);
 		novaEntrada.setConteudo(conteudo);
 
@@ -211,9 +198,9 @@ public class MemoriaCache {
 		return false;
 	}
 
-	private boolean substituir(String tag, EntradaMemoriaCache novaEntrada) {
+	private boolean substituir(String tag, AntigaEntradaMemoriaCache novaEntrada) {
 		String chaveRemovida = memoriaCache.entrySet().iterator().next().getKey();
-		EntradaMemoriaCache entradaRemovida = memoriaCache.remove(chaveRemovida);
+		AntigaEntradaMemoriaCache entradaRemovida = memoriaCache.remove(chaveRemovida);
 		memoriaCache.put(tag, novaEntrada);
 
 		if (entradaRemovida.isErro()) {

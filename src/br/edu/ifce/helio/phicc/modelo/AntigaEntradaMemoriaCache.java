@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-public class EntradaMemoriaCache {
+public class AntigaEntradaMemoriaCache {
 
 	private static Integer quantidadeErros;
 
@@ -24,7 +24,7 @@ public class EntradaMemoriaCache {
 	}
 
 	public static void setQuantidadeErros(Integer quantidadeErros) {
-		EntradaMemoriaCache.quantidadeErros = quantidadeErros;
+		AntigaEntradaMemoriaCache.quantidadeErros = quantidadeErros;
 	}
 
 	public String[][] getConteudo() {
@@ -172,7 +172,7 @@ public class EntradaMemoriaCache {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		EntradaMemoriaCache other = (EntradaMemoriaCache) obj;
+		AntigaEntradaMemoriaCache other = (AntigaEntradaMemoriaCache) obj;
 		if (!Arrays.deepEquals(conteudo, other.conteudo))
 			return false;
 		return true;
