@@ -1,33 +1,33 @@
 package br.edu.ifce.helio.phicc.implementacao;
 
-import br.edu.ifce.helio.phicc.modelo.TamanhoPHICC;
+import br.edu.ifce.helio.phicc.modelo.PHICC;
 
 public class AntigoPHICC implements Codificador {
 
-	public String[][] codificaPHICC(String dados, TamanhoPHICC tamanho) {
-		switch (tamanho.getTamanho()) {
-		case 40:
+	public String[][] codificaPHICC(String dados, PHICC tamanho) {
+		switch (tamanho) {
+		case T40:
 			return codificaPHICC40(dados);
-		case 44:
+		case T44:
 			return codificaPHICC44(dados);
-		case 36:
+		case T36:
 			return codificaPHICC36(dados);
-		case 32:
+		case T32:
 			return codificaPHICC32(dados);
 		default:
 			return null;
 		}
 	}
 	
-	public String decodificaPHICC(String[][] dados, TamanhoPHICC tamanho) {
-		switch (tamanho.getTamanho()) {
-		case 40:
+	public String decodificaPHICC(String[][] dados, PHICC tamanho) {
+		switch (tamanho) {
+		case T40:
 			return decodificaPHICC40(dados);
-		case 44:
+		case T44:
 			return decodificaPHICC44(dados);
-		case 36:
+		case T36:
 			return decodificaPHICC36(dados);
-		case 32:
+		case T32:
 			return decodificaPHICC32(dados);
 		default:
 			return null;

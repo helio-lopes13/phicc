@@ -14,7 +14,7 @@ public class AntigaMemoriaCache {
 
 	private Map<String, AntigaEntradaMemoriaCache> memoriaCache;
 
-	private TamanhoPHICC tamanhoPHICC;
+	private PHICC tamanhoPHICC;
 
 	private Integer tamanhoCache;
 
@@ -28,7 +28,7 @@ public class AntigaMemoriaCache {
 
 	private Paridade paridade;
 
-	public AntigaMemoriaCache(TamanhoPHICC tamanhoPHICC, Integer tamanhoCache, Integer quantidadeErros, Integer tamanhoPalavra) {
+	public AntigaMemoriaCache(PHICC tamanhoPHICC, Integer tamanhoCache, Integer quantidadeErros, Integer tamanhoPalavra) {
 		this.memoriaCache = new LinkedHashMap<>();
 		this.tamanhoPHICC = tamanhoPHICC;
 		this.tamanhoCache = tamanhoCache;
@@ -55,11 +55,11 @@ public class AntigaMemoriaCache {
 		this.memoriaCache = memoriaCache;
 	}
 
-	public TamanhoPHICC getTamanhoPHICC() {
+	public PHICC getTamanhoPHICC() {
 		return tamanhoPHICC;
 	}
 
-	public void setTamanhoPHICC(TamanhoPHICC tamanhoPHICC) {
+	public void setTamanhoPHICC(PHICC tamanhoPHICC) {
 		this.tamanhoPHICC = tamanhoPHICC;
 	}
 

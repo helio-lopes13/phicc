@@ -16,7 +16,7 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 import br.edu.ifce.helio.phicc.modelo.AntigaMemoriaCache;
-import br.edu.ifce.helio.phicc.modelo.TamanhoPHICC;
+import br.edu.ifce.helio.phicc.modelo.PHICC;
 
 @SuppressWarnings("unused")
 public class AntigoSimulador {
@@ -72,10 +72,10 @@ public class AntigoSimulador {
 		 * O método a seguir é o de simulação que roda várias vezes e obtém informações
 		 * sobre os erros
 		 */
-		simulacao(TamanhoPHICC.T32, 8, 5, "enderecosInteiros.txt");
+		simulacao(PHICC.T32, 8, 5, "enderecosInteiros.txt");
 	}
 
-	private static void simulacao(TamanhoPHICC tamanhoPHICC, int tamanhoCache, int errosAdjacentes,
+	private static void simulacao(PHICC tamanhoPHICC, int tamanhoCache, int errosAdjacentes,
 			String nomeArquivo) {
 		List<String> linhasArquivo = new ArrayList<>();
 		Path caminhoLocal = Paths.get("").toAbsolutePath();
@@ -122,7 +122,7 @@ public class AntigoSimulador {
 	}
 
 	private static void testeMemoriaCache() {
-		AntigaMemoriaCache cache = new AntigaMemoriaCache(TamanhoPHICC.T40, 4, 1, 16);
+		AntigaMemoriaCache cache = new AntigaMemoriaCache(PHICC.T40, 4, 1, 16);
 
 //		Random random = new Random();
 
@@ -196,7 +196,7 @@ public class AntigoSimulador {
 	private static void testePHICC32() {
 		int i;
 		AntigoPHICC phicc = new AntigoPHICC();
-		TamanhoPHICC tamanho = TamanhoPHICC.T32;
+		PHICC tamanho = PHICC.T32;
 		List<String> palavrasErro = new ArrayList<>();
 
 		for (i = 0; i < 256 * 256; i++) {

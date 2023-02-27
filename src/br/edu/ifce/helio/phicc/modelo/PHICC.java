@@ -4,8 +4,8 @@ import br.edu.ifce.helio.phicc.implementacao.Codificador;
 import br.edu.ifce.helio.phicc.implementacao.EntradaCodificada;
 import br.edu.ifce.helio.phicc.implementacao.EntradaCodificadaMatricial;
 
-public enum TamanhoPHICC implements Codificador {
-	T40(40) {
+public enum PHICC implements Codificador {
+	T40 {
 
 		@Override
 		public EntradaCodificada codificar(String palavra) {
@@ -163,7 +163,7 @@ public enum TamanhoPHICC implements Codificador {
 		}
 		
 	},
-	T44(44) {
+	T44 {
 
 		@Override
 		public EntradaCodificada codificar(String palavra) {
@@ -401,7 +401,7 @@ public enum TamanhoPHICC implements Codificador {
 		}
 		
 	},
-	T32(32) {
+	T32 {
 
 		@Override
 		public EntradaCodificada codificar(String palavra) {
@@ -633,7 +633,7 @@ public enum TamanhoPHICC implements Codificador {
 		}
 		
 	},
-	T36(36) {
+	T36 {
 
 		@Override
 		public EntradaCodificada codificar(String palavra) {
@@ -783,16 +783,6 @@ public enum TamanhoPHICC implements Codificador {
 		}
 		
 	};
-	
-	private int tamanho;
-	
-	TamanhoPHICC(int tamanho) {
-		this.tamanho = tamanho;
-	}
-	
-	public int getTamanho() {
-		return tamanho;
-	}
 
 	@Override
 	public abstract EntradaCodificada codificar(String palavra);

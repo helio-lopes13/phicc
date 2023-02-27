@@ -42,7 +42,7 @@ public class NovaMemoriaCache {
 
 		verificarQuantidadeErros(codificador);
 
-		if (tamanhoPalavra == 32 && codificador instanceof TamanhoPHICC) {
+		if (tamanhoPalavra == 32 && codificador instanceof PHICC) {
 			throw new RuntimeException("Tamanho de palavra inválido");
 		}
 	}
@@ -50,7 +50,7 @@ public class NovaMemoriaCache {
 	private void verificarQuantidadeErros(Codificador codificador) {
 		if (codificador instanceof TipoParidade && (quantidadeErros < 0 || quantidadeErros > 3)) {
 			throw new RuntimeException("Quantidade de erros deve ser entre 0 e 3");
-		} else if (codificador instanceof TamanhoPHICC && quantidadeErros < 1 || quantidadeErros > 8) {
+		} else if (codificador instanceof PHICC && quantidadeErros < 1 || quantidadeErros > 8) {
 			throw new RuntimeException("Quantidade de erros deve ser entre 1 e 8");
 		} else {
 			NovaEntradaMemoriaCache.setQuantidadeErros(this.quantidadeErros);

@@ -5,27 +5,27 @@ import br.edu.ifce.helio.phicc.modelo.TipoParidade;
 public class Paridade {
 	public String codificaParidade(String dados, TipoParidade tipo) {
 		switch (tipo) {
-		case PS:
+		case SEM_PARIDADE:
 			return codificaParidadeSimples(dados);
-		case PMSB:
+		case PARIDADE_MSB:
 			return codificaParidadeMSB(dados);
-		case PMSB4:
+		case PARIDADE_MSB_4:
 			return codificaParidadeMSB4(dados);
-		case PMSB8:
+		case PARIDADE_MSB_8:
 			return codificaParidadeMSB8(dados);
-		case PMSB12:
+		case PARIDADE_MSB_12:
 			return codificaParidadeMSB12(dados);
-		case PMSB16:
+		case PARIDADE_MSB_16:
 			return codificaParidadeMSB16(dados);
-		case P2MSB:
+		case PARIDADE_2_MSB:
 			return codificaParidade2MSB(dados);
-		case P2MSB4:
+		case PARIDADE_2_MSB_4:
 			return codificaParidade2MSB4(dados);
-		case P2MSB8:
+		case PARIDADE_2_MSB_8:
 			return codificaParidade2MSB8(dados);
-		case P2MSB12:
+		case PARIDADE_2_MSB_12:
 			return codificaParidade2MSB12(dados);
-		case P2MSB16:
+		case PARIDADE_2_MSB_16:
 			return codificaParidade2MSB16(dados);
 		default:
 			return null;
@@ -34,27 +34,27 @@ public class Paridade {
 
 	public String decodificaParidade(String dados, TipoParidade tipo) {
 		switch (tipo) {
-		case PS:
+		case SEM_PARIDADE:
 			return decodificaParidadeSimples(dados);
-		case PMSB:
+		case PARIDADE_MSB:
 			return decodificaParidadeMSB(dados);
-		case PMSB4:
+		case PARIDADE_MSB_4:
 			return decodificaParidadeMSB4(dados);
-		case PMSB8:
+		case PARIDADE_MSB_8:
 			return decodificaParidadeMSB8(dados);
-		case PMSB12:
+		case PARIDADE_MSB_12:
 			return decodificaParidadeMSB12(dados);
-		case PMSB16:
+		case PARIDADE_MSB_16:
 			return decodificaParidadeMSB16(dados);
-		case P2MSB:
+		case PARIDADE_2_MSB:
 			return decodificaParidade2MSB(dados);
-		case P2MSB4:
+		case PARIDADE_2_MSB_4:
 			return decodificaParidade2MSB4(dados);
-		case P2MSB8:
+		case PARIDADE_2_MSB_8:
 			return decodificaParidade2MSB8(dados);
-		case P2MSB12:
+		case PARIDADE_2_MSB_12:
 			return decodificaParidade2MSB12(dados);
-		case P2MSB16:
+		case PARIDADE_2_MSB_16:
 			return decodificaParidade2MSB16(dados);
 		default:
 			return null;

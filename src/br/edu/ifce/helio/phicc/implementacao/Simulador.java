@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Random;
 
 import br.edu.ifce.helio.phicc.modelo.NovaMemoriaCache;
-import br.edu.ifce.helio.phicc.modelo.TamanhoPHICC;
+import br.edu.ifce.helio.phicc.modelo.PHICC;
 import br.edu.ifce.helio.phicc.utils.SimuladorUtils;
 
 public class Simulador {
@@ -15,10 +15,10 @@ public class Simulador {
 	private static Integer errosSubstituidos = 0;
 
 	public static void main(String[] args) {
-		simulacao(TamanhoPHICC.T40, 8, 5, "enderecosInteiros.txt");
-		simulacao(TamanhoPHICC.T44, 8, 5, "enderecosInteiros.txt");
-		simulacao(TamanhoPHICC.T32, 8, 5, "enderecosInteiros.txt");
-		simulacao(TamanhoPHICC.T36, 8, 5, "enderecosInteiros.txt");
+		simulacao(PHICC.T40, 8, 5, "enderecosInteiros.txt");
+		simulacao(PHICC.T44, 8, 5, "enderecosInteiros.txt");
+		simulacao(PHICC.T32, 8, 5, "enderecosInteiros.txt");
+		simulacao(PHICC.T36, 8, 5, "enderecosInteiros.txt");
 	}
 
 	private static void simulacao(Codificador codificador, int tamanhoCache, int errosAdjacentes,
