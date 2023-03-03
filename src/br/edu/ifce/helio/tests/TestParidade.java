@@ -5,45 +5,45 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 import br.edu.ifce.helio.phicc.implementacao.EntradaCodificada;
-import br.edu.ifce.helio.phicc.modelo.TipoParidade;
+import br.edu.ifce.helio.phicc.modelo.Paridade;
 
 class TestParidade {
 
 	@Test
 	void testCodificaSemParidade() {
-		TipoParidade semParidade = TipoParidade.SEM_PARIDADE;
+		Paridade semParidade = Paridade.SEM_PARIDADE;
 		
-		EntradaCodificada entrada = semParidade.codificar("0001011010100101");
-		assertEquals("0001011010100101", entrada.getValor());
+		EntradaCodificada entrada = semParidade.codificar("00010110101001010001011010100101");
+		assertEquals("00010110101001010001011010100101", entrada.getValor());
 	}
 
 	@Test
 	void testDecodificaSemParidade() {
-		TipoParidade semParidade = TipoParidade.SEM_PARIDADE;
+		Paridade semParidade = Paridade.SEM_PARIDADE;
 		
-		EntradaCodificada entrada = semParidade.codificar("0001011010100101");
-		assertEquals("0001011010100101", entrada.getValor());
+		EntradaCodificada entrada = semParidade.codificar("00010110101001010001011010100101");
+		assertEquals("00010110101001010001011010100101", entrada.getValor());
 	}
 	
 	@Test
 	void testCodificaParidadeMSB() {
-		TipoParidade paridadeMSB = TipoParidade.PARIDADE_MSB;
+		Paridade paridadeMSB = Paridade.PARIDADE_MSB;
 		
-		EntradaCodificada entrada = paridadeMSB.codificar("0001011010100101");
-		assertEquals("1001011010100101", entrada.getValor());
+		EntradaCodificada entrada = paridadeMSB.codificar("00010110101001010001011010100111");
+		assertEquals("10010110101001010001011010100111", entrada.getValor());
 	}
 	
 	@Test
 	void testDecodificaParidadeMSB() {
-		TipoParidade paridadeMSB = TipoParidade.PARIDADE_MSB;
+		Paridade paridadeMSB = Paridade.PARIDADE_MSB;
 		
-		EntradaCodificada entrada = paridadeMSB.codificar("0001011010100101");
-		assertEquals("0001011010100101", paridadeMSB.decodificar(entrada));
+		EntradaCodificada entrada = paridadeMSB.codificar("00010110101001010001011010100111");
+		assertEquals("00010110101001010001011010100111", paridadeMSB.decodificar(entrada));
 	}
 	
 	@Test
 	void testCodificaParidadeMSB4() {
-		TipoParidade paridadeMSB4 = TipoParidade.PARIDADE_MSB_4;
+		Paridade paridadeMSB4 = Paridade.PARIDADE_MSB_4;
 		
 		EntradaCodificada entrada = paridadeMSB4.codificar("0001011010100111");
 		assertEquals("1001011010100111", entrada.getValor());
@@ -51,7 +51,7 @@ class TestParidade {
 	
 	@Test
 	void testDecodificaParidadeMSB4() {
-		TipoParidade paridadeMSB4 = TipoParidade.PARIDADE_MSB_4;
+		Paridade paridadeMSB4 = Paridade.PARIDADE_MSB_4;
 		
 		EntradaCodificada entrada = paridadeMSB4.codificar("0001011010100111");
 		assertEquals("0001011010100111", paridadeMSB4.decodificar(entrada));
@@ -59,7 +59,7 @@ class TestParidade {
 	
 	@Test
 	void testCodificaParidadeMSB8() {
-		TipoParidade paridadeMSB8 = TipoParidade.PARIDADE_MSB_8;
+		Paridade paridadeMSB8 = Paridade.PARIDADE_MSB_8;
 		
 		EntradaCodificada entrada = paridadeMSB8.codificar("0001011010100111");
 		assertEquals("1001011010100111", entrada.getValor());
@@ -67,7 +67,7 @@ class TestParidade {
 	
 	@Test
 	void testDecodificaParidadeMSB8() {
-		TipoParidade paridadeMSB8 = TipoParidade.PARIDADE_MSB_8;
+		Paridade paridadeMSB8 = Paridade.PARIDADE_MSB_8;
 		
 		EntradaCodificada entrada = paridadeMSB8.codificar("0001011010100111");
 		assertEquals("0001011010100111", paridadeMSB8.decodificar(entrada));
@@ -75,7 +75,7 @@ class TestParidade {
 	
 	@Test
 	void testCodificaParidadeMSB12() {
-		TipoParidade paridadeMSB12 = TipoParidade.PARIDADE_MSB_12;
+		Paridade paridadeMSB12 = Paridade.PARIDADE_MSB_12;
 		
 		EntradaCodificada entrada = paridadeMSB12.codificar("0001011010100111");
 		assertEquals("1001011010100111", entrada.getValor());
@@ -83,7 +83,7 @@ class TestParidade {
 	
 	@Test
 	void testDecodificaParidadeMSB12() {
-		TipoParidade paridadeMSB12 = TipoParidade.PARIDADE_MSB_12;
+		Paridade paridadeMSB12 = Paridade.PARIDADE_MSB_12;
 		
 		EntradaCodificada entrada = paridadeMSB12.codificar("0001011010100111");
 		assertEquals("0001011010100111", paridadeMSB12.decodificar(entrada));
@@ -91,7 +91,7 @@ class TestParidade {
 	
 	@Test
 	void testCodificaParidadeMSB16() {
-		TipoParidade paridadeMSB16 = TipoParidade.PARIDADE_MSB_16;
+		Paridade paridadeMSB16 = Paridade.PARIDADE_MSB_16;
 		
 		EntradaCodificada entrada = paridadeMSB16.codificar("0001011010100111");
 		assertEquals("1001011010100101", entrada.getValor());
@@ -99,9 +99,25 @@ class TestParidade {
 	
 	@Test
 	void testDecodificaParidadeMSB16() {
-		TipoParidade paridadeMSB16 = TipoParidade.PARIDADE_MSB_16;
+		Paridade paridadeMSB16 = Paridade.PARIDADE_MSB_16;
 		
 		EntradaCodificada entrada = paridadeMSB16.codificar("0001011010100111");
 		assertEquals("0001011010100111", paridadeMSB16.decodificar(entrada));
+	}
+	
+	@Test
+	void testCodificaParidadeMSB16ComPalavraDe32Bits() {
+		Paridade paridadeMSB16 = Paridade.PARIDADE_MSB_16;
+		
+		EntradaCodificada entrada = paridadeMSB16.codificar("00010110101001110001011010101111");
+		assertEquals("10010110101001110001011010101111", entrada.getValor());
+	}
+	
+	@Test
+	void testDecodificaParidadeMSB16ComPalavraDe32Bits() {
+		Paridade paridadeMSB16 = Paridade.PARIDADE_MSB_16;
+		
+		EntradaCodificada entrada = paridadeMSB16.codificar("00010110101001110001011010101111");
+		assertEquals("00010110101001110001011010101111", paridadeMSB16.decodificar(entrada));
 	}
 }

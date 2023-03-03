@@ -7,13 +7,13 @@ import org.junit.jupiter.api.Test;
 
 import br.edu.ifce.helio.phicc.modelo.NovaMemoriaCache;
 import br.edu.ifce.helio.phicc.modelo.PHICC;
-import br.edu.ifce.helio.phicc.modelo.TipoParidade;
+import br.edu.ifce.helio.phicc.modelo.Paridade;
 
 class TesteMemoriaCache {
 
 	@Test
 	void testNovaMemoriaCacheThrowsExceptionWhenParidadeHasMoreThanThreeInvertedBits() {
-		assertThrows(RuntimeException.class, () -> new NovaMemoriaCache(TipoParidade.SEM_PARIDADE, 8, 4));
+		assertThrows(RuntimeException.class, () -> new NovaMemoriaCache(Paridade.SEM_PARIDADE, 8, 4));
 	}
 
 	@Test
@@ -28,7 +28,7 @@ class TesteMemoriaCache {
 	
 	@Test
 	void testNovaMemoriaCacheCreatesWhenParidadeHasZeroErrors() {
-		assertNotNull(new NovaMemoriaCache(TipoParidade.SEM_PARIDADE, 8, 0));
+		assertNotNull(new NovaMemoriaCache(Paridade.SEM_PARIDADE, 8, 0));
 	}
 
 }

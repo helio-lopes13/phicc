@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Random;
 
 import br.edu.ifce.helio.phicc.modelo.NovaMemoriaCache;
-import br.edu.ifce.helio.phicc.modelo.PHICC;
+import br.edu.ifce.helio.phicc.modelo.Paridade;
 import br.edu.ifce.helio.phicc.utils.SimuladorUtils;
 
 public class Simulador {
@@ -15,10 +15,9 @@ public class Simulador {
 	private static Integer errosSubstituidos = 0;
 
 	public static void main(String[] args) {
-		simulacao(PHICC.T40, 8, 5, "enderecosInteiros.txt");
-		simulacao(PHICC.T44, 8, 5, "enderecosInteiros.txt");
-		simulacao(PHICC.T32, 8, 5, "enderecosInteiros.txt");
-		simulacao(PHICC.T36, 8, 5, "enderecosInteiros.txt");
+		simulacao(Paridade.SEM_PARIDADE, 8, 1, "traces.txt");
+		simulacao(Paridade.SEM_PARIDADE, 8, 2, "traces.txt");
+		simulacao(Paridade.SEM_PARIDADE, 8, 3, "traces.txt");
 	}
 
 	private static void simulacao(Codificador codificador, int tamanhoCache, int errosAdjacentes,
@@ -45,9 +44,19 @@ public class Simulador {
 			i++;
 		}
 
+		System.out.println("Codificador: " + codificador);
+		System.out.println("Quantidade de erros adjacentes: " + errosAdjacentes);
 		System.out.println("Falsos positivos: " + falsosPositivos);
 		System.out.println("Falsos negativos: " + falsosNegativos);
 		System.out.println("Erros substituídos: " + errosSubstituidos);
+		
+		zerarResultados();
+	}
+	
+	private static void zerarResultados() {
+		falsosPositivos = 0;
+		falsosNegativos = 0;
+		errosSubstituidos = 0;
 	}
 
 }

@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import br.edu.ifce.helio.phicc.implementacao.AntigoPHICC;
-import br.edu.ifce.helio.phicc.implementacao.Paridade;
+import br.edu.ifce.helio.phicc.implementacao.AntigaParidade;
 
 @SuppressWarnings("unused")
 public class AntigaMemoriaCache {
@@ -26,7 +26,7 @@ public class AntigaMemoriaCache {
 
 	private AntigoPHICC phicc;
 
-	private Paridade paridade;
+	private AntigaParidade paridade;
 
 	public AntigaMemoriaCache(PHICC tamanhoPHICC, Integer tamanhoCache, Integer quantidadeErros, Integer tamanhoPalavra) {
 		this.memoriaCache = new LinkedHashMap<>();
@@ -41,7 +41,7 @@ public class AntigaMemoriaCache {
 		if (tamanhoPalavra != 16 && tamanhoPalavra != 32) {
 			throw new RuntimeException("Tamanho de palavra inválido");
 		} else if (tamanhoPalavra == 32) {
-			paridade = new Paridade();
+			paridade = new AntigaParidade();
 		} else {
 			phicc = new AntigoPHICC();
 		}

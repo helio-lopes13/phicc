@@ -1,9 +1,9 @@
 package br.edu.ifce.helio.phicc.implementacao;
 
-import br.edu.ifce.helio.phicc.modelo.TipoParidade;
+import br.edu.ifce.helio.phicc.modelo.Paridade;
 
-public class Paridade {
-	public String codificaParidade(String dados, TipoParidade tipo) {
+public class AntigaParidade {
+	public String codificaParidade(String dados, Paridade tipo) {
 		switch (tipo) {
 		case SEM_PARIDADE:
 			return codificaParidadeSimples(dados);
@@ -32,7 +32,7 @@ public class Paridade {
 		}
 	}
 
-	public String decodificaParidade(String dados, TipoParidade tipo) {
+	public String decodificaParidade(String dados, Paridade tipo) {
 		switch (tipo) {
 		case SEM_PARIDADE:
 			return decodificaParidadeSimples(dados);

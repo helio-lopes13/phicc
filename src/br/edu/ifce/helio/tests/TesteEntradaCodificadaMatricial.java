@@ -59,7 +59,7 @@ class TesteEntradaCodificadaMatricial {
 				{"1", "0", "0", "0"},
 				{"1", "0", "1", "1"},
 				{"0", "0", "0", "1"} });
-			entradaMatricial.inserirErro(3);
+			entradaMatricial.inserirErro(i);
 			assertFalse(Arrays.deepEquals(valorInesperado, ((String[][]) entradaMatricial.getValor())));
 		}
 	}

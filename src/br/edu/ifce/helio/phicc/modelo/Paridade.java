@@ -4,7 +4,7 @@ import br.edu.ifce.helio.phicc.implementacao.Codificador;
 import br.edu.ifce.helio.phicc.implementacao.EntradaCodificada;
 import br.edu.ifce.helio.phicc.implementacao.EntradaCodificadaLinear;
 
-public enum TipoParidade implements Codificador {
+public enum Paridade implements Codificador {
 	SEM_PARIDADE {
 		public EntradaCodificada codificar(String palavra) {
 			return new EntradaCodificadaLinear(palavra);
@@ -12,6 +12,10 @@ public enum TipoParidade implements Codificador {
 
 		public String decodificar(EntradaCodificada entrada) {
 			return (String) entrada.getValor();
+		}
+		
+		public String toString() {
+			return "Sem Paridade";
 		}
 	},
 	PARIDADE_MSB {
@@ -42,6 +46,10 @@ public enum TipoParidade implements Codificador {
 
 			return String.valueOf(paridade);
 		}
+		
+		public String toString() {
+			return "Paridade MSB";
+		}
 
 	},
 	PARIDADE_MSB_4 {
@@ -71,6 +79,10 @@ public enum TipoParidade implements Codificador {
 
 			return String.valueOf(paridade);
 		}
+		
+		public String toString() {
+			return "Paridade MSB com 4 LSB";
+		}
 	},
 	PARIDADE_MSB_8 {
 		@Override
@@ -98,6 +110,10 @@ public enum TipoParidade implements Codificador {
 			}
 
 			return String.valueOf(paridade);
+		}
+		
+		public String toString() {
+			return "Paridade MSB com 8 LSB";
 		}
 	},
 	PARIDADE_MSB_12 {
@@ -127,6 +143,10 @@ public enum TipoParidade implements Codificador {
 
 			return String.valueOf(paridade);
 		}
+		
+		public String toString() {
+			return "Paridade MSB com 12 LSB";
+		}
 	},
 	PARIDADE_MSB_16 {
 		@Override
@@ -141,7 +161,7 @@ public enum TipoParidade implements Codificador {
 			String palavra = (String) entrada.getValor();
 
 			String[] palavraSeparada = palavra.split("");
-			palavraSeparada[0] = calcularParidade(palavraSeparada);
+			palavraSeparada[0] = String.valueOf(Integer.valueOf(palavraSeparada[0]) ^ Integer.valueOf(calcularParidade(palavraSeparada)));
 
 			return String.join("", palavraSeparada);
 		}
@@ -155,6 +175,10 @@ public enum TipoParidade implements Codificador {
 
 			return String.valueOf(paridade);
 		}
+		
+		public String toString() {
+			return "Paridade MSB com 16 LSB";
+		}
 	},
 	PARIDADE_2_MSB {
 		@Override
@@ -165,6 +189,10 @@ public enum TipoParidade implements Codificador {
 		@Override
 		public String decodificar(EntradaCodificada entrada) {
 			return (String) entrada.getValor();
+		}
+		
+		public String toString() {
+			return "Paridade 2 MSB";
 		}
 	},
 	PARIDADE_2_MSB_4 {
@@ -177,6 +205,10 @@ public enum TipoParidade implements Codificador {
 		public String decodificar(EntradaCodificada entrada) {
 			return (String) entrada.getValor();
 		}
+		
+		public String toString() {
+			return "Paridade 2 MSB com 4 LSB";
+		}
 	},
 	PARIDADE_2_MSB_8 {
 		@Override
@@ -187,6 +219,10 @@ public enum TipoParidade implements Codificador {
 		@Override
 		public String decodificar(EntradaCodificada entrada) {
 			return (String) entrada.getValor();
+		}
+		
+		public String toString() {
+			return "Paridade 2 MSB com 8 LSB";
 		}
 	},
 	PARIDADE_2_MSB_12 {
@@ -199,6 +235,10 @@ public enum TipoParidade implements Codificador {
 		public String decodificar(EntradaCodificada entrada) {
 			return (String) entrada.getValor();
 		}
+		
+		public String toString() {
+			return "Paridade 2 MSB com 12 LSB";
+		}
 	},
 	PARIDADE_2_MSB_16 {
 		@Override
@@ -209,6 +249,10 @@ public enum TipoParidade implements Codificador {
 		@Override
 		public String decodificar(EntradaCodificada entrada) {
 			return (String) entrada.getValor();
+		}
+		
+		public String toString() {
+			return "Paridade 2 MSB com 16 LSB";
 		}
 	};
 

@@ -10,9 +10,9 @@ import org.junit.jupiter.api.Test;
 import br.edu.ifce.helio.phicc.implementacao.EntradaCodificadaLinear;
 
 class TesteEntradaCodificadaLinear {
-	
+
 	private static EntradaCodificadaLinear entradaLinear;
-	
+
 	@BeforeAll
 	static void setupTest() {
 		entradaLinear = new EntradaCodificadaLinear("1101100010110001");
@@ -30,7 +30,7 @@ class TesteEntradaCodificadaLinear {
 		entradaLinear.setValor(valorEsperado);
 		assertEquals(valorEsperado, entradaLinear.getValor());
 	}
-	
+
 	@Test
 	void testThrowsRuntimeExceptionWhenSettingWrongType() {
 		assertThrows(RuntimeException.class, () -> entradaLinear.setValor(null));
