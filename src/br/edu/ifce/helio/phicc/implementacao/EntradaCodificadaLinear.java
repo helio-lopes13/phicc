@@ -2,6 +2,7 @@ package br.edu.ifce.helio.phicc.implementacao;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 public class EntradaCodificadaLinear implements EntradaCodificada {
@@ -33,6 +34,10 @@ public class EntradaCodificadaLinear implements EntradaCodificada {
 		} else {
 			throw new RuntimeException("Valor não pode estar vazio");
 		}
+	}
+	
+	public boolean valorEquals(Object valor) {
+		return this.valor.equals(valor);
 	}
 
 	public void printEntrada() {
@@ -75,6 +80,21 @@ public class EntradaCodificadaLinear implements EntradaCodificada {
 		String[] valorSeparado = valor.split("");
 		valorSeparado[posicao] = String.valueOf(Integer.parseInt(valorSeparado[posicao]) ^ 1);
 		valor = String.join("", valorSeparado);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(valor);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!(obj instanceof EntradaCodificadaLinear))
+			return false;
+		EntradaCodificadaLinear other = (EntradaCodificadaLinear) obj;
+		return Objects.equals(valor, other.valor);
 	}
 
 }

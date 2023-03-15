@@ -48,6 +48,11 @@ public class EntradaCodificadaMatricial implements EntradaCodificada {
 		}
 	}
 	
+	@Override
+	public boolean valorEquals(Object valor) {
+		return this.valor.equals(valor);
+	}
+	
 	private void inserirErroMatricial(Integer quantidadeErros) {
 		Random random = new Random();
 		int linha = 0, coluna = 0, i;

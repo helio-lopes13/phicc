@@ -1,6 +1,7 @@
 package br.edu.ifce.helio.phicc.implementacao;
 
-import java.util.List;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Random;
 
 import br.edu.ifce.helio.phicc.modelo.NovaMemoriaCache;
@@ -14,26 +15,92 @@ public class Simulador {
 
 	private static Integer errosSubstituidos = 0;
 
+	private static String nomeArquivo = "tracesMenores.txt";
+	
+	private static boolean debug = false;
+	
 	public static void main(String[] args) {
-		simulacao(Paridade.SEM_PARIDADE, 8, 1, "traces.txt");
-		simulacao(Paridade.SEM_PARIDADE, 8, 2, "traces.txt");
-		simulacao(Paridade.SEM_PARIDADE, 8, 3, "traces.txt");
+		Instant startTime = Instant.now();
+
+		Codificador paridade = Paridade.SEM_PARIDADE;
+		simulacao(paridade, 8, 1, 32);
+		simulacao(paridade, 8, 2, 32);
+		simulacao(paridade, 8, 3, 32);
+		
+		paridade = Paridade.PARIDADE_MSB;
+		simulacao(paridade, 8, 1, 32);
+		simulacao(paridade, 8, 2, 32);
+		simulacao(paridade, 8, 3, 32);
+		
+		paridade = Paridade.PARIDADE_MSB_4;
+		simulacao(paridade, 8, 1, 32);
+		simulacao(paridade, 8, 2, 32);
+		simulacao(paridade, 8, 3, 32);
+		
+		paridade = Paridade.PARIDADE_MSB_8;
+		simulacao(paridade, 8, 1, 32);
+		simulacao(paridade, 8, 2, 32);
+		simulacao(paridade, 8, 3, 32);
+		
+		paridade = Paridade.PARIDADE_MSB_12;
+		simulacao(paridade, 8, 1, 32);
+		simulacao(paridade, 8, 2, 32);
+		simulacao(paridade, 8, 3, 32);
+		
+		paridade = Paridade.PARIDADE_MSB_16;
+		simulacao(paridade, 8, 1, 32);
+		simulacao(paridade, 8, 2, 32);
+		simulacao(paridade, 8, 3, 32);
+		
+		paridade = Paridade.PARIDADE_2_MSB;
+		simulacao(paridade, 8, 1, 32);
+		simulacao(paridade, 8, 2, 32);
+		simulacao(paridade, 8, 3, 32);
+		
+		paridade = Paridade.PARIDADE_2_MSB_4;
+		simulacao(paridade, 8, 1, 32);
+		simulacao(paridade, 8, 2, 32);
+		simulacao(paridade, 8, 3, 32);
+		
+		paridade = Paridade.PARIDADE_2_MSB_8;
+		simulacao(paridade, 8, 1, 32);
+		simulacao(paridade, 8, 2, 32);
+		simulacao(paridade, 8, 3, 32);
+		
+		paridade = Paridade.PARIDADE_2_MSB_12;
+		simulacao(paridade, 8, 1, 32);
+		simulacao(paridade, 8, 2, 32);
+		simulacao(paridade, 8, 3, 32);
+		
+		paridade = Paridade.PARIDADE_2_MSB_16;
+		simulacao(paridade, 8, 1, 32);
+		simulacao(paridade, 8, 2, 32);
+		simulacao(paridade, 8, 3, 32);
+		
+		Instant endTime = Instant.now();
+		System.out.println("Tempo de execução: " + Duration.between(startTime, endTime));
 	}
 
 	private static void simulacao(Codificador codificador, int tamanhoCache, int errosAdjacentes,
-			String nomeArquivo) {
+			int tamanhoPalavra) {
+		
 		Random random = new Random();
-		List<String> linhasArquivo = SimuladorUtils.getArquivo(nomeArquivo);
+		String[] linhasArquivo = SimuladorUtils.getArquivo(nomeArquivo, tamanhoPalavra);
 		
 		int i = 0;
-		int numeroLinhas = linhasArquivo.size();
+		int numeroLinhas = linhasArquivo.length;
 
-		while (i < 500) {
-			System.out.println("Iteração " + (i + 1));
+		System.out.println("Codificador: " + codificador);
+		System.out.println("Quantidade de erros adjacentes: " + errosAdjacentes);
+
+//		int iteracoes = 807 * 8 * 32 * 5;
+		int iteracoes = 30000;
+		while (i < iteracoes) {
+			if (debug) System.out.println("Iteração " + (i + 1));
 			int linhaCacheErro = random.nextInt(tamanhoCache);
 			int linhaArquivoErro = random.nextInt(numeroLinhas);
 
-			NovaMemoriaCache cache = new NovaMemoriaCache(codificador, tamanhoCache, errosAdjacentes, 16);
+			NovaMemoriaCache cache = new NovaMemoriaCache(codificador, tamanhoCache, errosAdjacentes, tamanhoPalavra);
 
 			if (cache.simulacao(linhasArquivo, linhaArquivoErro, linhaCacheErro)) {
 				falsosPositivos += cache.falsosPositivos;
@@ -44,11 +111,10 @@ public class Simulador {
 			i++;
 		}
 
-		System.out.println("Codificador: " + codificador);
-		System.out.println("Quantidade de erros adjacentes: " + errosAdjacentes);
 		System.out.println("Falsos positivos: " + falsosPositivos);
 		System.out.println("Falsos negativos: " + falsosNegativos);
 		System.out.println("Erros substituídos: " + errosSubstituidos);
+		System.out.println();
 		
 		zerarResultados();
 	}

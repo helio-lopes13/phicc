@@ -12,20 +12,28 @@ import java.util.stream.Collectors;
 public class SimuladorUtils {
 	static Path caminhoLocal = Paths.get("").toAbsolutePath();
 	
-	public static List<String> getArquivo(String nomeArquivo) {
-		List<String> linhasArquivo = Arrays.asList("");
-		try {
-			linhasArquivo = Files.readAllLines(new File(caminhoLocal.toFile(), nomeArquivo).toPath());
-		} catch (IOException exception) {
-			System.out.println("Erro lendo o arquivo de traces");
-			exception.printStackTrace();
+	static List<String> linhasArquivo  = Arrays.asList();
+	
+	public static String[] getArquivo(String nomeArquivo, int tamanhoPalavra) {
+		int byteTamanho = tamanhoPalavra == 16 ? 0x0000FFFF : 0xFFFFFFFF;
+		String formatacao = "%" + tamanhoPalavra + "s";
+		
+		if (linhasArquivo.isEmpty()) {
+			try {
+				linhasArquivo = Files.readAllLines(new File(caminhoLocal.toFile(), nomeArquivo).toPath());
+			} catch (IOException exception) {
+				System.out.println("Erro lendo o arquivo de traces");
+				exception.printStackTrace();
+			}
+			
+			linhasArquivo = linhasArquivo
+					.stream().map(linha -> String
+							.format(formatacao, Integer.toBinaryString(Integer.parseInt(linha) & byteTamanho)).replace(" ", "0"))
+					.collect(Collectors.toList());
 		}
 		
-		linhasArquivo = linhasArquivo
-				.stream().map(linha -> String
-						.format("%16s", Integer.toBinaryString(Integer.parseInt(linha) & 0x0000FFFF)).replace(" ", "0"))
-				.collect(Collectors.toList());
+		String[] arrayLinhas = new String[linhasArquivo.size()];
 		
-		return linhasArquivo;
+		return linhasArquivo.toArray(arrayLinhas);
 	}
 }

@@ -10,4 +10,6 @@ public interface EntradaCodificada {
 
 	void printEntrada();
 
+	boolean valorEquals(Object valor);
+
 }
