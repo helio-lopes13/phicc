@@ -9,6 +9,8 @@ public interface EntradaCodificada {
 	void inserirErro(Integer quantidadeErros);
 
 	void printEntrada();
+	
+	void printPosicoes();
 
 	boolean valorEquals(Object valor);
 

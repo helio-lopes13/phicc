@@ -7,7 +7,9 @@ import java.util.Random;
 
 public class EntradaCodificadaLinear implements EntradaCodificada {
 	private String valor = null;
-	
+
+	private List<Integer> posicoes = new ArrayList<>();
+
 	public EntradaCodificadaLinear(String valor) {
 		setValor(valor);
 	}
@@ -19,7 +21,7 @@ public class EntradaCodificadaLinear implements EntradaCodificada {
 			return null;
 		}
 	}
-	
+
 	public void setValor(Object valor) {
 		if (valor instanceof String) {
 			this.valor = (String) valor;
@@ -27,7 +29,7 @@ public class EntradaCodificadaLinear implements EntradaCodificada {
 			throw new RuntimeException("Tipo de valor inválido");
 		}
 	}
-	
+
 	public void inserirErro(Integer quantidadeErros) {
 		if (valor != null) {
 			inserirErroLinear(quantidadeErros);
@@ -35,7 +37,7 @@ public class EntradaCodificadaLinear implements EntradaCodificada {
 			throw new RuntimeException("Valor não pode estar vazio");
 		}
 	}
-	
+
 	public boolean valorEquals(Object valor) {
 		return this.valor.equals(valor);
 	}
@@ -43,28 +45,40 @@ public class EntradaCodificadaLinear implements EntradaCodificada {
 	public void printEntrada() {
 		System.out.println(valor);
 	}
-	
+
+	public void printPosicoes() {
+		System.out.println("Erro nas posicoes:");
+		for (Integer posicao : posicoes) {
+			System.out.println("" + posicao);
+		}
+	}
+
 	private void inserirErroLinear(int quantidadeErros) {
 		Random random = new Random();
 		int posicaoInicial = 0, i;
-		
+
 		List<Integer> posicoes = null;
-		
+		List<Integer> todasPosicoes = new ArrayList<>();
+
 		do {
 			posicaoInicial = random.nextInt(valor.length());
 			posicoes = extrairVizinhos(posicaoInicial);
 		} while (quantidadeErros > posicoes.size() + 1);
-		
+
 		inverteBit(posicaoInicial);
+		todasPosicoes.add(posicaoInicial);
 		for (i = 1; i <= quantidadeErros - 1; i++) {
 			int posicao = posicoes.remove(random.nextInt(posicoes.size()));
+			todasPosicoes.add(posicao);
 			inverteBit(posicao);
 		}
+		
+		this.posicoes = todasPosicoes;
 	}
-	
+
 	private List<Integer> extrairVizinhos(int posicao) {
 		List<Integer> posicoes = new ArrayList<>();
-		
+
 		for (int i = -1; i <= 1; i++) {
 			if (i != 0) {
 				if (posicao + i >= 0 && posicao + i < valor.length()) {
@@ -72,10 +86,10 @@ public class EntradaCodificadaLinear implements EntradaCodificada {
 				}
 			}
 		}
-		
+
 		return posicoes;
 	}
-	
+
 	private void inverteBit(int posicao) {
 		String[] valorSeparado = valor.split("");
 		valorSeparado[posicao] = String.valueOf(Integer.parseInt(valorSeparado[posicao]) ^ 1);

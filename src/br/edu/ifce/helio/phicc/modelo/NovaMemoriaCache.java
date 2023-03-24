@@ -4,9 +4,11 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Scanner;
 
 import br.edu.ifce.helio.phicc.implementacao.Codificador;
 import br.edu.ifce.helio.phicc.implementacao.EntradaCodificada;
+import br.edu.ifce.helio.phicc.utils.SimuladorUtils;
 
 public class NovaMemoriaCache {
 
@@ -26,7 +28,7 @@ public class NovaMemoriaCache {
 
 	public Integer errosSubstituidos = 0;
 	
-	public boolean debug = false;
+	public static boolean debug = false;
 
 	public NovaMemoriaCache(Codificador codificador, Integer tamanhoCache, Integer quantidadeErros) {
 		memoriaCache = new LinkedHashMap<>();
@@ -58,8 +60,10 @@ public class NovaMemoriaCache {
 		}
 	}
 	
-	public boolean simulacao(String[] linhas, int linhaArquivoErro, int linhaCacheErro) {
-		for (int i = 0; i < linhas.length; i++) {
+	public boolean simulacao(Scanner scannerArquivo, long linhaArquivoErro, int linhaCacheErro) {
+		int i = 0;
+		while (scannerArquivo.hasNextLine()) {
+			String linha = SimuladorUtils.linhaFormatada(scannerArquivo.nextLine(), tamanhoPalavra);
 			if (i == linhaArquivoErro) {
 				int j = 0;
 				Iterator<NovaEntradaMemoriaCache> iteradorMemoria = memoriaCache.values().iterator();
@@ -78,11 +82,12 @@ public class NovaMemoriaCache {
 					return true;
 				}
 			}
-			String linha = obterLinhaDoArquivo(linhas, i);
+			verificarTamanhoLinha(linha);
 
 			if (lerCache(linha, linhaArquivoErro, linhaCacheErro)) {
 				return true;
 			}
+			i++;
 		}
 
 		if (debug) {
@@ -93,19 +98,21 @@ public class NovaMemoriaCache {
 		return false;
 	}
 
-	public boolean lerCache(String tag, int linhaArquivoErro, int linhaCacheErro) {
+	public boolean lerCache(String vpn, long linhaArquivoErro, int linhaCacheErro) {
 		// memoriaCache.values().stream().forEach(entrada -> entrada.incrementarContadorCache());
 
 		for (Entry<String, NovaEntradaMemoriaCache> entradaCache : memoriaCache.entrySet()) {
 			String vpnOriginal = entradaCache.getKey();
 			NovaEntradaMemoriaCache entradaAtual = entradaCache.getValue();
 			EntradaCodificada entradaCodificada = entradaAtual.getEntradaCodificada();
-			EntradaCodificada vpnCodificada = codificador.codificar(tag);
+			EntradaCodificada vpnCodificada = codificador.codificar(vpn);
 			
-			if (!tag.equals(vpnOriginal) && entradaAtual.isErro() && entradaCodificada.equals(vpnCodificada)) {
+			if (!vpn.equals(vpnOriginal) && entradaAtual.isErro() && entradaCodificada.equals(vpnCodificada)) {
 				if (debug) {
 					System.out.println("Falso positivo");
-					System.out.println("Tag: " + tag);
+					System.out.println("VPN solicitada: " + vpn);
+					System.out.print("VPN codificada: ");
+					vpnCodificada.printEntrada();
 					System.out.println(
 							String.format("Linha do arquivo com erro: %d\nLinha da cache a ter erro inserido: %d",
 									linhaArquivoErro, linhaCacheErro));
@@ -116,19 +123,19 @@ public class NovaMemoriaCache {
 			}
 		}
 
-		if (memoriaCache.containsKey(tag)) {
-			NovaEntradaMemoriaCache entrada = memoriaCache.get(tag);
+		if (memoriaCache.containsKey(vpn)) {
+			NovaEntradaMemoriaCache entrada = memoriaCache.get(vpn);
 
-			if (!entrada.getEntradaCodificada().equals(codificador.codificar(tag))) {
+			if (!entrada.getEntradaCodificada().equals(codificador.codificar(vpn))) {
 				if (debug) System.out.println("Falso negativo");
 				falsosNegativos++;
 				return true;
 			}
 			// entrada.incrementarContadorAcesso();
-			memoriaCache.remove(tag);
-			memoriaCache.put(tag, entrada);
+			memoriaCache.remove(vpn);
+			memoriaCache.put(vpn, entrada);
 		} else {
-			if (escreverCache(tag)) {
+			if (escreverCache(vpn)) {
 				return true;
 			}
 		}
@@ -144,8 +151,9 @@ public class NovaMemoriaCache {
 
 			if (entrada.isErro()) {
 				System.out.println("Entrada com erro");
+				entrada.printPosicoes();
 			}
-			System.out.println("VPN original: " + vpnOriginal);
+			System.out.println("VPN originaria: " + vpnOriginal);
 			System.out.print("VPN codificada: ");
 			vpnCodificada.printEntrada();
 			System.out.println("VPN decodificada: " + codificador.decodificar(vpnCodificada));
@@ -184,13 +192,10 @@ public class NovaMemoriaCache {
 		return false;
 	}
 	
-	private String obterLinhaDoArquivo(String[] linhas, int i) {
-		String linha = linhas[i];
-		
+	private void verificarTamanhoLinha(String linha) {
 		if (linha.length() != tamanhoPalavra) {
 			throw new RuntimeException("Tamanho da palavra difere do estabelecido.");
 		}
-		return linha;
 	}
 	
 }

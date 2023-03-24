@@ -3,6 +3,7 @@ package br.edu.ifce.helio.phicc.implementacao;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Random;
+import java.util.Scanner;
 
 import br.edu.ifce.helio.phicc.modelo.NovaMemoriaCache;
 import br.edu.ifce.helio.phicc.modelo.Paridade;
@@ -15,7 +16,7 @@ public class Simulador {
 
 	private static Integer errosSubstituidos = 0;
 
-	private static String nomeArquivo = "tracesMenores.txt";
+	private static String nomeArquivo = "traces.txt";
 	
 	private static boolean debug = false;
 	
@@ -61,7 +62,7 @@ public class Simulador {
 		simulacao(paridade, 8, 1, 32);
 		simulacao(paridade, 8, 2, 32);
 		simulacao(paridade, 8, 3, 32);
-		
+//		
 		paridade = Paridade.PARIDADE_2_MSB_8;
 		simulacao(paridade, 8, 1, 32);
 		simulacao(paridade, 8, 2, 32);
@@ -76,7 +77,7 @@ public class Simulador {
 		simulacao(paridade, 8, 1, 32);
 		simulacao(paridade, 8, 2, 32);
 		simulacao(paridade, 8, 3, 32);
-		
+//		
 		Instant endTime = Instant.now();
 		System.out.println("Tempo de execução: " + Duration.between(startTime, endTime));
 	}
@@ -85,24 +86,26 @@ public class Simulador {
 			int tamanhoPalavra) {
 		
 		Random random = new Random();
-		String[] linhasArquivo = SimuladorUtils.getArquivo(nomeArquivo, tamanhoPalavra);
 		
 		int i = 0;
-		int numeroLinhas = linhasArquivo.length;
+		
+		SimuladorUtils.gerarArquivo(nomeArquivo);
+		long numeroLinhas = SimuladorUtils.getNumeroLinhas();
 
 		System.out.println("Codificador: " + codificador);
 		System.out.println("Quantidade de erros adjacentes: " + errosAdjacentes);
 
 //		int iteracoes = 807 * 8 * 32 * 5;
-		int iteracoes = 30000;
+		int iteracoes = 30;
 		while (i < iteracoes) {
-			if (debug) System.out.println("Iteração " + (i + 1));
+			System.out.println("Iteração " + (i + 1));
 			int linhaCacheErro = random.nextInt(tamanhoCache);
-			int linhaArquivoErro = random.nextInt(numeroLinhas);
+			long linhaArquivoErro = random.nextLong(numeroLinhas);
 
 			NovaMemoriaCache cache = new NovaMemoriaCache(codificador, tamanhoCache, errosAdjacentes, tamanhoPalavra);
+			Scanner scannerArquivo = SimuladorUtils.getArquivo(nomeArquivo, tamanhoPalavra);
 
-			if (cache.simulacao(linhasArquivo, linhaArquivoErro, linhaCacheErro)) {
+			if (cache.simulacao(scannerArquivo, linhaArquivoErro, linhaCacheErro)) {
 				falsosPositivos += cache.falsosPositivos;
 				falsosNegativos += cache.falsosNegativos;
 				errosSubstituidos += cache.errosSubstituidos;

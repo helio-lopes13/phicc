@@ -6,6 +6,8 @@ import java.util.Random;
 
 public class EntradaCodificadaMatricial implements EntradaCodificada {
 	private String[][] valor = null;
+
+	private List<int[]> posicoes;
 	
 	public EntradaCodificadaMatricial(String[][] valor) {
 		setValor(valor);
@@ -47,6 +49,13 @@ public class EntradaCodificadaMatricial implements EntradaCodificada {
 			System.out.println();
 		}
 	}
+
+	public void printPosicoes() {
+		System.out.println("Erro nas posições:");
+		for (int[] posicao : posicoes) {
+			System.out.println("[" + posicao[0] + "][" + posicao[1] + "]");
+		}
+	}
 	
 	@Override
 	public boolean valorEquals(Object valor) {
@@ -75,6 +84,8 @@ public class EntradaCodificadaMatricial implements EntradaCodificada {
 			todasPosicoes.add(posicao);
 			inverteBit(posicao);
 		}
+		
+		this.posicoes = todasPosicoes;
 	}
 
 	private List<int[]> extrairVizinhos(int linha, int coluna) {
