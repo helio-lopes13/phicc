@@ -18,9 +18,9 @@ public class Simulador {
 	private static int semIntercorrencias = 0;
 
 	private static String nomeArquivo = "lista_traces_menores.txt";
-	
+
 	private static boolean debug = false;
-	
+
 	public static void main(String[] args) {
 		Instant startTime = Instant.now();
 
@@ -28,84 +28,80 @@ public class Simulador {
 		simulacao(paridade, 8, 1, 32);
 		simulacao(paridade, 8, 2, 32);
 		simulacao(paridade, 8, 3, 32);
-		
+
 		paridade = Paridade.PARIDADE_MSB;
 		simulacao(paridade, 8, 1, 32);
 		simulacao(paridade, 8, 2, 32);
 		simulacao(paridade, 8, 3, 32);
-		
+
 		paridade = Paridade.PARIDADE_MSB_4;
 		simulacao(paridade, 8, 1, 32);
 		simulacao(paridade, 8, 2, 32);
 		simulacao(paridade, 8, 3, 32);
-		
+
 		paridade = Paridade.PARIDADE_MSB_8;
 		simulacao(paridade, 8, 1, 32);
 		simulacao(paridade, 8, 2, 32);
 		simulacao(paridade, 8, 3, 32);
-		
+
 		paridade = Paridade.PARIDADE_MSB_12;
 		simulacao(paridade, 8, 1, 32);
 		simulacao(paridade, 8, 2, 32);
 		simulacao(paridade, 8, 3, 32);
-		
+
 		paridade = Paridade.PARIDADE_MSB_16;
 		simulacao(paridade, 8, 1, 32);
 		simulacao(paridade, 8, 2, 32);
 		simulacao(paridade, 8, 3, 32);
-		
+
 		paridade = Paridade.PARIDADE_2_MSB;
 		simulacao(paridade, 8, 1, 32);
 		simulacao(paridade, 8, 2, 32);
 		simulacao(paridade, 8, 3, 32);
-		
+
 		paridade = Paridade.PARIDADE_2_MSB_4;
 		simulacao(paridade, 8, 1, 32);
 		simulacao(paridade, 8, 2, 32);
 		simulacao(paridade, 8, 3, 32);
-		
+
 		paridade = Paridade.PARIDADE_2_MSB_8;
 		simulacao(paridade, 8, 1, 32);
 		simulacao(paridade, 8, 2, 32);
 		simulacao(paridade, 8, 3, 32);
-		
+
 		paridade = Paridade.PARIDADE_2_MSB_12;
 		simulacao(paridade, 8, 1, 32);
 		simulacao(paridade, 8, 2, 32);
 		simulacao(paridade, 8, 3, 32);
-		
+
 		paridade = Paridade.PARIDADE_2_MSB_16;
 		simulacao(paridade, 8, 1, 32);
 		simulacao(paridade, 8, 2, 32);
 		simulacao(paridade, 8, 3, 32);
-		
+
 		Instant endTime = Instant.now();
 		System.out.println("Tempo de execução: " + Duration.between(startTime, endTime));
 	}
 
-	private static void simulacao(Codificador codificador, int tamanhoCache, int errosAdjacentes,
-			int tamanhoPalavra) {
-		
+	private static void simulacao(Codificador codificador, int tamanhoCache, int errosAdjacentes, int tamanhoPalavra) {
+
 		Random random = new Random();
-		String[] linhasArquivo = SimuladorUtils.getArquivo(nomeArquivo, tamanhoPalavra);
-		
 		int i = 0;
-		int numeroLinhas = linhasArquivo.length;
+		String[] linhas = SimuladorUtils.getArquivo(nomeArquivo, tamanhoPalavra);
 
 		System.out.println("Codificador: " + codificador);
 		System.out.println("Quantidade de erros adjacentes: " + errosAdjacentes);
 
-//		int iteracoes = 807 * 8 * 32 * 5;
 		int iteracoes = 30000;
 		Instant inicio = Instant.now();
 		while (i < iteracoes) {
 			if (debug) System.out.println("Iteração " + (i + 1));
 			int linhaCacheErro = random.nextInt(tamanhoCache);
-			int linhaArquivoErro = random.nextInt(numeroLinhas);
+			int linhaArquivoErro = random.nextInt(linhas.length);
 
 			NovaMemoriaCache cache = new NovaMemoriaCache(codificador, tamanhoCache, errosAdjacentes, tamanhoPalavra);
 
-			if (cache.simulacao(linhasArquivo, linhaArquivoErro, linhaCacheErro)) {
+			if (cache.simulacao(linhas, linhaArquivoErro, linhaCacheErro)) {
 				falsosPositivos += cache.falsosPositivos;
 				falsosNegativos += cache.falsosNegativos;
 				errosSubstituidos += cache.errosSubstituidos;
@@ -113,7 +109,7 @@ public class Simulador {
 			} else {
 				semIntercorrencias += cache.semIntercorrencias;
 			}
-			
+
 			if (debug && (i + 1) % 3000 == 0) {
 				System.out.println("Duração da simulação: " + Duration.between(inicio, Instant.now()));
 				inicio = Instant.now();
@@ -127,10 +123,10 @@ public class Simulador {
 		System.out.println("Erros substituídos: " + errosSubstituidos);
 		System.out.println("Não-intercorrências: " + semIntercorrencias);
 		System.out.println();
-		
+
 		zerarResultados();
 	}
-	
+
 	private static void zerarResultados() {
 		falsosPositivos = 0;
 		falsosNegativos = 0;

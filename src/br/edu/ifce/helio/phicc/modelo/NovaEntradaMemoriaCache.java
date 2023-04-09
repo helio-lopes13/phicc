@@ -1,8 +1,5 @@
 package br.edu.ifce.helio.phicc.modelo;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import br.edu.ifce.helio.phicc.implementacao.EntradaCodificada;
 
 public class NovaEntradaMemoriaCache {
@@ -16,8 +13,6 @@ public class NovaEntradaMemoriaCache {
 	private Integer contadorAcessos = 1;
 
 	private Integer contadorCache = 1;
-
-	private List<int[]> listaPosicoes = new ArrayList<>();
 
 	public static Integer getQuantidadeErros() {
 		return quantidadeErros;
@@ -68,10 +63,7 @@ public class NovaEntradaMemoriaCache {
 	}
 
 	public void printPosicoes() {
-		System.out.println("Erro nas posições:");
-		for (int[] posicao : listaPosicoes) {
-			System.out.println("[" + posicao[0] + "][" + posicao[1] + "]");
-		}
+		entradaCodificada.printPosicoes();
 	}
 
 	public void inserirErro() {
