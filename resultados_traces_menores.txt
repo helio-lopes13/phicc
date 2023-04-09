@@ -1,0 +1,232 @@
+Codificador: Sem Paridade
+Quantidade de erros adjacentes: 1
+Falsos positivos: 237
+Falsos negativos: 2762
+Erros substituídos: 26657
+Não-intercorrências: 344
+
+Codificador: Sem Paridade
+Quantidade de erros adjacentes: 2
+Falsos positivos: 122
+Falsos negativos: 2739
+Erros substituídos: 26840
+Não-intercorrências: 299
+
+Codificador: Sem Paridade
+Quantidade de erros adjacentes: 3
+Falsos positivos: 40
+Falsos negativos: 2797
+Erros substituídos: 26833
+Não-intercorrências: 330
+
+Codificador: Paridade MSB
+Quantidade de erros adjacentes: 1
+Falsos positivos: 0
+Falsos negativos: 2704
+Erros substituídos: 26976
+Não-intercorrências: 320
+
+Codificador: Paridade MSB
+Quantidade de erros adjacentes: 2
+Falsos positivos: 110
+Falsos negativos: 2716
+Erros substituídos: 26839
+Não-intercorrências: 335
+
+Codificador: Paridade MSB
+Quantidade de erros adjacentes: 3
+Falsos positivos: 0
+Falsos negativos: 2798
+Erros substituídos: 26854
+Não-intercorrências: 348
+
+Codificador: Paridade MSB com 4 LSB
+Quantidade de erros adjacentes: 1
+Falsos positivos: 15
+Falsos negativos: 2844
+Erros substituídos: 26843
+Não-intercorrências: 298
+
+Codificador: Paridade MSB com 4 LSB
+Quantidade de erros adjacentes: 2
+Falsos positivos: 119
+Falsos negativos: 2713
+Erros substituídos: 26815
+Não-intercorrências: 353
+
+Codificador: Paridade MSB com 4 LSB
+Quantidade de erros adjacentes: 3
+Falsos positivos: 0
+Falsos negativos: 2723
+Erros substituídos: 26979
+Não-intercorrências: 298
+
+Codificador: Paridade MSB com 8 LSB
+Quantidade de erros adjacentes: 1
+Falsos positivos: 11
+Falsos negativos: 2786
+Erros substituídos: 26878
+Não-intercorrências: 325
+
+Codificador: Paridade MSB com 8 LSB
+Quantidade de erros adjacentes: 2
+Falsos positivos: 123
+Falsos negativos: 2762
+Erros substituídos: 26798
+Não-intercorrências: 317
+
+Codificador: Paridade MSB com 8 LSB
+Quantidade de erros adjacentes: 3
+Falsos positivos: 0
+Falsos negativos: 2750
+Erros substituídos: 26930
+Não-intercorrências: 320
+
+Codificador: Paridade MSB com 12 LSB
+Quantidade de erros adjacentes: 1
+Falsos positivos: 0
+Falsos negativos: 2799
+Erros substituídos: 26895
+Não-intercorrências: 306
+
+Codificador: Paridade MSB com 12 LSB
+Quantidade de erros adjacentes: 2
+Falsos positivos: 107
+Falsos negativos: 2701
+Erros substituídos: 26882
+Não-intercorrências: 310
+
+Codificador: Paridade MSB com 12 LSB
+Quantidade de erros adjacentes: 3
+Falsos positivos: 0
+Falsos negativos: 2720
+Erros substituídos: 26957
+Não-intercorrências: 323
+
+Codificador: Paridade MSB com 16 LSB
+Quantidade de erros adjacentes: 1
+Falsos positivos: 0
+Falsos negativos: 2716
+Erros substituídos: 26952
+Não-intercorrências: 332
+
+Codificador: Paridade MSB com 16 LSB
+Quantidade de erros adjacentes: 2
+Falsos positivos: 137
+Falsos negativos: 2710
+Erros substituídos: 26866
+Não-intercorrências: 287
+
+Codificador: Paridade MSB com 16 LSB
+Quantidade de erros adjacentes: 3
+Falsos positivos: 0
+Falsos negativos: 2781
+Erros substituídos: 26912
+Não-intercorrências: 307
+
+Codificador: Paridade 2 MSB
+Quantidade de erros adjacentes: 1
+Falsos positivos: 0
+Falsos negativos: 2763
+Erros substituídos: 26922
+Não-intercorrências: 315
+
+Codificador: Paridade 2 MSB
+Quantidade de erros adjacentes: 2
+Falsos positivos: 0
+Falsos negativos: 2753
+Erros substituídos: 26932
+Não-intercorrências: 315
+
+Codificador: Paridade 2 MSB
+Quantidade de erros adjacentes: 3
+Falsos positivos: 0
+Falsos negativos: 2806
+Erros substituídos: 26877
+Não-intercorrências: 317
+
+Codificador: Paridade 2 MSB com 4 LSB
+Quantidade de erros adjacentes: 1
+Falsos positivos: 12
+Falsos negativos: 2729
+Erros substituídos: 26914
+Não-intercorrências: 345
+
+Codificador: Paridade 2 MSB com 4 LSB
+Quantidade de erros adjacentes: 2
+Falsos positivos: 9
+Falsos negativos: 2845
+Erros substituídos: 26832
+Não-intercorrências: 314
+
+Codificador: Paridade 2 MSB com 4 LSB
+Quantidade de erros adjacentes: 3
+Falsos positivos: 0
+Falsos negativos: 2698
+Erros substituídos: 26983
+Não-intercorrências: 319
+
+Codificador: Paridade 2 MSB com 8 LSB
+Quantidade de erros adjacentes: 1
+Falsos positivos: 21
+Falsos negativos: 2711
+Erros substituídos: 26958
+Não-intercorrências: 310
+
+Codificador: Paridade 2 MSB com 8 LSB
+Quantidade de erros adjacentes: 2
+Falsos positivos: 0
+Falsos negativos: 2764
+Erros substituídos: 26903
+Não-intercorrências: 333
+
+Codificador: Paridade 2 MSB com 8 LSB
+Quantidade de erros adjacentes: 3
+Falsos positivos: 0
+Falsos negativos: 2892
+Erros substituídos: 26773
+Não-intercorrências: 335
+
+Codificador: Paridade 2 MSB com 12 LSB
+Quantidade de erros adjacentes: 1
+Falsos positivos: 0
+Falsos negativos: 2749
+Erros substituídos: 26928
+Não-intercorrências: 323
+
+Codificador: Paridade 2 MSB com 12 LSB
+Quantidade de erros adjacentes: 2
+Falsos positivos: 0
+Falsos negativos: 2803
+Erros substituídos: 26918
+Não-intercorrências: 279
+
+Codificador: Paridade 2 MSB com 12 LSB
+Quantidade de erros adjacentes: 3
+Falsos positivos: 0
+Falsos negativos: 2684
+Erros substituídos: 26974
+Não-intercorrências: 342
+
+Codificador: Paridade 2 MSB com 16 LSB
+Quantidade de erros adjacentes: 1
+Falsos positivos: 0
+Falsos negativos: 2798
+Erros substituídos: 26925
+Não-intercorrências: 277
+
+Codificador: Paridade 2 MSB com 16 LSB
+Quantidade de erros adjacentes: 2
+Falsos positivos: 0
+Falsos negativos: 2795
+Erros substituídos: 26883
+Não-intercorrências: 322
+
+Codificador: Paridade 2 MSB com 16 LSB
+Quantidade de erros adjacentes: 3
+Falsos positivos: 0
+Falsos negativos: 2747
+Erros substituídos: 26946
+Não-intercorrências: 307
+
+Tempo de execução: PT18.5773298S

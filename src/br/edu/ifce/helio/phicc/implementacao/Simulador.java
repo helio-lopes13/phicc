@@ -9,13 +9,15 @@ import br.edu.ifce.helio.phicc.modelo.Paridade;
 import br.edu.ifce.helio.phicc.utils.SimuladorUtils;
 
 public class Simulador {
-	private static Integer falsosPositivos = 0;
+	private static int falsosPositivos = 0;
 
-	private static Integer falsosNegativos = 0;
+	private static int falsosNegativos = 0;
 
-	private static Integer errosSubstituidos = 0;
+	private static int errosSubstituidos = 0;
 
-	private static String nomeArquivo = "tracesMenores.txt";
+	private static int semIntercorrencias = 0;
+
+	private static String nomeArquivo = "lista_traces_menores.txt";
 	
 	private static boolean debug = false;
 	
@@ -95,6 +97,7 @@ public class Simulador {
 
 //		int iteracoes = 807 * 8 * 32 * 5;
 		int iteracoes = 30000;
+		Instant inicio = Instant.now();
 		while (i < iteracoes) {
 			if (debug) System.out.println("Iteração " + (i + 1));
 			int linhaCacheErro = random.nextInt(tamanhoCache);
@@ -106,6 +109,14 @@ public class Simulador {
 				falsosPositivos += cache.falsosPositivos;
 				falsosNegativos += cache.falsosNegativos;
 				errosSubstituidos += cache.errosSubstituidos;
+				semIntercorrencias += cache.semIntercorrencias;
+			} else {
+				semIntercorrencias += cache.semIntercorrencias;
+			}
+			
+			if (debug && (i + 1) % 3000 == 0) {
+				System.out.println("Duração da simulação: " + Duration.between(inicio, Instant.now()));
+				inicio = Instant.now();
 			}
 
 			i++;
@@ -114,6 +125,7 @@ public class Simulador {
 		System.out.println("Falsos positivos: " + falsosPositivos);
 		System.out.println("Falsos negativos: " + falsosNegativos);
 		System.out.println("Erros substituídos: " + errosSubstituidos);
+		System.out.println("Não-intercorrências: " + semIntercorrencias);
 		System.out.println();
 		
 		zerarResultados();
@@ -123,6 +135,7 @@ public class Simulador {
 		falsosPositivos = 0;
 		falsosNegativos = 0;
 		errosSubstituidos = 0;
+		semIntercorrencias = 0;
 	}
 
 }

@@ -1,5 +1,8 @@
 package br.edu.ifce.helio.phicc.modelo;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import br.edu.ifce.helio.phicc.implementacao.Codificador;
 import br.edu.ifce.helio.phicc.implementacao.EntradaCodificada;
 import br.edu.ifce.helio.phicc.implementacao.EntradaCodificadaLinear;
@@ -7,7 +10,11 @@ import br.edu.ifce.helio.phicc.implementacao.EntradaCodificadaLinear;
 public enum Paridade implements Codificador {
 	SEM_PARIDADE {
 		public EntradaCodificada codificar(String palavra) {
-			return new EntradaCodificadaLinear(palavra);
+			if (tabelaEntradas.containsKey(palavra)) {
+				return new EntradaCodificadaLinear(tabelaEntradas.get(palavra));
+			}
+			tabelaEntradas.put(palavra, palavra);
+			return new EntradaCodificadaLinear(tabelaEntradas.get(palavra));
 		}
 
 		public String decodificar(EntradaCodificada entrada) {
@@ -22,9 +29,13 @@ public enum Paridade implements Codificador {
 
 		@Override
 		public EntradaCodificada codificar(String palavra) {
+			if (tabelaEntradas.containsKey(palavra)) {
+				return new EntradaCodificadaLinear(tabelaEntradas.get(palavra));
+			}
 			String[] palavraSeparada = palavra.split("");
 			palavraSeparada[0] = calcularParidade(palavraSeparada);
-			return new EntradaCodificadaLinear(String.join("", palavraSeparada));
+			tabelaEntradas.put(palavra, String.join("", palavraSeparada));
+			return new EntradaCodificadaLinear(tabelaEntradas.get(palavra));
 		}
 
 		@Override
@@ -55,8 +66,12 @@ public enum Paridade implements Codificador {
 	PARIDADE_MSB_4 {
 		@Override
 		public EntradaCodificada codificar(String palavra) {
+			if (tabelaEntradas.containsKey(palavra)) {
+				return new EntradaCodificadaLinear(tabelaEntradas.get(palavra));
+			}
 			String[] palavraSeparada = palavra.split("");
 			palavraSeparada[0] = calcularParidade(palavraSeparada);
+			tabelaEntradas.put(palavra, String.join("", palavraSeparada));
 			return new EntradaCodificadaLinear(String.join("", palavraSeparada));
 		}
 
@@ -87,8 +102,12 @@ public enum Paridade implements Codificador {
 	PARIDADE_MSB_8 {
 		@Override
 		public EntradaCodificada codificar(String palavra) {
+			if (tabelaEntradas.containsKey(palavra)) {
+				return new EntradaCodificadaLinear(tabelaEntradas.get(palavra));
+			}
 			String[] palavraSeparada = palavra.split("");
 			palavraSeparada[0] = calcularParidade(palavraSeparada);
+			tabelaEntradas.put(palavra, String.join("", palavraSeparada));
 			return new EntradaCodificadaLinear(String.join("", palavraSeparada));
 		}
 
@@ -119,8 +138,12 @@ public enum Paridade implements Codificador {
 	PARIDADE_MSB_12 {
 		@Override
 		public EntradaCodificada codificar(String palavra) {
+			if (tabelaEntradas.containsKey(palavra)) {
+				return new EntradaCodificadaLinear(tabelaEntradas.get(palavra));
+			}
 			String[] palavraSeparada = palavra.split("");
 			palavraSeparada[0] = calcularParidade(palavraSeparada);
+			tabelaEntradas.put(palavra, String.join("", palavraSeparada));
 			return new EntradaCodificadaLinear(String.join("", palavraSeparada));
 		}
 
@@ -151,8 +174,12 @@ public enum Paridade implements Codificador {
 	PARIDADE_MSB_16 {
 		@Override
 		public EntradaCodificada codificar(String palavra) {
+			if (tabelaEntradas.containsKey(palavra)) {
+				return new EntradaCodificadaLinear(tabelaEntradas.get(palavra));
+			}
 			String[] palavraSeparada = palavra.split("");
 			palavraSeparada[0] = calcularParidade(palavraSeparada);
+			tabelaEntradas.put(palavra, String.join("", palavraSeparada));
 			return new EntradaCodificadaLinear(String.join("", palavraSeparada));
 		}
 
@@ -183,9 +210,13 @@ public enum Paridade implements Codificador {
 	PARIDADE_2_MSB {
 		@Override
 		public EntradaCodificada codificar(String palavra) {
+			if (tabelaEntradas.containsKey(palavra)) {
+				return new EntradaCodificadaLinear(tabelaEntradas.get(palavra));
+			}
 			String[] palavraSeparada = palavra.split("");
 			palavraSeparada[0] = calcularParidadePar(palavraSeparada);
 			palavraSeparada[1] = calcularParidadeImpar(palavraSeparada);
+			tabelaEntradas.put(palavra, String.join("", palavraSeparada));
 			return new EntradaCodificadaLinear(String.join("", palavraSeparada));
 		}
 
@@ -227,9 +258,13 @@ public enum Paridade implements Codificador {
 	PARIDADE_2_MSB_4 {
 		@Override
 		public EntradaCodificada codificar(String palavra) {
+			if (tabelaEntradas.containsKey(palavra)) {
+				return new EntradaCodificadaLinear(tabelaEntradas.get(palavra));
+			}
 			String[] palavraSeparada = palavra.split("");
 			palavraSeparada[0] = calcularParidadePar(palavraSeparada);
 			palavraSeparada[1] = calcularParidadeImpar(palavraSeparada);
+			tabelaEntradas.put(palavra, String.join("", palavraSeparada));
 			return new EntradaCodificadaLinear(String.join("", palavraSeparada));
 		}
 
@@ -271,9 +306,13 @@ public enum Paridade implements Codificador {
 	PARIDADE_2_MSB_8 {
 		@Override
 		public EntradaCodificada codificar(String palavra) {
+			if (tabelaEntradas.containsKey(palavra)) {
+				return new EntradaCodificadaLinear(tabelaEntradas.get(palavra));
+			}
 			String[] palavraSeparada = palavra.split("");
 			palavraSeparada[0] = calcularParidadePar(palavraSeparada);
 			palavraSeparada[1] = calcularParidadeImpar(palavraSeparada);
+			tabelaEntradas.put(palavra, String.join("", palavraSeparada));
 			return new EntradaCodificadaLinear(String.join("", palavraSeparada));
 		}
 
@@ -315,9 +354,13 @@ public enum Paridade implements Codificador {
 	PARIDADE_2_MSB_12 {
 		@Override
 		public EntradaCodificada codificar(String palavra) {
+			if (tabelaEntradas.containsKey(palavra)) {
+				return new EntradaCodificadaLinear(tabelaEntradas.get(palavra));
+			}
 			String[] palavraSeparada = palavra.split("");
 			palavraSeparada[0] = calcularParidadePar(palavraSeparada);
 			palavraSeparada[1] = calcularParidadeImpar(palavraSeparada);
+			tabelaEntradas.put(palavra, String.join("", palavraSeparada));
 			return new EntradaCodificadaLinear(String.join("", palavraSeparada));
 		}
 
@@ -359,9 +402,13 @@ public enum Paridade implements Codificador {
 	PARIDADE_2_MSB_16 {
 		@Override
 		public EntradaCodificada codificar(String palavra) {
+			if (tabelaEntradas.containsKey(palavra)) {
+				return new EntradaCodificadaLinear(tabelaEntradas.get(palavra));
+			}
 			String[] palavraSeparada = palavra.split("");
 			palavraSeparada[0] = calcularParidadePar(palavraSeparada);
 			palavraSeparada[1] = calcularParidadeImpar(palavraSeparada);
+			tabelaEntradas.put(palavra, String.join("", palavraSeparada));
 			return new EntradaCodificadaLinear(String.join("", palavraSeparada));
 		}
 
@@ -400,6 +447,10 @@ public enum Paridade implements Codificador {
 			return "Paridade 2 MSB com 16 LSB";
 		}
 	};
+	
+	Map<String, String> tabelaEntradas = new HashMap<>();
+	
+	Map<String, String> tabelaParidades = new HashMap<>();
 
 	@Override
 	public abstract EntradaCodificada codificar(String palavra);

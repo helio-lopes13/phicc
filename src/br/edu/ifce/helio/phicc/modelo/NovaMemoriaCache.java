@@ -14,21 +14,29 @@ public class NovaMemoriaCache {
 
 	private Codificador codificador;
 	
-	private Integer tamanhoCache;
+	private int tamanhoCache;
 	
-	private Integer quantidadeErros;
+	private int quantidadeErros;
 	
-	private Integer tamanhoPalavra;
+	private int tamanhoPalavra;
 	
-	public Integer falsosPositivos = 0;
+	private boolean erroInserido = false;
+	
+	private String entradaComErro = null;
+	
+	private String vpnOriginal = null;
+	
+	public int falsosPositivos = 0;
 
-	public Integer falsosNegativos = 0;
+	public int falsosNegativos = 0;
 
-	public Integer errosSubstituidos = 0;
+	public int errosSubstituidos = 0;
+
+	public int semIntercorrencias = 0;
 	
 	public boolean debug = false;
 
-	public NovaMemoriaCache(Codificador codificador, Integer tamanhoCache, Integer quantidadeErros) {
+	public NovaMemoriaCache(Codificador codificador, int tamanhoCache, int quantidadeErros) {
 		memoriaCache = new LinkedHashMap<>();
 		this.codificador = codificador;
 		this.tamanhoCache = tamanhoCache;
@@ -37,7 +45,7 @@ public class NovaMemoriaCache {
 		verificarQuantidadeErros(codificador);
 	}
 
-	public NovaMemoriaCache(Codificador codificador, Integer tamanhoCache, Integer quantidadeErros, Integer tamanhoPalavra) {
+	public NovaMemoriaCache(Codificador codificador, int tamanhoCache, int quantidadeErros, int tamanhoPalavra) {
 		this(codificador, tamanhoCache, quantidadeErros);
 		this.tamanhoPalavra = tamanhoPalavra;
 
@@ -59,26 +67,31 @@ public class NovaMemoriaCache {
 	}
 	
 	public boolean simulacao(String[] linhas, int linhaArquivoErro, int linhaCacheErro) {
+		if (linhas[0].length() != tamanhoPalavra) throw new RuntimeException("Tamanho da palavra inválido!");
 		for (int i = 0; i < linhas.length; i++) {
 			if (i == linhaArquivoErro) {
 				int j = 0;
-				Iterator<NovaEntradaMemoriaCache> iteradorMemoria = memoriaCache.values().iterator();
-				NovaEntradaMemoriaCache entrada = iteradorMemoria.hasNext() ? iteradorMemoria.next() : null;
-				while (j < linhaCacheErro && iteradorMemoria.hasNext()) {
-					entrada = iteradorMemoria.next();
+				Iterator<Entry<String, NovaEntradaMemoriaCache>> iterador = memoriaCache.entrySet().iterator();
+				Entry<String, NovaEntradaMemoriaCache> entradaCache = iterador.hasNext() ? iterador.next() : null;
+				while (j < linhaCacheErro && iterador.hasNext()) {
+					entradaCache = iterador.next();
 					j++;
 				}
 
 				int tamanhoAtualCache = memoriaCache.values().size();
-				if (entrada != null && linhaCacheErro < tamanhoAtualCache) {
-					entrada.setErro(true);
-					entrada.inserirErro();
+				if (entradaCache != null && linhaCacheErro < tamanhoAtualCache) {
+					entradaCache.getValue().setErro(true);
+					erroInserido = true;
+					entradaCache.getValue().inserirErro();
+					vpnOriginal = entradaCache.getKey();
+					entradaComErro = (String) entradaCache.getValue().getEntradaCodificada().getValor();
 				} else {
 					if (debug) System.out.println("Erro não pôde ser inserido");
+					semIntercorrencias++;
 					return true;
 				}
 			}
-			String linha = obterLinhaDoArquivo(linhas, i);
+			String linha = linhas[i];
 
 			if (lerCache(linha, linhaArquivoErro, linhaCacheErro)) {
 				return true;
@@ -90,19 +103,16 @@ public class NovaMemoriaCache {
 			System.out.println(String.format("Linha do arquivo com erro: %d\nLinha da cache a ter erro inserido: %d",
 					linhaArquivoErro, linhaCacheErro));
 		}
+
+		semIntercorrencias++;
 		return false;
 	}
 
 	public boolean lerCache(String tag, int linhaArquivoErro, int linhaCacheErro) {
-		// memoriaCache.values().stream().forEach(entrada -> entrada.incrementarContadorCache());
-
-		for (Entry<String, NovaEntradaMemoriaCache> entradaCache : memoriaCache.entrySet()) {
-			String vpnOriginal = entradaCache.getKey();
-			NovaEntradaMemoriaCache entradaAtual = entradaCache.getValue();
-			EntradaCodificada entradaCodificada = entradaAtual.getEntradaCodificada();
-			EntradaCodificada vpnCodificada = codificador.codificar(tag);
+		if (erroInserido && entradaComErro != null && vpnOriginal != null) {
+			String vpnCodificada = (String) codificador.codificar(tag).getValor();
 			
-			if (!tag.equals(vpnOriginal) && entradaAtual.isErro() && entradaCodificada.equals(vpnCodificada)) {
+			if (!tag.equals(vpnOriginal) && entradaComErro.equals(vpnCodificada)) {
 				if (debug) {
 					System.out.println("Falso positivo");
 					System.out.println("Tag: " + tag);
@@ -124,7 +134,6 @@ public class NovaMemoriaCache {
 				falsosNegativos++;
 				return true;
 			}
-			// entrada.incrementarContadorAcesso();
 			memoriaCache.remove(tag);
 			memoriaCache.put(tag, entrada);
 		} else {
@@ -182,15 +191,6 @@ public class NovaMemoriaCache {
 			return true;
 		}
 		return false;
-	}
-	
-	private String obterLinhaDoArquivo(String[] linhas, int i) {
-		String linha = linhas[i];
-		
-		if (linha.length() != tamanhoPalavra) {
-			throw new RuntimeException("Tamanho da palavra difere do estabelecido.");
-		}
-		return linha;
 	}
 	
 }
