@@ -7,6 +7,8 @@ import java.util.Random;
 public class EntradaCodificadaMatricial implements EntradaCodificada {
 	private String[][] valor = null;
 
+	private boolean erro;
+
 	private List<int[]> posicoes;
 	
 	public EntradaCodificadaMatricial(String[][] valor) {
@@ -20,7 +22,11 @@ public class EntradaCodificadaMatricial implements EntradaCodificada {
 			throw new RuntimeException("Valor não pode estar vazio");
 		}
 	}
-	
+
+	public boolean isErro() {
+		return erro;
+	}
+
 	public void setValor(Object valor) {
 		if (valor instanceof String[][]) {
 			this.valor = (String[][]) valor;
@@ -63,6 +69,7 @@ public class EntradaCodificadaMatricial implements EntradaCodificada {
 	}
 	
 	private void inserirErroMatricial(Integer quantidadeErros) {
+		erro = true;
 		Random random = new Random();
 		int linha = 0, coluna = 0, i;
 		

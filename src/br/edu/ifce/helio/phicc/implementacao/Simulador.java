@@ -84,7 +84,7 @@ public class Simulador {
 	}
 
 	private static void simulacao(Codificador codificador, int tamanhoCache, int errosAdjacentes, int tamanhoPalavra) {
-
+		NovaMemoriaCache.debug = debug;
 		Random random = new Random();
 		int i = 0;
 		String[] linhas = SimuladorUtils.getArquivo(nomeArquivo, tamanhoPalavra);
@@ -92,7 +92,7 @@ public class Simulador {
 		System.out.println("Codificador: " + codificador);
 		System.out.println("Quantidade de erros adjacentes: " + errosAdjacentes);
 
-		int iteracoes = 30000;
+		int iteracoes = 100000;
 		Instant inicio = Instant.now();
 		while (i < iteracoes) {
 			if (debug) System.out.println("Iteração " + (i + 1));
@@ -110,7 +110,7 @@ public class Simulador {
 				semIntercorrencias += cache.semIntercorrencias;
 			}
 
-			if (debug && (i + 1) % 3000 == 0) {
+			if ((i + 1) % 3000 == 0) {
 				System.out.println("Duração da simulação: " + Duration.between(inicio, Instant.now()));
 				inicio = Instant.now();
 			}

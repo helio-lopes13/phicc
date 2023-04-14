@@ -1,5 +1,7 @@
 package br.edu.ifce.helio.phicc.modelo;
 
+import java.util.Objects;
+
 import br.edu.ifce.helio.phicc.implementacao.EntradaCodificada;
 
 public class NovaEntradaMemoriaCache {
@@ -7,8 +9,6 @@ public class NovaEntradaMemoriaCache {
 	private EntradaCodificada entradaCodificada;
 
 	private static Integer quantidadeErros;
-
-	private boolean erro = false;
 
 	private Integer contadorAcessos = 1;
 
@@ -31,11 +31,7 @@ public class NovaEntradaMemoriaCache {
 	}
 
 	public boolean isErro() {
-		return erro;
-	}
-
-	public void setErro(boolean erro) {
-		this.erro = erro;
+		return entradaCodificada.isErro();
 	}
 
 	public Integer getContadorAcessos() {
@@ -68,6 +64,23 @@ public class NovaEntradaMemoriaCache {
 
 	public void inserirErro() {
 		entradaCodificada.inserirErro(quantidadeErros);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(entradaCodificada);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		NovaEntradaMemoriaCache other = (NovaEntradaMemoriaCache) obj;
+		return Objects.equals(entradaCodificada, other.entradaCodificada);
 	}
 
 }

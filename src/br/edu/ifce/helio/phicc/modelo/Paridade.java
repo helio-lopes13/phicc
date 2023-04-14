@@ -72,7 +72,7 @@ public enum Paridade implements Codificador {
 			String[] palavraSeparada = palavra.split("");
 			palavraSeparada[0] = calcularParidade(palavraSeparada);
 			tabelaEntradas.put(palavra, String.join("", palavraSeparada));
-			return new EntradaCodificadaLinear(String.join("", palavraSeparada));
+			return new EntradaCodificadaLinear(tabelaEntradas.get(palavra));
 		}
 
 		@Override
@@ -108,7 +108,7 @@ public enum Paridade implements Codificador {
 			String[] palavraSeparada = palavra.split("");
 			palavraSeparada[0] = calcularParidade(palavraSeparada);
 			tabelaEntradas.put(palavra, String.join("", palavraSeparada));
-			return new EntradaCodificadaLinear(String.join("", palavraSeparada));
+			return new EntradaCodificadaLinear(tabelaEntradas.get(palavra));
 		}
 
 		@Override
@@ -144,7 +144,7 @@ public enum Paridade implements Codificador {
 			String[] palavraSeparada = palavra.split("");
 			palavraSeparada[0] = calcularParidade(palavraSeparada);
 			tabelaEntradas.put(palavra, String.join("", palavraSeparada));
-			return new EntradaCodificadaLinear(String.join("", palavraSeparada));
+			return new EntradaCodificadaLinear(tabelaEntradas.get(palavra));
 		}
 
 		@Override
@@ -180,7 +180,7 @@ public enum Paridade implements Codificador {
 			String[] palavraSeparada = palavra.split("");
 			palavraSeparada[0] = calcularParidade(palavraSeparada);
 			tabelaEntradas.put(palavra, String.join("", palavraSeparada));
-			return new EntradaCodificadaLinear(String.join("", palavraSeparada));
+			return new EntradaCodificadaLinear(tabelaEntradas.get(palavra));
 		}
 
 		@Override
@@ -217,7 +217,7 @@ public enum Paridade implements Codificador {
 			palavraSeparada[0] = calcularParidadePar(palavraSeparada);
 			palavraSeparada[1] = calcularParidadeImpar(palavraSeparada);
 			tabelaEntradas.put(palavra, String.join("", palavraSeparada));
-			return new EntradaCodificadaLinear(String.join("", palavraSeparada));
+			return new EntradaCodificadaLinear(tabelaEntradas.get(palavra));
 		}
 
 		@Override
@@ -265,7 +265,7 @@ public enum Paridade implements Codificador {
 			palavraSeparada[0] = calcularParidadePar(palavraSeparada);
 			palavraSeparada[1] = calcularParidadeImpar(palavraSeparada);
 			tabelaEntradas.put(palavra, String.join("", palavraSeparada));
-			return new EntradaCodificadaLinear(String.join("", palavraSeparada));
+			return new EntradaCodificadaLinear(tabelaEntradas.get(palavra));
 		}
 
 		@Override
@@ -313,7 +313,7 @@ public enum Paridade implements Codificador {
 			palavraSeparada[0] = calcularParidadePar(palavraSeparada);
 			palavraSeparada[1] = calcularParidadeImpar(palavraSeparada);
 			tabelaEntradas.put(palavra, String.join("", palavraSeparada));
-			return new EntradaCodificadaLinear(String.join("", palavraSeparada));
+			return new EntradaCodificadaLinear(tabelaEntradas.get(palavra));
 		}
 
 		@Override
@@ -361,7 +361,7 @@ public enum Paridade implements Codificador {
 			palavraSeparada[0] = calcularParidadePar(palavraSeparada);
 			palavraSeparada[1] = calcularParidadeImpar(palavraSeparada);
 			tabelaEntradas.put(palavra, String.join("", palavraSeparada));
-			return new EntradaCodificadaLinear(String.join("", palavraSeparada));
+			return new EntradaCodificadaLinear(tabelaEntradas.get(palavra));
 		}
 
 		@Override
@@ -409,7 +409,7 @@ public enum Paridade implements Codificador {
 			palavraSeparada[0] = calcularParidadePar(palavraSeparada);
 			palavraSeparada[1] = calcularParidadeImpar(palavraSeparada);
 			tabelaEntradas.put(palavra, String.join("", palavraSeparada));
-			return new EntradaCodificadaLinear(String.join("", palavraSeparada));
+			return new EntradaCodificadaLinear(tabelaEntradas.get(palavra));
 		}
 
 		@Override

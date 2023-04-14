@@ -8,6 +8,8 @@ import java.util.Random;
 public class EntradaCodificadaLinear implements EntradaCodificada {
 	private String valor = null;
 
+	private boolean erro = false;
+
 	private List<Integer> posicoes = new ArrayList<>();
 
 	public EntradaCodificadaLinear(String valor) {
@@ -20,6 +22,10 @@ public class EntradaCodificadaLinear implements EntradaCodificada {
 		} else {
 			return null;
 		}
+	}
+
+	public boolean isErro() {
+		return erro;
 	}
 
 	public void setValor(Object valor) {
@@ -54,6 +60,7 @@ public class EntradaCodificadaLinear implements EntradaCodificada {
 	}
 
 	private void inserirErroLinear(int quantidadeErros) {
+		erro = true;
 		Random random = new Random();
 		int posicaoInicial = 0, i;
 

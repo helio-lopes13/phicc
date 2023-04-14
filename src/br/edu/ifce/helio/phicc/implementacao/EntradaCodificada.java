@@ -4,6 +4,8 @@ public interface EntradaCodificada {
 
 	Object getValor();
 
+	boolean isErro();
+
 	void setValor(Object valor);
 
 	void inserirErro(Integer quantidadeErros);
