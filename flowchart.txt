@@ -1,0 +1,42 @@
+@startuml
+!pragma useVerticalIf on
+start
+
+:Get traces from file;
+:Define number of iterations = 50000;
+repeat
+  :Generate random trace line number and TLB line for error;
+  :Start simulation;
+  repeat
+  if (Is trace line equal to the random trace line?) then (Yes)
+    if (Can error be injected?) then (Yes)
+      :Inject error into random TLB line;
+    else (No)
+      :No error injected;
+      break
+    endif
+  else (No)
+  endif
+  :Get trace line;
+  :Read line in TLB;
+  if (Has an error been inserted?) then (Yes)
+    if (Has a FP or a FN occurred?) then (Yes)
+      :Error detected;
+      break
+    else (No)
+    endif
+    if (Was TLB line with error removed?) then (Yes)
+      :Error removed;
+      break
+    else (No)
+    endif
+  else (No)
+  endif
+  label ner
+  repeat while (Are traces over?) is (No)
+:End of iteration;
+repeat while (Iteration <= 50000) is (Yes)
+->No;
+:Show number of false positives, false negatives, substituted errors and non-intercurrences;
+stop
+@enduml

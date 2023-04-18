@@ -17,7 +17,7 @@ public class Simulador {
 
 	private static int semIntercorrencias = 0;
 
-	private static String nomeArquivo = "lista_traces_menores.txt";
+	private static String nomeArquivo = "lista_traces.txt";
 
 	private static boolean debug = false;
 
@@ -92,7 +92,7 @@ public class Simulador {
 		System.out.println("Codificador: " + codificador);
 		System.out.println("Quantidade de erros adjacentes: " + errosAdjacentes);
 
-		int iteracoes = 100000;
+		int iteracoes = 50000;
 		Instant inicio = Instant.now();
 		while (i < iteracoes) {
 			if (debug) System.out.println("Iteração " + (i + 1));
@@ -110,7 +110,7 @@ public class Simulador {
 				semIntercorrencias += cache.semIntercorrencias;
 			}
 
-			if ((i + 1) % 3000 == 0) {
+			if (debug && (i + 1) % 5000 == 0) {
 				System.out.println("Duração da simulação: " + Duration.between(inicio, Instant.now()));
 				inicio = Instant.now();
 			}
