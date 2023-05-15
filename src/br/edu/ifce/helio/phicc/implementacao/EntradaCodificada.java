@@ -16,4 +16,6 @@ public interface EntradaCodificada {
 
 	boolean valorEquals(Object valor);
 
+	boolean isValida();
+
 }

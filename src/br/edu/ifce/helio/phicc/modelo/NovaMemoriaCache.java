@@ -3,6 +3,10 @@ package br.edu.ifce.helio.phicc.modelo;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Optional;
+import java.util.Random;
+import java.util.Scanner;
 
 import br.edu.ifce.helio.phicc.implementacao.Codificador;
 import br.edu.ifce.helio.phicc.implementacao.EntradaCodificada;
@@ -30,6 +34,8 @@ public class NovaMemoriaCache {
 	public int falsosNegativos = 0;
 
 	public int errosSubstituidos = 0;
+
+	public int entradasInvalidas = 0;
 
 	public int semIntercorrencias = 0;
 	
@@ -63,11 +69,13 @@ public class NovaMemoriaCache {
 		}
 	}
 	
-	public boolean simulacao(String[] linhas, int linhaArquivoErro, int linhaCacheErro) {
+	public boolean simulacao(String[] linhas, int linhaArquivoErro, Random random) {
 		if (linhas[0].length() != tamanhoPalavra) throw new RuntimeException("Tamanho da palavra inválido!");
+		int linhaCacheErro = 0;
 		for (int i = 0; i < linhas.length; i++) {
-			if (i == linhaArquivoErro) {
+			if (!erroInserido && i >= linhaArquivoErro && memoriaCache.size() > 0) {
 				int j = 0;
+				linhaCacheErro = random.nextInt(memoriaCache.size());
 				Iterator<EntradaCodificada> iteradorMemoria = memoriaCache.values().iterator();
 				EntradaCodificada entrada = iteradorMemoria.hasNext() ? iteradorMemoria.next() : null;
 				while (j < linhaCacheErro && iteradorMemoria.hasNext()) {
@@ -75,22 +83,17 @@ public class NovaMemoriaCache {
 					j++;
 				}
 
-				int tamanhoAtualCache = memoriaCache.values().size();
-				if (entrada != null && linhaCacheErro < tamanhoAtualCache) {
-					entrada.inserirErro(quantidadeErros);
-					erroInserido = true;
-					vpnOriginal = obterVPN(entrada);
-					entradaErro = entrada;
-				} else {
-					if (debug) System.out.println("Erro não pôde ser inserido");
-					semIntercorrencias++;
-					return true;
-				}
+				entrada.inserirErro(quantidadeErros);
+				erroInserido = true;
+				vpnOriginal = obterVPN(entrada);
+				entradaErro = entrada;
 			}
 
 			String linha = linhas[i];
 
-			if (lerCache(linha, linhaArquivoErro, linhaCacheErro)) {
+			if (lerCache(linha)) {
+				if (debug) System.out.println(String.format("Linha do arquivo com erro: %d\nLinha da cache a ter erro inserido: %d",
+						linhaArquivoErro, linhaCacheErro));
 				return true;
 			}
 		}
@@ -106,30 +109,84 @@ public class NovaMemoriaCache {
 		semIntercorrencias++;
 		return false;
 	}
+	
+	public boolean simulacao(Scanner scanner, int linhaArquivoErro, Random random) {
+		int i = 0;
+		int linhaCacheErro = 0;
+		while (scanner.hasNextLine()) {
+			if (!erroInserido && i >= linhaArquivoErro && memoriaCache.size() > 0) {
+				int j = 0;
+				linhaCacheErro = random.nextInt(memoriaCache.size());
+				Iterator<EntradaCodificada> iteradorMemoria = memoriaCache.values().iterator();
+				EntradaCodificada entrada = iteradorMemoria.hasNext() ? iteradorMemoria.next() : null;
+				while (j < linhaCacheErro && iteradorMemoria.hasNext()) {
+					entrada = iteradorMemoria.next();
+					j++;
+				}
 
-	public boolean lerCache(String vpn, int linhaArquivoErro, int linhaCacheErro) {
+				entrada.inserirErro(quantidadeErros);
+				erroInserido = true;
+				vpnOriginal = obterVPN(entrada);
+				entradaErro = entrada;
+			}
+
+			String linha = scanner.nextLine();
+
+			if (lerCache(linha)) {
+				if (debug) System.out.println(String.format("Linha do arquivo com erro: %d\nLinha da cache a ter erro inserido: %d",
+						linhaArquivoErro, linhaCacheErro));
+				return true;
+			}
+			i++;
+		}
+
+		if (debug) {
+			System.out.println("Nenhuma intercorrência");
+			System.out.println(String.format("Linha do arquivo com erro: %d\nLinha da cache a ter erro inserido: %d",
+					linhaArquivoErro, linhaCacheErro));
+			
+			printCache();
+		}
+
+		semIntercorrencias++;
+		return false;
+	}
+
+	public boolean lerCache(String vpn) {
 		EntradaCodificada vpnCodificada = codificador.codificar(vpn);
 		
 		if (erroInserido) {
-			if (memoriaCache.containsValue(entradaErro) && !vpn.equals(vpnOriginal) && vpnCodificada.equals(entradaErro)) {
+			memoriaCache.values().forEach(entrada -> entrada.isValida());
+			if (memoriaCache.containsValue(entradaErro) && !vpn.equals(vpnOriginal) && vpnCodificada.equals(entradaErro) && entradaErro.isValida()) {
 				if (debug) {
+					System.out.println("Falso positivo");
 					System.out.println("VPN solicitada: " + vpn);
 					System.out.print("VPN codificada: ");
 					System.out.println(vpnCodificada);
-					System.out.println(String.format("Linha do arquivo com erro: %d\nLinha da cache a ter erro inserido: %d",
-							linhaArquivoErro, linhaCacheErro));
 				}
 				falsosPositivos++;
 				return true;
+			} else {
+				if (!entradaErro.isValida()) {
+					if (debug) System.out.println("Entrada inválida");
+					entradasInvalidas++;
+					return true;
+				}
 			}
 			
 			if (memoriaCache.containsKey(vpn)) {
 				EntradaCodificada entrada = memoriaCache.get(vpn);
 				
-				if (!entrada.equals(vpnCodificada) && entrada.isErro()) {
+				if (!entrada.equals(vpnCodificada) && entrada.isErro() && entrada.isValida()) {
 					if (debug) System.out.println("Falso negativo");
 					falsosNegativos++;
 					return true;
+				} else {
+					if (!entrada.isValida()) {
+						if (debug) System.out.println("Entrada inválida");
+						entradasInvalidas++;
+						return true;
+					}
 				}
 				
 				EntradaCodificada entradaCache = memoriaCache.remove(vpn);
@@ -168,7 +225,13 @@ public class NovaMemoriaCache {
 	}
 
 	private boolean substituir(String tag, EntradaCodificada novaEntrada) {
-		String chaveRemovida = memoriaCache.entrySet().iterator().next().getKey();
+		String chaveRemovida = "";
+		if (erroInserido) {
+			Optional<Entry<String, EntradaCodificada>> entradaInvalida = entradaInvalida();
+			chaveRemovida = entradaInvalida.isPresent() ? entradaInvalida.get().getKey() : memoriaCache.entrySet().iterator().next().getKey();
+		} else {
+			chaveRemovida = memoriaCache.entrySet().iterator().next().getKey();
+		}
 		EntradaCodificada entradaRemovida = memoriaCache.remove(chaveRemovida);
 		
 		if (entradaRemovida.isErro()) {
@@ -181,6 +244,10 @@ public class NovaMemoriaCache {
 		
 		memoriaCache.put(tag, novaEntrada);
 		return false;
+	}
+
+	private Optional<Entry<String, EntradaCodificada>> entradaInvalida() {
+		return memoriaCache.entrySet().stream().filter(entry -> !entry.getValue().isValida()).findFirst();
 	}
 	
 	public void printCache() {
@@ -199,7 +266,7 @@ public class NovaMemoriaCache {
 			System.out.println();
 		}
 	}
-	
+
 	private String obterVPN(EntradaCodificada entrada) {
 		return memoriaCache
 			      .entrySet()

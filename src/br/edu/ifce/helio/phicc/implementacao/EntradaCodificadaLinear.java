@@ -5,10 +5,18 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
+import br.edu.ifce.helio.phicc.utils.CalculadorParidade;
+
 public class EntradaCodificadaLinear implements EntradaCodificada {
+	public static boolean paridadeEmbutida = false;
+	
 	private String valor = null;
 
 	private boolean erro = false;
+	
+	private boolean validade = true;
+	
+	private String bitParidade = null;
 
 	private List<Integer> posicoes = new ArrayList<>();
 
@@ -24,6 +32,13 @@ public class EntradaCodificadaLinear implements EntradaCodificada {
 		}
 	}
 
+	public String getBitParidade() {
+		if (paridadeEmbutida) {
+			return bitParidade;
+		}
+		return "0";
+	}
+
 	public boolean isErro() {
 		return erro;
 	}
@@ -31,6 +46,9 @@ public class EntradaCodificadaLinear implements EntradaCodificada {
 	public void setValor(Object valor) {
 		if (valor instanceof String) {
 			this.valor = (String) valor;
+			if (paridadeEmbutida && bitParidade == null) {
+				bitParidade = CalculadorParidade.calcularBitParidade(this.valor);
+			}
 		} else {
 			throw new RuntimeException("Tipo de valor inválido");
 		}
@@ -68,7 +86,11 @@ public class EntradaCodificadaLinear implements EntradaCodificada {
 		List<Integer> todasPosicoes = new ArrayList<>();
 
 		do {
-			posicaoInicial = random.nextInt(valor.length());
+			if (valor.length() > 32) {
+				posicaoInicial = random.nextInt(1, valor.length());
+			} else {
+				posicaoInicial = random.nextInt(valor.length());
+			}
 			posicoes = extrairVizinhos(posicaoInicial);
 		} while (quantidadeErros > posicoes.size() + 1);
 
@@ -88,7 +110,7 @@ public class EntradaCodificadaLinear implements EntradaCodificada {
 
 		for (int i = -1; i <= 1; i++) {
 			if (i != 0) {
-				if (posicao + i >= 0 && posicao + i < valor.length()) {
+				if (verificarPosicaoEsquerda(posicao, i) && posicao + i < valor.length()) {
 					posicoes.add(posicao + i);
 				}
 			}
@@ -97,25 +119,38 @@ public class EntradaCodificadaLinear implements EntradaCodificada {
 		return posicoes;
 	}
 
+	private boolean verificarPosicaoEsquerda(int posicao, int i) {
+		return valor.length() > 32 ? posicao > 0 : posicao + i >= 0;
+	}
+
 	private void inverteBit(int posicao) {
 		String[] valorSeparado = valor.split("");
 		valorSeparado[posicao] = String.valueOf(Integer.parseInt(valorSeparado[posicao]) ^ 1);
 		valor = String.join("", valorSeparado);
 	}
+	
+	public boolean isValida() {
+		if (paridadeEmbutida && validade) {
+			validade = bitParidade.equals(CalculadorParidade.calcularBitParidade(valor));
+		}
+		return validade;
+	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(valor);
+		return Objects.hash(bitParidade, valor);
 	}
 
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (!(obj instanceof EntradaCodificadaLinear))
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
 			return false;
 		EntradaCodificadaLinear other = (EntradaCodificadaLinear) obj;
-		return Objects.equals(valor, other.valor);
+		return Objects.equals(getBitParidade(), other.getBitParidade()) && Objects.equals(valor, other.valor);
 	}
 
 }

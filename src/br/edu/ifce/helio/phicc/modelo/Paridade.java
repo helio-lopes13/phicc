@@ -20,7 +20,7 @@ public enum Paridade implements Codificador {
 		public String decodificar(EntradaCodificada entrada) {
 			return (String) entrada.getValor();
 		}
-		
+
 		public String toString() {
 			return "Sem Paridade";
 		}
@@ -34,8 +34,9 @@ public enum Paridade implements Codificador {
 			}
 			String[] palavraSeparada = palavra.split("");
 			palavraSeparada[0] = calcularParidade(palavraSeparada);
-			tabelaEntradas.put(palavra, String.join("", palavraSeparada));
-			return new EntradaCodificadaLinear(tabelaEntradas.get(palavra));
+			String palavraUnida = String.join("", palavraSeparada);
+			tabelaEntradas.put(palavra, palavraUnida);
+			return new EntradaCodificadaLinear(palavraUnida);
 		}
 
 		@Override
@@ -57,7 +58,7 @@ public enum Paridade implements Codificador {
 
 			return String.valueOf(paridade);
 		}
-		
+
 		public String toString() {
 			return "Paridade MSB";
 		}
@@ -71,8 +72,9 @@ public enum Paridade implements Codificador {
 			}
 			String[] palavraSeparada = palavra.split("");
 			palavraSeparada[0] = calcularParidade(palavraSeparada);
-			tabelaEntradas.put(palavra, String.join("", palavraSeparada));
-			return new EntradaCodificadaLinear(tabelaEntradas.get(palavra));
+			String palavraUnida = String.join("", palavraSeparada);
+			tabelaEntradas.put(palavra, palavraUnida);
+			return new EntradaCodificadaLinear(palavraUnida);
 		}
 
 		@Override
@@ -80,7 +82,8 @@ public enum Paridade implements Codificador {
 			String palavra = (String) entrada.getValor();
 
 			String[] palavraSeparada = palavra.split("");
-			palavraSeparada[0] = String.valueOf(Integer.valueOf(palavraSeparada[0]) ^ Integer.valueOf(calcularParidade(palavraSeparada)));
+			palavraSeparada[0] = String
+					.valueOf(Integer.valueOf(palavraSeparada[0]) ^ Integer.valueOf(calcularParidade(palavraSeparada)));
 
 			return String.join("", palavraSeparada);
 		}
@@ -94,7 +97,7 @@ public enum Paridade implements Codificador {
 
 			return String.valueOf(paridade);
 		}
-		
+
 		public String toString() {
 			return "Paridade MSB com 4 LSB";
 		}
@@ -107,8 +110,9 @@ public enum Paridade implements Codificador {
 			}
 			String[] palavraSeparada = palavra.split("");
 			palavraSeparada[0] = calcularParidade(palavraSeparada);
-			tabelaEntradas.put(palavra, String.join("", palavraSeparada));
-			return new EntradaCodificadaLinear(tabelaEntradas.get(palavra));
+			String palavraUnida = String.join("", palavraSeparada);
+			tabelaEntradas.put(palavra, palavraUnida);
+			return new EntradaCodificadaLinear(palavraUnida);
 		}
 
 		@Override
@@ -116,11 +120,12 @@ public enum Paridade implements Codificador {
 			String palavra = (String) entrada.getValor();
 
 			String[] palavraSeparada = palavra.split("");
-			palavraSeparada[0] = String.valueOf(Integer.valueOf(palavraSeparada[0]) ^ Integer.valueOf(calcularParidade(palavraSeparada)));
+			palavraSeparada[0] = String
+					.valueOf(Integer.valueOf(palavraSeparada[0]) ^ Integer.valueOf(calcularParidade(palavraSeparada)));
 
 			return String.join("", palavraSeparada);
 		}
-		
+
 		private String calcularParidade(String[] palavraSeparada) {
 			int paridade = 0;
 
@@ -130,7 +135,7 @@ public enum Paridade implements Codificador {
 
 			return String.valueOf(paridade);
 		}
-		
+
 		public String toString() {
 			return "Paridade MSB com 8 LSB";
 		}
@@ -143,8 +148,9 @@ public enum Paridade implements Codificador {
 			}
 			String[] palavraSeparada = palavra.split("");
 			palavraSeparada[0] = calcularParidade(palavraSeparada);
-			tabelaEntradas.put(palavra, String.join("", palavraSeparada));
-			return new EntradaCodificadaLinear(tabelaEntradas.get(palavra));
+			String palavraUnida = String.join("", palavraSeparada);
+			tabelaEntradas.put(palavra, palavraUnida);
+			return new EntradaCodificadaLinear(palavraUnida);
 		}
 
 		@Override
@@ -152,11 +158,12 @@ public enum Paridade implements Codificador {
 			String palavra = (String) entrada.getValor();
 
 			String[] palavraSeparada = palavra.split("");
-			palavraSeparada[0] = String.valueOf(Integer.valueOf(palavraSeparada[0]) ^ Integer.valueOf(calcularParidade(palavraSeparada)));
+			palavraSeparada[0] = String
+					.valueOf(Integer.valueOf(palavraSeparada[0]) ^ Integer.valueOf(calcularParidade(palavraSeparada)));
 
 			return String.join("", palavraSeparada);
 		}
-		
+
 		private String calcularParidade(String[] palavraSeparada) {
 			int paridade = 0;
 
@@ -166,7 +173,7 @@ public enum Paridade implements Codificador {
 
 			return String.valueOf(paridade);
 		}
-		
+
 		public String toString() {
 			return "Paridade MSB com 12 LSB";
 		}
@@ -179,8 +186,9 @@ public enum Paridade implements Codificador {
 			}
 			String[] palavraSeparada = palavra.split("");
 			palavraSeparada[0] = calcularParidade(palavraSeparada);
-			tabelaEntradas.put(palavra, String.join("", palavraSeparada));
-			return new EntradaCodificadaLinear(tabelaEntradas.get(palavra));
+			String palavraUnida = String.join("", palavraSeparada);
+			tabelaEntradas.put(palavra, palavraUnida);
+			return new EntradaCodificadaLinear(palavraUnida);
 		}
 
 		@Override
@@ -188,11 +196,12 @@ public enum Paridade implements Codificador {
 			String palavra = (String) entrada.getValor();
 
 			String[] palavraSeparada = palavra.split("");
-			palavraSeparada[0] = String.valueOf(Integer.valueOf(palavraSeparada[0]) ^ Integer.valueOf(calcularParidade(palavraSeparada)));
+			palavraSeparada[0] = String
+					.valueOf(Integer.valueOf(palavraSeparada[0]) ^ Integer.valueOf(calcularParidade(palavraSeparada)));
 
 			return String.join("", palavraSeparada);
 		}
-		
+
 		private String calcularParidade(String[] palavraSeparada) {
 			int paridade = 0;
 
@@ -202,9 +211,201 @@ public enum Paridade implements Codificador {
 
 			return String.valueOf(paridade);
 		}
-		
+
 		public String toString() {
 			return "Paridade MSB com 16 LSB";
+		}
+	},
+	P_BIT_MSB {
+
+		@Override
+		public EntradaCodificada codificar(String palavra) {
+			if (tabelaEntradas.containsKey(palavra)) {
+				return new EntradaCodificadaLinear(tabelaEntradas.get(palavra));
+			}
+
+			String[] palavraSeparada = palavra.split("");
+			palavraSeparada[0] = calcularParidade(palavraSeparada);
+			String palavraUnida = String.join("", palavraSeparada);
+			tabelaEntradas.put(palavra, palavraUnida);
+			return new EntradaCodificadaLinear(palavraUnida);
+		}
+
+		@Override
+		public String decodificar(EntradaCodificada entrada) {
+			String palavra = (String) entrada.getValor();
+
+			String[] palavraSeparada = palavra.split("");
+			palavraSeparada[0] = calcularParidade(palavraSeparada);
+
+			return String.join("", palavraSeparada);
+		}
+
+		private String calcularParidade(String[] palavraSeparada) {
+			int paridade = 0;
+
+			for (int i = 0; i < palavraSeparada.length; i += 2) {
+				paridade = paridade ^ Integer.parseInt(palavraSeparada[i]);
+			}
+
+			return String.valueOf(paridade);
+		}
+
+		public String toString() {
+			return "Paridade MSB com Bit de Paridade";
+		}
+
+	},
+	P_BIT_MSB_4 {
+		@Override
+		public EntradaCodificada codificar(String palavra) {
+			if (tabelaEntradas.containsKey(palavra)) {
+				return new EntradaCodificadaLinear(tabelaEntradas.get(palavra));
+			}
+			String[] palavraSeparada = palavra.split("");
+			palavraSeparada[0] = calcularParidade(palavraSeparada);
+			String palavraUnida = String.join("", palavraSeparada);
+			tabelaEntradas.put(palavra, palavraUnida);
+			return new EntradaCodificadaLinear(palavraUnida);
+		}
+
+		@Override
+		public String decodificar(EntradaCodificada entrada) {
+			String palavra = (String) entrada.getValor();
+
+			String[] palavraSeparada = palavra.split("");
+			palavraSeparada[0] = String
+					.valueOf(Integer.valueOf(palavraSeparada[0]) ^ Integer.valueOf(calcularParidade(palavraSeparada)));
+
+			return String.join("", palavraSeparada);
+		}
+
+		private String calcularParidade(String[] palavraSeparada) {
+			int paridade = 0;
+
+			for (int i = palavraSeparada.length - 4; i < palavraSeparada.length; i += 2) {
+				paridade = paridade ^ Integer.parseInt(palavraSeparada[i]);
+			}
+
+			return String.valueOf(paridade);
+		}
+
+		public String toString() {
+			return "Paridade MSB com 4 LSB com Bit de Paridade";
+		}
+	},
+	P_BIT_MSB_8 {
+		@Override
+		public EntradaCodificada codificar(String palavra) {
+			if (tabelaEntradas.containsKey(palavra)) {
+				return new EntradaCodificadaLinear(tabelaEntradas.get(palavra));
+			}
+			String[] palavraSeparada = palavra.split("");
+			palavraSeparada[0] = calcularParidade(palavraSeparada);
+			String palavraUnida = String.join("", palavraSeparada);
+			tabelaEntradas.put(palavra, palavraUnida);
+			return new EntradaCodificadaLinear(palavraUnida);
+		}
+
+		@Override
+		public String decodificar(EntradaCodificada entrada) {
+			String palavra = (String) entrada.getValor();
+
+			String[] palavraSeparada = palavra.split("");
+			palavraSeparada[0] = String
+					.valueOf(Integer.valueOf(palavraSeparada[0]) ^ Integer.valueOf(calcularParidade(palavraSeparada)));
+
+			return String.join("", palavraSeparada);
+		}
+
+		private String calcularParidade(String[] palavraSeparada) {
+			int paridade = 0;
+
+			for (int i = palavraSeparada.length - 8; i < palavraSeparada.length; i += 2) {
+				paridade = paridade ^ Integer.parseInt(palavraSeparada[i]);
+			}
+
+			return String.valueOf(paridade);
+		}
+
+		public String toString() {
+			return "Paridade MSB com 8 LSB com Bit de Paridade";
+		}
+	},
+	P_BIT_MSB_12 {
+		@Override
+		public EntradaCodificada codificar(String palavra) {
+			if (tabelaEntradas.containsKey(palavra)) {
+				return new EntradaCodificadaLinear(tabelaEntradas.get(palavra));
+			}
+			String[] palavraSeparada = palavra.split("");
+			palavraSeparada[0] = calcularParidade(palavraSeparada);
+			String palavraUnida = String.join("", palavraSeparada);
+			tabelaEntradas.put(palavra, palavraUnida);
+			return new EntradaCodificadaLinear(palavraUnida);
+		}
+
+		@Override
+		public String decodificar(EntradaCodificada entrada) {
+			String palavra = (String) entrada.getValor();
+
+			String[] palavraSeparada = palavra.split("");
+			palavraSeparada[0] = String
+					.valueOf(Integer.valueOf(palavraSeparada[0]) ^ Integer.valueOf(calcularParidade(palavraSeparada)));
+
+			return String.join("", palavraSeparada);
+		}
+
+		private String calcularParidade(String[] palavraSeparada) {
+			int paridade = 0;
+
+			for (int i = palavraSeparada.length - 12; i < palavraSeparada.length; i += 2) {
+				paridade = paridade ^ Integer.parseInt(palavraSeparada[i]);
+			}
+
+			return String.valueOf(paridade);
+		}
+
+		public String toString() {
+			return "Paridade MSB com 12 LSB com Bit de Paridade";
+		}
+	},
+	P_BIT_MSB_16 {
+		@Override
+		public EntradaCodificada codificar(String palavra) {
+			if (tabelaEntradas.containsKey(palavra)) {
+				return new EntradaCodificadaLinear(tabelaEntradas.get(palavra));
+			}
+			String[] palavraSeparada = palavra.split("");
+			palavraSeparada[0] = calcularParidade(palavraSeparada);
+			String palavraUnida = String.join("", palavraSeparada);
+			tabelaEntradas.put(palavra, palavraUnida);
+			return new EntradaCodificadaLinear(palavraUnida);
+		}
+
+		@Override
+		public String decodificar(EntradaCodificada entrada) {
+			String palavra = (String) entrada.getValor();
+
+			String[] palavraSeparada = palavra.split("");
+			palavraSeparada[0] = String
+					.valueOf(Integer.valueOf(palavraSeparada[0]) ^ Integer.valueOf(calcularParidade(palavraSeparada)));
+
+			return String.join("", palavraSeparada);
+		}
+
+		private String calcularParidade(String[] palavraSeparada) {
+			int paridade = 0;
+
+			for (int i = palavraSeparada.length - 16; i < palavraSeparada.length; i += 2) {
+				paridade = paridade ^ Integer.parseInt(palavraSeparada[i]);
+			}
+
+			return String.valueOf(paridade);
+		}
+
+		public String toString() {
+			return "Paridade MSB com 16 LSB com Bit de Paridade";
 		}
 	},
 	PARIDADE_2_MSB {
@@ -230,7 +431,7 @@ public enum Paridade implements Codificador {
 
 			return String.join("", palavraSeparada);
 		}
-		
+
 		private String calcularParidadePar(String[] palavraSeparada) {
 			int paridade = 0;
 
@@ -240,7 +441,7 @@ public enum Paridade implements Codificador {
 
 			return String.valueOf(paridade);
 		}
-		
+
 		private String calcularParidadeImpar(String[] palavraSeparada) {
 			int paridade = 0;
 
@@ -250,7 +451,7 @@ public enum Paridade implements Codificador {
 
 			return String.valueOf(paridade);
 		}
-		
+
 		public String toString() {
 			return "Paridade 2 MSB";
 		}
@@ -273,12 +474,14 @@ public enum Paridade implements Codificador {
 			String palavra = (String) entrada.getValor();
 
 			String[] palavraSeparada = palavra.split("");
-			palavraSeparada[0] = String.valueOf(Integer.valueOf(palavraSeparada[0]) ^ Integer.valueOf(calcularParidadePar(palavraSeparada)));
-			palavraSeparada[1] = String.valueOf(Integer.valueOf(palavraSeparada[1]) ^ Integer.valueOf(calcularParidadeImpar(palavraSeparada)));
+			palavraSeparada[0] = String.valueOf(
+					Integer.valueOf(palavraSeparada[0]) ^ Integer.valueOf(calcularParidadePar(palavraSeparada)));
+			palavraSeparada[1] = String.valueOf(
+					Integer.valueOf(palavraSeparada[1]) ^ Integer.valueOf(calcularParidadeImpar(palavraSeparada)));
 
 			return String.join("", palavraSeparada);
 		}
-		
+
 		private String calcularParidadePar(String[] palavraSeparada) {
 			int paridade = 0;
 
@@ -288,7 +491,7 @@ public enum Paridade implements Codificador {
 
 			return String.valueOf(paridade);
 		}
-		
+
 		private String calcularParidadeImpar(String[] palavraSeparada) {
 			int paridade = 0;
 
@@ -298,7 +501,7 @@ public enum Paridade implements Codificador {
 
 			return String.valueOf(paridade);
 		}
-		
+
 		public String toString() {
 			return "Paridade 2 MSB com 4 LSB";
 		}
@@ -321,12 +524,14 @@ public enum Paridade implements Codificador {
 			String palavra = (String) entrada.getValor();
 
 			String[] palavraSeparada = palavra.split("");
-			palavraSeparada[0] = String.valueOf(Integer.valueOf(palavraSeparada[0]) ^ Integer.valueOf(calcularParidadePar(palavraSeparada)));
-			palavraSeparada[1] = String.valueOf(Integer.valueOf(palavraSeparada[1]) ^ Integer.valueOf(calcularParidadeImpar(palavraSeparada)));
+			palavraSeparada[0] = String.valueOf(
+					Integer.valueOf(palavraSeparada[0]) ^ Integer.valueOf(calcularParidadePar(palavraSeparada)));
+			palavraSeparada[1] = String.valueOf(
+					Integer.valueOf(palavraSeparada[1]) ^ Integer.valueOf(calcularParidadeImpar(palavraSeparada)));
 
 			return String.join("", palavraSeparada);
 		}
-		
+
 		private String calcularParidadePar(String[] palavraSeparada) {
 			int paridade = 0;
 
@@ -336,7 +541,7 @@ public enum Paridade implements Codificador {
 
 			return String.valueOf(paridade);
 		}
-		
+
 		private String calcularParidadeImpar(String[] palavraSeparada) {
 			int paridade = 0;
 
@@ -346,7 +551,7 @@ public enum Paridade implements Codificador {
 
 			return String.valueOf(paridade);
 		}
-		
+
 		public String toString() {
 			return "Paridade 2 MSB com 8 LSB";
 		}
@@ -369,12 +574,14 @@ public enum Paridade implements Codificador {
 			String palavra = (String) entrada.getValor();
 
 			String[] palavraSeparada = palavra.split("");
-			palavraSeparada[0] = String.valueOf(Integer.valueOf(palavraSeparada[0]) ^ Integer.valueOf(calcularParidadePar(palavraSeparada)));
-			palavraSeparada[1] = String.valueOf(Integer.valueOf(palavraSeparada[1]) ^ Integer.valueOf(calcularParidadeImpar(palavraSeparada)));
+			palavraSeparada[0] = String.valueOf(
+					Integer.valueOf(palavraSeparada[0]) ^ Integer.valueOf(calcularParidadePar(palavraSeparada)));
+			palavraSeparada[1] = String.valueOf(
+					Integer.valueOf(palavraSeparada[1]) ^ Integer.valueOf(calcularParidadeImpar(palavraSeparada)));
 
 			return String.join("", palavraSeparada);
 		}
-		
+
 		private String calcularParidadePar(String[] palavraSeparada) {
 			int paridade = 0;
 
@@ -384,7 +591,7 @@ public enum Paridade implements Codificador {
 
 			return String.valueOf(paridade);
 		}
-		
+
 		private String calcularParidadeImpar(String[] palavraSeparada) {
 			int paridade = 0;
 
@@ -394,7 +601,7 @@ public enum Paridade implements Codificador {
 
 			return String.valueOf(paridade);
 		}
-		
+
 		public String toString() {
 			return "Paridade 2 MSB com 12 LSB";
 		}
@@ -417,12 +624,14 @@ public enum Paridade implements Codificador {
 			String palavra = (String) entrada.getValor();
 
 			String[] palavraSeparada = palavra.split("");
-			palavraSeparada[0] = String.valueOf(Integer.valueOf(palavraSeparada[0]) ^ Integer.valueOf(calcularParidadePar(palavraSeparada)));
-			palavraSeparada[1] = String.valueOf(Integer.valueOf(palavraSeparada[1]) ^ Integer.valueOf(calcularParidadeImpar(palavraSeparada)));
+			palavraSeparada[0] = String.valueOf(
+					Integer.valueOf(palavraSeparada[0]) ^ Integer.valueOf(calcularParidadePar(palavraSeparada)));
+			palavraSeparada[1] = String.valueOf(
+					Integer.valueOf(palavraSeparada[1]) ^ Integer.valueOf(calcularParidadeImpar(palavraSeparada)));
 
 			return String.join("", palavraSeparada);
 		}
-		
+
 		private String calcularParidadePar(String[] palavraSeparada) {
 			int paridade = 0;
 
@@ -432,7 +641,7 @@ public enum Paridade implements Codificador {
 
 			return String.valueOf(paridade);
 		}
-		
+
 		private String calcularParidadeImpar(String[] palavraSeparada) {
 			int paridade = 0;
 
@@ -442,14 +651,14 @@ public enum Paridade implements Codificador {
 
 			return String.valueOf(paridade);
 		}
-		
+
 		public String toString() {
 			return "Paridade 2 MSB com 16 LSB";
 		}
 	};
-	
+
 	Map<String, String> tabelaEntradas = new HashMap<>();
-	
+
 	Map<String, String> tabelaParidades = new HashMap<>();
 
 	@Override
